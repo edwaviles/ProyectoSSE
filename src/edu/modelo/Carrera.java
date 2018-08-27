@@ -10,16 +10,16 @@ package edu.modelo;
  */
 public class Carrera {
     private int idCarrera;
-    private int idEscuela;
     private String nombre;
+    private int idEscuela;
 
     public Carrera() {
     }
 
-    public Carrera(int idCarrera, int idEscuela, String nombre) {
+    public Carrera(int idCarrera, String nombre, int idEscuela) {
         this.idCarrera = idCarrera;
-        this.idEscuela = idEscuela;
         this.nombre = nombre;
+        this.idEscuela = idEscuela;
     }
 
     public int getIdCarrera() {
@@ -30,14 +30,6 @@ public class Carrera {
         this.idCarrera = idCarrera;
     }
 
-    public int getIdEscuela() {
-        return idEscuela;
-    }
-
-    public void setIdEscuela(int idEscuela) {
-        this.idEscuela = idEscuela;
-    }
-
     public String getNombre() {
         return nombre;
     }
@@ -45,6 +37,13 @@ public class Carrera {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    
+
+    public int getIdEscuela() {
+        return idEscuela;
+    }
+
+    public void setIdEscuela(int idEscuela) {
+        this.idEscuela = idEscuela;
+    } 
     
 }

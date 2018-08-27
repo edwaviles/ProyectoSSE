@@ -3,7 +3,6 @@ package edu.dao;
 
 import edu.conexion.Conexion;
 import edu.modelo.Carrera;
-import edu.modelo.ComboC;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +17,9 @@ import javax.swing.JOptionPane;
  */
 public class DaoCarrera extends Conexion{
     
-    public List<ComboC>mostrarCarrera(int idEscuela)
+    public List<Carrera>mostrarCarrera(int idEscuela)
     {
-        List<ComboC> lista = new ArrayList();
+        List<Carrera> lista = new ArrayList();
         ResultSet res;
         try 
         {
@@ -31,11 +30,11 @@ public class DaoCarrera extends Conexion{
             res=pre.executeQuery();
             while(res.next())
             {
-                ComboC cmb = new ComboC();
-                cmb.setIdCombo(Integer.parseInt(res.getString("idCarrera")));
-                cmb.setDescripcion(res.getString("nombre"));
-                cmb.setIdEscuela(res.getInt("escuela_idEscuela"));
-                lista.add(cmb);
+                Carrera car = new Carrera();
+                car.setIdCarrera(Integer.parseInt(res.getString("idCarrera")));
+                car.setNombre(res.getString("nombre"));
+                car.setIdEscuela(res.getInt("escuela_idEscuela"));
+                lista.add(car);
             }
         }
         catch (SQLException e) 
@@ -79,6 +78,5 @@ public class DaoCarrera extends Conexion{
         }
         return c;
     }
-    
     
 }

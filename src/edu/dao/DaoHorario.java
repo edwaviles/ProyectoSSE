@@ -2,7 +2,7 @@
 package edu.dao;
 
 import edu.conexion.Conexion;
-import edu.modelo.Combo;
+import edu.modelo.CoordinadorSSE;
 import java.sql.*;
 import edu.modelo.HorarioAtencion;
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class DaoHorario extends Conexion{
         try 
         {
             this.conectar();
-            String sql ="select * from horarioAtencion;";
+            String sql ="select * from horarioAtencion where estado=1;";
             PreparedStatement pre = this.getCon().prepareStatement(sql);
             res=pre.executeQuery();
             while(res.next())
@@ -51,9 +51,9 @@ public class DaoHorario extends Conexion{
        return lista;
     }
     
-    public List<Combo>mostrarCoordinador()
+    public List<CoordinadorSSE>mostrarCoordinador()
     {
-        List<Combo>l=new ArrayList();
+        List<CoordinadorSSE>listaCoord=new ArrayList();
         ResultSet res;
         try 
         {
@@ -63,10 +63,10 @@ public class DaoHorario extends Conexion{
             res=pre.executeQuery();
             while(res.next())
             {
-                Combo cmb = new Combo();
-                cmb.setIdCombo(Integer.parseInt(res.getString("idCoordinador")));
-                cmb.setDescripcion(res.getString("nombre"));
-                l.add(cmb);
+                CoordinadorSSE cor = new CoordinadorSSE();
+                cor.setIdCoordinador(Integer.parseInt(res.getString("idCoordinador")));
+                cor.setNombre(res.getString("nombre"));
+                listaCoord.add(cor);
             }
         }
         catch (SQLException e) 
@@ -77,7 +77,7 @@ public class DaoHorario extends Conexion{
         {
             this.desconectar();
         }
-     return l;
+     return listaCoord;
     }
     
     public void insertar(HorarioAtencion hor)
@@ -138,7 +138,7 @@ public class DaoHorario extends Conexion{
         try 
         {
             this.conectar();
-            String sql="delete from horarioAtencion where idHorarioA = ? ;";
+            String sql="update horarioatencion set estado=0 where idHorarioA = ? ;";
             PreparedStatement pre = this.getCon().prepareStatement(sql);
             pre.setInt(1, idHora);
             pre.executeUpdate();

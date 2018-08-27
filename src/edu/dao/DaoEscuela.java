@@ -2,7 +2,6 @@
 package edu.dao;
 
 import edu.conexion.Conexion;
-import edu.modelo.Combo;
 import edu.modelo.Escuela;
 import java.sql.*;
 import java.util.ArrayList;
@@ -18,22 +17,22 @@ import javax.swing.JOptionPane;
  */
 public class DaoEscuela extends Conexion{
     
-    public List<Combo>mostrarEscuela()
+    public List<Escuela>mostrarEscuela()
     {
-        List<Combo>lista=new ArrayList();
+        List<Escuela>lista=new ArrayList();
         ResultSet res;
         try 
         {
             this.conectar();
-            String sql="select * from escuela order by nombre ASC;";
+            String sql="select * from escuela ;";//order by nombre ASC
             PreparedStatement pre = this.getCon().prepareStatement(sql);
             res=pre.executeQuery();
             while(res.next())
             {
-                Combo cmb = new Combo();
-                cmb.setIdCombo(Integer.parseInt(res.getString("idEscuela")));
-                cmb.setDescripcion(res.getString("nombre"));
-                lista.add(cmb);
+                Escuela esc = new Escuela();
+                esc.setIdEscuela(Integer.parseInt(res.getString("idEscuela")));
+                esc.setNombre(res.getString("nombre"));
+                lista.add(esc);
             }
         }
         catch (SQLException e) 

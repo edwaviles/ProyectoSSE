@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package edu.dao;
 
 import edu.conexion.Conexion;
@@ -13,15 +9,18 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * Nombre de la clase:DaoUsuario
+ * Verion:
+ * Fecha:25/08/18
+ * CopyRight:SSE-ITCA
  * @author Ernesto Aviles
  */
 public class DaoUsuario extends Conexion{
+    
     Usuario us=new Usuario();
     
     public boolean logear(String user, String pass)
-    {
-        
+    {   
         us.setNombre(user);
         us.setPass(pass);
         ResultSet res;
@@ -56,7 +55,6 @@ public class DaoUsuario extends Conexion{
         return a;
     }
     
-    
     public void addUsuario(String nombre)
     {
         try 
@@ -66,7 +64,8 @@ public class DaoUsuario extends Conexion{
             PreparedStatement pre = this.getCon().prepareStatement(sql);
             pre.setString(1,nombre);
             pre.executeUpdate();
-            JOptionPane.showMessageDialog(null, "usuario agregado");
+            JOptionPane.showMessageDialog(null,"Usuario creado exitosamente",
+                                "Usuarios", JOptionPane.INFORMATION_MESSAGE);
         }
         catch (SQLException e) 
         {
@@ -76,8 +75,7 @@ public class DaoUsuario extends Conexion{
         {
             this.desconectar();
         }
-    }
-    
+    } 
     
      public int getIdUsuario(String nombre)
     {
@@ -134,5 +132,4 @@ public class DaoUsuario extends Conexion{
          }
          return nombreUs;
      }
-    
 }

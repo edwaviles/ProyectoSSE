@@ -3,7 +3,6 @@ package edu.vistas;
 
 import edu.dao.DaoCoordinador;
 import edu.dao.DaoHorario;
-import edu.modelo.Combo;
 import edu.modelo.CoordinadorSSE;
 import edu.modelo.HorarioAtencion;
 import edu.utilidades.Validaciones;
@@ -26,13 +25,18 @@ public class FrmHorario extends javax.swing.JInternalFrame {
     Validaciones validar = new Validaciones();
     Menu menu = new Menu();
     
-    List<Combo> l;
-    Combo cmb = new Combo();
+    List<CoordinadorSSE> listaCoord;
+    CoordinadorSSE cor = new CoordinadorSSE();
     
     public FrmHorario() {
         initComponents();
         cargarComboC();
         mostrar();
+        
+        this.jTxtCodigo.setEnabled(false);
+        this.jTxtHoraD.setEnabled(false);
+        this.jTxtHoraH.setEnabled(false);   
+        this.jTxtLugar.setEnabled(false);
     }
     
     /**
@@ -43,13 +47,61 @@ public class FrmHorario extends javax.swing.JInternalFrame {
     
     public void cargarComboC()
     {
-        l= daoH.mostrarCoordinador();
+        listaCoord= daoH.mostrarCoordinador();
         
-        for(int i=0;i<l.size();i++)
+        for(int i=0;i<listaCoord.size();i++)
         {
-            cmb = new Combo(l.get(i).getIdCombo(),l.get(i).getDescripcion());
-            this.jCmbCoord.addItem(cmb.toString()); 
+            cor = new CoordinadorSSE(listaCoord.get(i).getIdCoordinador(),listaCoord.get(i).getNombre(),
+                    listaCoord.get(i).getCorreo(),listaCoord.get(i).getIdUsuario(),listaCoord.get(i).getIdCarrera());
+            this.jCmbCoord.addItem(cor.getNombre()); 
         } 
+    }
+    
+    //CONTROL DE BARRA DE ACCIONES
+    public void OnOFF(int mando)
+    {
+        //NUEVO
+        if (mando == 1 || mando == 2) 
+        {
+            this.jTxtHoraD.setEnabled(true);
+            this.jTxtHoraH.setEnabled(true);   
+            this.jTxtLugar.setEnabled(true);
+        }
+
+        //limpiar
+        if (mando==0) 
+        {
+            this.jTxtHoraD.setEnabled(false);
+            this.jTxtHoraH.setEnabled(false);
+            this.jTxtLugar.setEnabled(false);
+            this.jBtnAgregar.setEnabled(false);
+            this.jBtnLimpiar.setEnabled(false);
+            this.jBtnNuevo.setEnabled(true);
+            this.jBtnEditar.setEnabled(false);
+            this.jBtnEliminar.setEnabled(false);
+            this.jTableDatos.setEnabled(true);
+        }
+        //nuevo
+        if (mando==1) 
+        {          
+            this.jBtnAgregar.setEnabled(true);
+            this.jBtnLimpiar.setEnabled(true);
+            this.jBtnNuevo.setEnabled(false);
+            this.jBtnEditar.setEnabled(false);
+            this.jBtnEliminar.setEnabled(false);
+            this.jTableDatos.setEnabled(false);
+            this.jTableDatos.setCellSelectionEnabled(false);
+        }
+        //click en tabla
+        if (mando==2) 
+        {
+            this.jBtnAgregar.setEnabled(false);
+            this.jBtnLimpiar.setEnabled(true);
+            this.jBtnNuevo.setEnabled(false);
+            this.jBtnEditar.setEnabled(true);
+            this.jBtnEliminar.setEnabled(true);
+            this.jTableDatos.setEnabled(true);
+        }   
     }
     
     public void llenarTabla()
@@ -67,6 +119,7 @@ public class FrmHorario extends javax.swing.JInternalFrame {
             this.jTxtHoraH.setText(String.valueOf(this.jTableDatos.getValueAt(fila, 4)));
             this.jTxtLugar.setText(String.valueOf(this.jTableDatos.getValueAt(fila, 5)));
         }
+        OnOFF(2);
      }
     
     public void mostrar()
@@ -104,11 +157,11 @@ public class FrmHorario extends javax.swing.JInternalFrame {
         try 
         {
             int idCor=0;
-             for (int i = 0; i < l.size(); i++) 
+             for (int i = 0; i < listaCoord.size(); i++) 
              {
-                 if(jCmbCoord.getSelectedItem().equals(l.get(i).getDescripcion()))
+                 if(jCmbCoord.getSelectedItem().equals(listaCoord.get(i).getNombre()))
                  {
-                     idCor = l.get(i).getIdCombo();
+                     idCor = listaCoord.get(i).getIdCoordinador();
                  }
              }
              hor.setIdCoordinador(idCor);
@@ -128,7 +181,7 @@ public class FrmHorario extends javax.swing.JInternalFrame {
                         daoH.insertar(hor);
                         mostrar();
                         limpiar();
-                        JOptionPane.showMessageDialog(null, "El registro se ha guardado con exito", "Coordinador",
+                        JOptionPane.showMessageDialog(null, "El registro se ha guardado con exito", "Horario coordinador",
                                     JOptionPane.INFORMATION_MESSAGE);
                     } 
                     catch (Exception e) 
@@ -144,14 +197,12 @@ public class FrmHorario extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null,"¡No dejar campos vacios! ",
                             "Datos Incompletos",
                             JOptionPane.WARNING_MESSAGE);
-                }
-            
+                }     
         }
         catch (Exception e) 
         {
             
-        }
-        
+        }       
     }
     
     public void modificar()
@@ -162,11 +213,11 @@ public class FrmHorario extends javax.swing.JInternalFrame {
             
             int idCoor=0;
             
-            for (int i = 0; i <l.size(); i++) 
+            for (int i = 0; i <listaCoord.size(); i++) 
             {
-                if(jCmbCoord.getSelectedItem().equals(l.get(i).getDescripcion()));
+                if(jCmbCoord.getSelectedItem().equals(listaCoord.get(i).getNombre()));
                 {
-                    idCoor = l.get(i).getIdCombo();
+                    idCoor = listaCoord.get(i).getIdCoordinador();
                 }
             }
             JOptionPane.showMessageDialog(null, idCoor);
@@ -193,6 +244,7 @@ public class FrmHorario extends javax.swing.JInternalFrame {
                                 "Horario Coordinador", JOptionPane.INFORMATION_MESSAGE);
                         mostrar();
                         limpiar();
+                        OnOFF(3);
                     }
                 }
                 catch (Exception e) 
@@ -230,6 +282,7 @@ public class FrmHorario extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "Se ha eliminado Exitosamente");
                 mostrar();
                 limpiar();
+                OnOFF(4);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null,
@@ -266,6 +319,7 @@ public class FrmHorario extends javax.swing.JInternalFrame {
         jTxtLugar.setText("");
         jCmbCoord.setSelectedIndex(0);
         jCmbDia.setSelectedIndex(0);
+        OnOFF(0);
     }
     
     @SuppressWarnings("unchecked")
@@ -291,10 +345,10 @@ public class FrmHorario extends javax.swing.JInternalFrame {
         jCmbCoord = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jBtnEditar1 = new javax.swing.JButton();
-        jBtnEliminar1 = new javax.swing.JButton();
-        jBtnAgregar1 = new javax.swing.JButton();
-        jBtnLimpiar1 = new javax.swing.JButton();
+        jBtnEditar = new javax.swing.JButton();
+        jBtnEliminar = new javax.swing.JButton();
+        jBtnAgregar = new javax.swing.JButton();
+        jBtnLimpiar = new javax.swing.JButton();
         jBtnNuevo = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
 
@@ -367,45 +421,45 @@ public class FrmHorario extends javax.swing.JInternalFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Acciones", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
 
-        jBtnEditar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/mod.png"))); // NOI18N
-        jBtnEditar1.setText("Modificar");
-        jBtnEditar1.addMouseListener(new java.awt.event.MouseAdapter() {
+        jBtnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/mod.png"))); // NOI18N
+        jBtnEditar.setText("Modificar");
+        jBtnEditar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jBtnEditar1MouseClicked(evt);
+                jBtnEditarMouseClicked(evt);
             }
         });
-        jBtnEditar1.addActionListener(new java.awt.event.ActionListener() {
+        jBtnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtnEditar1ActionPerformed(evt);
+                jBtnEditarActionPerformed(evt);
             }
         });
 
-        jBtnEliminar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/delete.png"))); // NOI18N
-        jBtnEliminar1.setText("Eliminar");
-        jBtnEliminar1.addMouseListener(new java.awt.event.MouseAdapter() {
+        jBtnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/delete.png"))); // NOI18N
+        jBtnEliminar.setText("Eliminar");
+        jBtnEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jBtnEliminar1MouseClicked(evt);
+                jBtnEliminarMouseClicked(evt);
             }
         });
 
-        jBtnAgregar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/n.png"))); // NOI18N
-        jBtnAgregar1.setText("Agregar");
-        jBtnAgregar1.addMouseListener(new java.awt.event.MouseAdapter() {
+        jBtnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/n.png"))); // NOI18N
+        jBtnAgregar.setText("Agregar");
+        jBtnAgregar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jBtnAgregar1MouseClicked(evt);
+                jBtnAgregarMouseClicked(evt);
             }
         });
-        jBtnAgregar1.addActionListener(new java.awt.event.ActionListener() {
+        jBtnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtnAgregar1ActionPerformed(evt);
+                jBtnAgregarActionPerformed(evt);
             }
         });
 
-        jBtnLimpiar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/lim.png"))); // NOI18N
-        jBtnLimpiar1.setText("Limpiar");
-        jBtnLimpiar1.addMouseListener(new java.awt.event.MouseAdapter() {
+        jBtnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/lim.png"))); // NOI18N
+        jBtnLimpiar.setText("Limpiar");
+        jBtnLimpiar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jBtnLimpiar1MouseClicked(evt);
+                jBtnLimpiarMouseClicked(evt);
             }
         });
 
@@ -426,10 +480,10 @@ public class FrmHorario extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jBtnAgregar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jBtnEditar1, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
-                            .addComponent(jBtnEliminar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jBtnLimpiar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jBtnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jBtnEditar, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                            .addComponent(jBtnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jBtnLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jBtnNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -440,13 +494,13 @@ public class FrmHorario extends javax.swing.JInternalFrame {
                 .addGap(9, 9, 9)
                 .addComponent(jBtnNuevo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jBtnAgregar1)
+                .addComponent(jBtnAgregar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jBtnEditar1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jBtnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jBtnEliminar1)
+                .addComponent(jBtnEliminar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jBtnLimpiar1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jBtnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -456,6 +510,11 @@ public class FrmHorario extends javax.swing.JInternalFrame {
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton1MouseClicked(evt);
+            }
+        });
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -468,12 +527,17 @@ public class FrmHorario extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 508, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(40, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel12)
                                     .addComponent(jLabel7)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(124, 124, 124))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3)
@@ -484,7 +548,7 @@ public class FrmHorario extends javax.swing.JInternalFrame {
                                     .addComponent(jTxtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jCmbCoord, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jCmbDia, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(55, 55, 55))
+                                .addGap(59, 59, 59))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel8)
@@ -495,22 +559,16 @@ public class FrmHorario extends javax.swing.JInternalFrame {
                                     .addComponent(jTxtHoraH, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTxtHoraD, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 508, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(8, 8, 8)))
-                .addContainerGap(32, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(2, 2, 2)
+                        .addGap(25, 25, 25)
                         .addComponent(jLabel12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel7)
@@ -530,7 +588,7 @@ public class FrmHorario extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel3)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel5)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jTxtHoraD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -545,10 +603,13 @@ public class FrmHorario extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel8)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel9))))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(16, 16, 16)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1)
                 .addContainerGap())
         );
@@ -560,33 +621,33 @@ public class FrmHorario extends javax.swing.JInternalFrame {
         llenarTabla();
     }//GEN-LAST:event_jTableDatosMouseClicked
 
-    private void jBtnEditar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBtnEditar1MouseClicked
+    private void jBtnEditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBtnEditarMouseClicked
         modificar();
-    }//GEN-LAST:event_jBtnEditar1MouseClicked
+    }//GEN-LAST:event_jBtnEditarMouseClicked
 
-    private void jBtnEditar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnEditar1ActionPerformed
+    private void jBtnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnEditarActionPerformed
 
-    }//GEN-LAST:event_jBtnEditar1ActionPerformed
+    }//GEN-LAST:event_jBtnEditarActionPerformed
 
-    private void jBtnEliminar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBtnEliminar1MouseClicked
+    private void jBtnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBtnEliminarMouseClicked
         eliminar();
-    }//GEN-LAST:event_jBtnEliminar1MouseClicked
+    }//GEN-LAST:event_jBtnEliminarMouseClicked
 
-    private void jBtnAgregar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBtnAgregar1MouseClicked
+    private void jBtnAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBtnAgregarMouseClicked
         insertar();
         //ValidarHora();
-    }//GEN-LAST:event_jBtnAgregar1MouseClicked
+    }//GEN-LAST:event_jBtnAgregarMouseClicked
 
-    private void jBtnAgregar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAgregar1ActionPerformed
+    private void jBtnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAgregarActionPerformed
 
-    }//GEN-LAST:event_jBtnAgregar1ActionPerformed
+    }//GEN-LAST:event_jBtnAgregarActionPerformed
 
-    private void jBtnLimpiar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBtnLimpiar1MouseClicked
+    private void jBtnLimpiarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBtnLimpiarMouseClicked
         limpiar();
-    }//GEN-LAST:event_jBtnLimpiar1MouseClicked
+    }//GEN-LAST:event_jBtnLimpiarMouseClicked
 
     private void jBtnNuevoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBtnNuevoMouseClicked
-
+        OnOFF(1);
     }//GEN-LAST:event_jBtnNuevoMouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
@@ -601,12 +662,16 @@ public class FrmHorario extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTxtHoraDActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jBtnAgregar1;
-    private javax.swing.JButton jBtnEditar1;
-    private javax.swing.JButton jBtnEliminar1;
-    private javax.swing.JButton jBtnLimpiar1;
+    private javax.swing.JButton jBtnAgregar;
+    private javax.swing.JButton jBtnEditar;
+    private javax.swing.JButton jBtnEliminar;
+    private javax.swing.JButton jBtnLimpiar;
     private javax.swing.JButton jBtnNuevo;
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jCmbCoord;

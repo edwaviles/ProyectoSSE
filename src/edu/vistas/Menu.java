@@ -103,6 +103,7 @@ public class Menu extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Ya tiene una ventana abierta!");
         }
     }//GEN-LAST:event_fileMenuMouseClicked
+   
     public void cerrar()
     {
          FormularioVal=false;

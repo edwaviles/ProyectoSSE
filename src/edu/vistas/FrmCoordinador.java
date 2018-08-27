@@ -5,8 +5,7 @@ import edu.dao.DaoCarrera;
 import edu.dao.DaoCoordinador;
 import edu.dao.DaoEscuela;
 import edu.dao.DaoUsuario;
-import edu.modelo.Combo;
-import edu.modelo.ComboC;
+import edu.modelo.Carrera;
 import edu.modelo.CoordinadorSSE;
 import edu.modelo.Escuela;
 import java.util.ArrayList;
@@ -31,6 +30,7 @@ import javax.swing.table.TableColumnModel;
  * CopyRight:SSE-ITCA
  * @author Roxana Menjivar
  */
+
 public class FrmCoordinador extends javax.swing.JInternalFrame {
 
    DaoCoordinador daoC= new DaoCoordinador();
@@ -41,27 +41,34 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
    Validaciones validar = new Validaciones();
    Menu menu = new Menu();
    
-   List<Combo> lista;
-   List<ComboC> li;
-   Combo cmb = new Combo();
-   ComboC cm = new ComboC();
+   //Instancias para cargar dos combos
+   List<Escuela> lista;
+   List<Carrera> li;
+   Escuela esc = new Escuela();
+   Carrera car = new Carrera();
    
     public FrmCoordinador(){
         initComponents();
         mostrar();
         cargarComboE();
-        tamanioTabla();
+        
+        this.jTxtCodigo.setEnabled(false);
+        this.jTxtUsuario.setEnabled(false);
+        this.jTxtNombre.setEnabled(false);
+        this.jTxtCorreo.setEnabled(false);
     }
+    
      public void tamanioTabla()
     {
         TableColumnModel m=jTablaDatos.getColumnModel();
-        m.getColumn(0).setPreferredWidth(-1);
-        m.getColumn(1).setPreferredWidth(60);
-        m.getColumn(2).setPreferredWidth(0);
-        m.getColumn(3).setPreferredWidth(0);
-        m.getColumn(4).setPreferredWidth(0);
-        m.getColumn(5).setPreferredWidth(0);
+        m.getColumn(0).setWidth(1);
+        m.getColumn(1).setWidth(3);
+        m.getColumn(2).setWidth(5);
+        m.getColumn(3).setWidth(1);
+        m.getColumn(4).setWidth(5);
+        m.getColumn(5).setWidth(5);
     }
+     
     public Image getIcon() 
     {
         Image retValue = Toolkit.getDefaultToolkit().
@@ -94,18 +101,62 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
         
         for(int i=0;i<lista.size();i++)
         {
-            cmb = new Combo(lista.get(i).getIdCombo(),lista.get(i).getDescripcion());
-            this.jCmbEscuela.addItem(cmb.toString()); 
+            esc = new Escuela(lista.get(i).getIdEscuela(),lista.get(i).getNombre());
+            this.jCmbEscuela.addItem(esc.getNombre()); 
         } 
     }
     
+    //CONTROL DE BARRA DE ACCIONES
+    public void OnOFF(int mando)
+    {
+        //NUEVO
+        if (mando == 1 || mando == 2) 
+        {
+            this.jTxtNombre.setEnabled(true);
+            this.jTxtCorreo.setEnabled(true);   
+        }
+
+        //limpiar
+        if (mando==0) 
+        {
+            this.jTxtNombre.setEnabled(false);
+            this.jTxtCorreo.setEnabled(false);
+            this.jBtnAgregar.setEnabled(false);
+            this.jBtnLimpiar.setEnabled(false);
+            this.jBtnNuevo.setEnabled(true);
+            this.jBtnEditar.setEnabled(false);
+            this.jBtnEliminar.setEnabled(false);
+            this.jTablaDatos.setEnabled(true);
+        }
+        //nuevo
+        if (mando==1) 
+        {          
+            this.jBtnAgregar.setEnabled(true);
+            this.jBtnLimpiar.setEnabled(true);
+            this.jBtnNuevo.setEnabled(false);
+            this.jBtnEditar.setEnabled(false);
+            this.jBtnEliminar.setEnabled(false);
+            this.jTablaDatos.setEnabled(false);
+            this.jTablaDatos.setCellSelectionEnabled(false);
+        }
+        //click en tabla
+        if (mando==2) 
+        {
+            this.jBtnAgregar.setEnabled(false);
+            this.jBtnLimpiar.setEnabled(true);
+            this.jBtnNuevo.setEnabled(false);
+            this.jBtnEditar.setEnabled(true);
+            this.jBtnEliminar.setEnabled(true);
+            this.jTablaDatos.setEnabled(true);
+        }   
+    }
+        
     public void llenarTabla()
     {
         int fila = this.jTablaDatos.getSelectedRow();
 
         if (fila > -1) 
-        {
-         
+        {       
             this.jTxtCodigo.setText(String.valueOf(this.jTablaDatos.getValueAt(fila, 0)));
             this.jTxtNombre.setText(String.valueOf(this.jTablaDatos.getValueAt(fila, 1)));
             this.jTxtCorreo.setText(String.valueOf(this.jTablaDatos.getValueAt(fila, 2)));
@@ -114,8 +165,8 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
             jCmbEscuela.getModel().setSelectedItem(escuela);
             String carrera = String.valueOf(this.jTablaDatos.getValueAt(fila, 5));
             jCmbCarrera.getModel().setSelectedItem(carrera);
-
         }
+        OnOFF(2);
      }
         
     public void mostrar()
@@ -135,8 +186,8 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
                 obj[2]=cor.getCorreo();
                 String nombreUs = daoU.getNombreUsuario(cor.getIdUsuario());
                 obj[3]=nombreUs;
-                //obj[3]=daoE.getidEscuela(cmb.getIdCombo()).getNombre();                
-                //obj[3]=daoE.getnombre(cmb.getIdCombo());
+                //obj[3]=daoE.getidEscuela(esc.getIdCombo()).getNombre();                
+                //obj[3]=daoE.getnombre(esc.getIdCombo());
                 int idcarrera=daoCa.getidCarrera(cor.getIdCarrera()).getIdCarrera();
                 obj[4]=daoE.getnombre(idcarrera);
                 obj[5]=daoCa.getidCarrera(cor.getIdCarrera()).getNombre();
@@ -172,27 +223,54 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
     {
         if(validarCorreo(this.jTxtCorreo.getText()))
         {
-            String nombre = jTxtNombre.getText();
-            String correo = jTxtCorreo.getText();
-           // int usuario = Integer.parseInt(jTxtUsuario.getText());
+            cor.setNombre(jTxtNombre.getText());
+            cor.setCorreo(jTxtCorreo.getText());
+            cor.setIdUsuario(1);
 
             int idCarrera=0;
 
                 for(int i=0;i<li.size();i++)
                 {
-                    if(jCmbCarrera.getSelectedItem().equals(li.get(i).getDescripcion()))
+                    if(jCmbCarrera.getSelectedItem().equals(li.get(i).getNombre()))
                     {
-                         idCarrera = li.get(i).getIdCombo();
+                         idCarrera = li.get(i).getIdCarrera();
                     }
                 }
-            CoordinadorSSE co = new CoordinadorSSE();
-            co.setNombre(nombre);
-            co.setCorreo(correo);
-            co.setIdUsuario(1);
-            co.setIdCarrera(idCarrera);
-            insertar(co);
-            mostrar();
-            limpiar();
+            cor.setIdCarrera(idCarrera);
+            if(!validar.IsNullOrEmpty(String.valueOf(cor.getIdCoordinador()))
+                                     && !validar.IsNullOrEmpty(cor.getNombre())
+                                     && !validar.IsNullOrEmpty(cor.getCorreo()))
+            {
+                try 
+                {
+                    int NomCar = daoC.verificarCarrera(idCarrera);
+                    if(NomCar==1)
+                    {
+                        JOptionPane.showMessageDialog(null, "Ya existe un coordinador asignado a este carrera ","Carrera asignada",
+                                JOptionPane.WARNING_MESSAGE);
+                        limpiar();
+                    }
+                    else
+                    {
+                        insertar(cor);
+                        mostrar();
+                        limpiar();
+                        JOptionPane.showMessageDialog(null, "El registro se ha guardado con exito", "Coordinador",
+                                        JOptionPane.INFORMATION_MESSAGE);
+                    }     
+                }
+                catch (Exception e) 
+                {
+                    JOptionPane.showMessageDialog(null,"Ocurrio un problema al insertar: " + e.getMessage());
+                        limpiar();
+                }
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null,"¡No dejar campos vacios! ",
+                        "Datos Incompletos",
+                        JOptionPane.WARNING_MESSAGE); 
+            }
         }
         else
         {
@@ -209,22 +287,18 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
             if(validarCorreo(this.jTxtCorreo.getText()))
             { 
                 int idCoordinador = Integer.parseInt(jTxtCodigo.getText());
-                String nombre = jTxtNombre.getText();
-                String correo = jTxtCorreo.getText();
+                cor.setNombre(jTxtNombre.getText());
+                cor.setCorreo(jTxtCorreo.getText());
 
                 int idCar=0;
 
                 for(int i=0;i<li.size();i++)
                 {
-                    if(jCmbCarrera.getSelectedItem().equals(li.get(i).getDescripcion()))
+                    if(jCmbCarrera.getSelectedItem().equals(li.get(i).getNombre()))
                     {
-                         idCar = li.get(i).getIdCombo();
+                         idCar = li.get(i).getIdCarrera();
                     }
                 }
-
-                CoordinadorSSE cor= new CoordinadorSSE();
-                cor.setNombre(nombre);
-                cor.setCorreo(correo);
                 cor.setIdCarrera(idCar);
                 cor.setIdCoordinador(idCoordinador);
 
@@ -239,6 +313,7 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
                         mostrar();
                         JOptionPane.showMessageDialog(null, "Coordinador Modificado Exitosamente", "Guardado", 
                         JOptionPane.INFORMATION_MESSAGE);
+                        OnOFF(3);
                     } 
                     catch (Exception e) 
                     {
@@ -290,10 +365,11 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
 
             if (SioNo == 0) 
             {
-                daoC.eliminarCoordinador(idCoordinador);
+                daoC.eliminarCLogico(idCoordinador);
                 JOptionPane.showMessageDialog(null, "Se elimino exitosamente");
                 mostrar();
                 limpiar();
+                OnOFF(4);
             }
         } 
         catch (Exception e) 
@@ -325,10 +401,12 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
     private void limpiar() 
     {
         jTxtCodigo.setText("");
+        jTxtUsuario.setText("");
         jTxtNombre.setText("");
         jTxtCorreo.setText("");
         jCmbEscuela.setSelectedIndex(0);
         jCmbCarrera.setSelectedIndex(0);
+        OnOFF(0);
     }
      
     /**
@@ -370,6 +448,7 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Control de Servicio Social Estudiantil");
 
+        jTxtCorreo.setToolTipText("");
         jTxtCorreo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTxtCorreoKeyPressed(evt);
@@ -463,11 +542,17 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
                 jButton1MouseClicked(evt);
             }
         });
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Acciones", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
 
         jBtnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/mod.png"))); // NOI18N
         jBtnEditar.setText("Modificar");
+        jBtnEditar.setEnabled(false);
         jBtnEditar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jBtnEditarMouseClicked(evt);
@@ -481,6 +566,7 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
 
         jBtnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/delete.png"))); // NOI18N
         jBtnEliminar.setText("Eliminar");
+        jBtnEliminar.setEnabled(false);
         jBtnEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jBtnEliminarMouseClicked(evt);
@@ -489,6 +575,7 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
 
         jBtnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/n.png"))); // NOI18N
         jBtnAgregar.setText("Agregar");
+        jBtnAgregar.setEnabled(false);
         jBtnAgregar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jBtnAgregarMouseClicked(evt);
@@ -502,6 +589,7 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
 
         jBtnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/lim.png"))); // NOI18N
         jBtnLimpiar.setText("Limpiar");
+        jBtnLimpiar.setEnabled(false);
         jBtnLimpiar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jBtnLimpiarMouseClicked(evt);
@@ -598,32 +686,29 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTxtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))
-                        .addGap(10, 10, 10)
+                        .addGap(15, 15, 15)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTxtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
-                        .addGap(10, 10, 10)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(7, 7, 7)
-                                .addComponent(jLabel5)
-                                .addGap(19, 19, 19)
-                                .addComponent(jLabel6))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTxtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(jCmbEscuela, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jCmbCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel9))
-                                .addGap(10, 10, 10)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jTxtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel8))))
+                        .addGap(15, 15, 15)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTxtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addGap(15, 15, 15)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jCmbEscuela, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addGap(15, 15, 15)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jCmbCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9))
+                        .addGap(15, 15, 15)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTxtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(51, Short.MAX_VALUE)
+                        .addContainerGap(55, Short.MAX_VALUE)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -681,20 +766,21 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
 
     private void jCmbEscuelaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCmbEscuelaItemStateChanged
         this.jCmbCarrera.setModel(new DefaultComboBoxModel<>());
+        
         if(evt.getStateChange()==ItemEvent.SELECTED)
         {
             int idEsc=0;
         
             for(int i=0;i<lista.size();i++)
             {
-                if(jCmbEscuela.getSelectedItem().equals(lista.get(i).getDescripcion()))
+                if(jCmbEscuela.getSelectedItem().equals(lista.get(i).getNombre()))
                 {
-                     idEsc = lista.get(i).getIdCombo();
+                     idEsc = lista.get(i).getIdEscuela();
                      li = daoCa.mostrarCarrera(idEsc);
                         for(int j=0;j<li.size();j++)
                         {
-                            cm = new ComboC(li.get(j).getIdCombo(),li.get(j).getIdEscuela(),li.get(j).getDescripcion());
-                            this.jCmbCarrera.addItem(cm.toString());    
+                            car = new Carrera(li.get(j).getIdCarrera(),li.get(j).getNombre(),li.get(j).getIdEscuela());
+                            this.jCmbCarrera.addItem(car.getNombre());   
                         } 
                 }
             }
@@ -706,7 +792,7 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jCmbEscuelaActionPerformed
 
     private void jBtnNuevoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBtnNuevoMouseClicked
-        
+        OnOFF(1);
     }//GEN-LAST:event_jBtnNuevoMouseClicked
 
     private void jTxtCorreoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtCorreoKeyTyped
@@ -716,6 +802,10 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
     private void jTxtCorreoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtCorreoKeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTxtCorreoKeyPressed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnAgregar;

@@ -16,9 +16,10 @@ import javax.swing.JOptionPane;
  * CopyRight:SSE-ITCA
  * @author Roxana Menjivar
  */
+
 public class DaoCoordinador extends Conexion{
-    DaoUsuario daoUs=new DaoUsuario();
     
+    DaoUsuario daoUs=new DaoUsuario();
     
     public List mostrarCoordinador()
     {
@@ -27,7 +28,7 @@ public class DaoCoordinador extends Conexion{
         try 
         {
             this.conectar();
-            String sql="select * from coordinadorsse;";
+            String sql="select * from coordinadorsse where estado=1;";
             PreparedStatement pre = this.getCon().prepareStatement(sql);
             res=pre.executeQuery();
             while(res.next())
@@ -73,7 +74,7 @@ public class DaoCoordinador extends Conexion{
         try 
         {
             this.conectar();
-            String sql="insert into coordinadorsse (nombre,correo,usuario_idUsuario,carrera_idCarrera) values(?,?,?,?);";
+            String sql="insert into coordinadorsse (nombre,correo,usuario_idUsuario,carrera_idCarrera,estado) values(?,?,?,?,1);";
             PreparedStatement pre = this.getCon().prepareStatement(sql);
             pre.setString(1,cor.getNombre());
             pre.setString(2,cor.getCorreo());
@@ -138,10 +139,32 @@ public class DaoCoordinador extends Conexion{
             this.desconectar();
         }
     }
+    
+    public void eliminarCLogico(int idCoor)
+    {
+        try 
+        {
+            this.conectar();
+            String sql = "update coordinadorsse set estado=0 where idCoordinador=?;";
+            PreparedStatement pre = this.getCon().prepareStatement(sql);
+            pre.setInt(1, idCoor);
+            pre.executeUpdate();
+        } 
+        catch (Exception e) 
+        {
+            JOptionPane.showMessageDialog(null,
+                    "Imposible Eliminar no seleccinado " + e.getMessage(),
+                    "Eliminacion Fallida " ,
+                    JOptionPane.ERROR_MESSAGE);
+        } 
+        finally 
+        {
+            this.desconectar();
+        }
+    }
 
     public CoordinadorSSE getIdCoordinador(int idCoordinador)
     {
-
         CoordinadorSSE cor = new  CoordinadorSSE();
         ResultSet res;
         try 
@@ -170,4 +193,31 @@ public class DaoCoordinador extends Conexion{
         }
         return cor;
     }
-}
+    
+    public int verificarCarrera(int idCar)
+    {
+        int r=0;
+        ResultSet res;
+        try 
+        {
+            this.conectar();
+            String sql = "select nombre from coordinadorSSE where estado=1 and carrera_idCarrera = ?;";
+            PreparedStatement pre = this.getCon().prepareStatement(sql);
+            pre.setInt(1, idCar);
+            res = pre.executeQuery();
+            if(res.next()) 
+            {
+                r=1;
+            }
+        } 
+        catch (Exception e) 
+        {
+            JOptionPane.showMessageDialog(null,"Hubo un problema en la consulta  " +e.getMessage());
+        } 
+        finally 
+        {
+            this.desconectar();
+        }
+        return r;
+        }
+    }
