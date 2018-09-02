@@ -4,7 +4,26 @@
   <NonVisualComponents>
     <Menu class="javax.swing.JMenuBar" name="menuBar">
       <SubComponents>
-        <Menu class="javax.swing.JMenu" name="fileMenu">
+        <Menu class="javax.swing.JMenu" name="GestionarUsuario">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/edu/iconos/us.png"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Gestion de Usuarios"/>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="GestionarUsuarioMouseClicked"/>
+          </Events>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="jMenu2">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/edu/iconos/sss.png"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Solicitudes"/>
+          </Properties>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="GestionCoordinador">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/edu/iconos/coordinador.png"/>
@@ -13,10 +32,10 @@
             <Property name="text" type="java.lang.String" value="Gestion de Coordinador"/>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="fileMenuMouseClicked"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="GestionCoordinadorMouseClicked"/>
           </Events>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="editMenu">
+        <Menu class="javax.swing.JMenu" name="GestionHorarios">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/edu/iconos/calendar.png"/>
@@ -25,7 +44,7 @@
             <Property name="text" type="java.lang.String" value="Gestion de Horarios"/>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="editMenuMouseClicked"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="GestionHorariosMouseClicked"/>
           </Events>
         </Menu>
         <Menu class="javax.swing.JMenu" name="editMenu1">
@@ -36,9 +55,6 @@
             <Property name="mnemonic" type="int" value="101"/>
             <Property name="text" type="java.lang.String" value="Reportes"/>
           </Properties>
-          <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="editMenu1MouseClicked"/>
-          </Events>
         </Menu>
       </SubComponents>
     </Menu>
@@ -66,12 +82,12 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="desktopPane" alignment="0" pref="709" max="32767" attributes="0"/>
+          <Component id="desktopPane" alignment="0" pref="941" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="desktopPane" alignment="0" pref="469" max="32767" attributes="0"/>
+          <Component id="desktopPane" alignment="0" pref="473" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>

@@ -1,11 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package edu.utilidades;
 
 import java.awt.event.KeyEvent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Nombre de la clase: Validaciones
@@ -16,11 +16,6 @@ import java.awt.event.KeyEvent;
  */
 public class Validaciones {
     
-    /**
-     * validar solo numeros
-     *
-     * @param evt
-     */
     public void numbersOnly(KeyEvent evt) 
     {
         if (!Character.isDigit(evt.getKeyChar())) 
@@ -29,11 +24,6 @@ public class Validaciones {
         }
     }
     
-    /**
-     * validar solo palabras
-     *
-     * @param evt
-     */
     public void wordsOnly(KeyEvent evt) 
     {
         if (!Character.isLetter(evt.getKeyChar()) && evt.getKeyChar() != KeyEvent.VK_SPACE)
@@ -57,5 +47,30 @@ public class Validaciones {
             return true;
         }
         return false;
-    }   
+    } 
+    
+    public String CapturarFecha(){
+        String fecha="";
+        
+        Date f = new Date();
+        SimpleDateFormat formatoF = new SimpleDateFormat("yyyy-MM-dd");
+        fecha=formatoF.format(f);
+        
+        return fecha;
+    }
+    
+    public boolean ValidarC(String correo)
+    {
+        // Patrón para validar el email
+        Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,4})$");
+        
+        Matcher mather = pattern.matcher(correo);
+ 
+        if (mather.find() == true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
