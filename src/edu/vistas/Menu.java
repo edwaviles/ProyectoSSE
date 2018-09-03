@@ -14,6 +14,7 @@ public class Menu extends javax.swing.JFrame {
 
     FrmCoordinador gestionC;
     FrmHorario gestionH;
+    FrmSolicitudes gestionS;
     public static boolean FormularioVal=false;
     
     public Menu() {
@@ -35,6 +36,7 @@ public class Menu extends javax.swing.JFrame {
         fileMenu = new javax.swing.JMenu();
         editMenu = new javax.swing.JMenu();
         editMenu1 = new javax.swing.JMenu();
+        jMenu1 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -70,13 +72,21 @@ public class Menu extends javax.swing.JFrame {
         });
         menuBar.add(editMenu1);
 
+        jMenu1.setText("Solicitudes SSE");
+        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu1MouseClicked(evt);
+            }
+        });
+        menuBar.add(jMenu1);
+
         setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 709, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 803, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -129,6 +139,31 @@ public class Menu extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_editMenu1MouseClicked
 
+    private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
+         if(FormularioVal==false)
+        {
+            this.gestionS = new FrmSolicitudes();
+            this.desktopPane.add(gestionS);
+            gestionS.setVisible(true);
+            gestionS.setLocation(
+                    desktopPane.getWidth()/2 - gestionS.getWidth()/2,
+                    desktopPane.getHeight()/2 - gestionS.getHeight()/2);
+                    FormularioVal=true;
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null,"Ya tiene una ventana abierta!");
+        }
+    }//GEN-LAST:event_jMenu1MouseClicked
+
+    
+    
+    public void frmSoli(int x)
+    {
+        FrmSolicitud frms = new FrmSolicitud(x);
+        this.desktopPane.add(frms);
+        frms.setVisible(true);
+    }
     /**
      * @param args the command line arguments
      */
@@ -169,6 +204,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenu editMenu1;
     private javax.swing.JMenu fileMenu;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar menuBar;
     // End of variables declaration//GEN-END:variables
 
