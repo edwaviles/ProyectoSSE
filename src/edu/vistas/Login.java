@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 
 import ds.desktop.notify.DesktopNotify;
 import ds.desktop.notify.NotifyTheme;
+import edu.utilidades.Encriptacion;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
@@ -263,6 +264,7 @@ public class Login extends javax.swing.JFrame {
     
     public void ingresar()
     {                    
+        Encriptacion enc = new Encriptacion();
         us.setNombre(this.TxtUsuario.getText());
         us.setPass(this.txtContrasenia.getText());
         resul=daoUs.logear(us.getNombre(), us.getPass()); 

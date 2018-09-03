@@ -135,7 +135,6 @@ public class Menu extends javax.swing.JFrame {
         GestionCoordinador = new javax.swing.JMenu();
         GestionHorarios = new javax.swing.JMenu();
         editMenu1 = new javax.swing.JMenu();
-        jMenu1 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -152,6 +151,11 @@ public class Menu extends javax.swing.JFrame {
 
         jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/sss.png"))); // NOI18N
         jMenu2.setText("Solicitudes");
+        jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu2MouseClicked(evt);
+            }
+        });
         menuBar.add(jMenu2);
 
         GestionCoordinador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/coordinador.png"))); // NOI18N
@@ -178,14 +182,6 @@ public class Menu extends javax.swing.JFrame {
         editMenu1.setMnemonic('e');
         editMenu1.setText("Reportes");
         menuBar.add(editMenu1);
-
-        jMenu1.setText("Solicitudes SSE");
-        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenu1MouseClicked(evt);
-            }
-        });
-        menuBar.add(jMenu1);
 
         setJMenuBar(menuBar);
 
@@ -242,8 +238,10 @@ public class Menu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_GestionHorariosMouseClicked
 
-    private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
-         if(FormularioVal==false)
+    
+    public void mostraSolis()
+    {
+            if(FormularioVal==false)
         {
             this.gestionS = new FrmSolicitudes();
             this.desktopPane.add(gestionS);
@@ -257,8 +255,7 @@ public class Menu extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(null,"Ya tiene una ventana abierta!");
         }
-    }//GEN-LAST:event_jMenu1MouseClicked
-
+    }
     
     
     public void frmSoli(int x)
@@ -283,6 +280,10 @@ public class Menu extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Ya tiene una ventana abierta!");
         }
     }//GEN-LAST:event_GestionarUsuarioMouseClicked
+
+    private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
+        mostraSolis();
+    }//GEN-LAST:event_jMenu2MouseClicked
    
     /**
      * @param args the command line arguments
@@ -325,8 +326,6 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenu GestionarUsuario;
     private javax.swing.JDesktopPane desktopPane;
     private javax.swing.JMenu editMenu1;
-    private javax.swing.JMenu fileMenu;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar menuBar;
     // End of variables declaration//GEN-END:variables

@@ -247,6 +247,7 @@ public class FrmSolicitud extends javax.swing.JInternalFrame {
             {
                 this.setVisible(false);
                 menu.cerrar(); 
+                menu.mostraSolis();
             }
         } 
         catch (Exception e) 
