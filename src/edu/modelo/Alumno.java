@@ -11,6 +11,17 @@ public class Alumno extends Usuario
 {
     private int idAlumno;
     private String nombreAlumno;
+    private int carnet;
+    private String carrera;
+    private String escuela;
+    private String grupo;
+    private String cursaMaterias;
+    private String tipoCarrera;
+    private int ciclo;
+    private int horesActuales;
+
+    public Alumno() {
+    }
 
     public Alumno(int idAlumno, String nombreAlumno, int carnet, String carrera, String escuela, String grupo, String cursaMaterias, String tipoCarrera, int ciclo, int horesActuales) {
         this.idAlumno = idAlumno;
@@ -25,8 +36,8 @@ public class Alumno extends Usuario
         this.horesActuales = horesActuales;
     }
 
-    public Alumno(int idAlumno, String nombreAlumno, int carnet, String carrera, String escuela, String grupo, String cursaMaterias, String tipoCarrera, int ciclo, int horesActuales, int codigo, String nombre, String pass, int rol) {
-        super(codigo, nombre, pass, rol);
+    public Alumno(int idAlumno, String nombreAlumno, int carnet, String carrera, String escuela, String grupo, String cursaMaterias, String tipoCarrera, int ciclo, int horesActuales, int codigo, String nombre, String pass, int rol, String fechaRegistro, String fechaModificacion, int estado, String fechaEliminacion) {
+        super(codigo, nombre, pass, rol, fechaRegistro, fechaModificacion, estado, fechaEliminacion);
         this.idAlumno = idAlumno;
         this.nombreAlumno = nombreAlumno;
         this.carnet = carnet;
@@ -38,17 +49,7 @@ public class Alumno extends Usuario
         this.ciclo = ciclo;
         this.horesActuales = horesActuales;
     }
-    private int carnet;
-    private String carrera;
-    private String escuela;
-    private String grupo;
-    private String cursaMaterias;
-    private String tipoCarrera;
-    private int ciclo;
-    private int horesActuales;
-
-    public Alumno() {
-    }
+    
 
     public int getIdAlumno() {
         return idAlumno;

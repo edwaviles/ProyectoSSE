@@ -15,15 +15,28 @@ public class SolicitudSSE extends Alumno
     private String institucion;
     private String encargado;
     private String comentarios;
-    private int estado;
-    private String fechaModificacion;
+    private int estadoS;
+    private String fechaModificacionS;
     private String fechaResgistro;
     private int idEstadoSSE;
 
     public SolicitudSSE() {
     }
 
-    public SolicitudSSE(int idSolicitud, String sedeItca, String fechaSolicitud, String institucion, String encargado, String comentarios, int estado, String fechaModificacion, String fechaResgistro, int idEstadoSSE, int idAlumno, String nombreAlumno, int carnet, String carrera, String escuela, String grupo, String cursaMaterias, String tipoCarrera, int ciclo, int horesActuales) {
+    public SolicitudSSE(int idSolicitud, String sedeItca, String fechaSolicitud, String institucion, String encargado, String comentarios, int estadoS, String fechaModificacionS, String fechaResgistro, int idEstadoSSE) {
+        this.idSolicitud = idSolicitud;
+        this.sedeItca = sedeItca;
+        this.fechaSolicitud = fechaSolicitud;
+        this.institucion = institucion;
+        this.encargado = encargado;
+        this.comentarios = comentarios;
+        this.estadoS = estadoS;
+        this.fechaModificacionS = fechaModificacionS;
+        this.fechaResgistro = fechaResgistro;
+        this.idEstadoSSE = idEstadoSSE;
+    }
+
+    public SolicitudSSE(int idSolicitud, String sedeItca, String fechaSolicitud, String institucion, String encargado, String comentarios, int estadoS, String fechaModificacionS, String fechaResgistro, int idEstadoSSE, int idAlumno, String nombreAlumno, int carnet, String carrera, String escuela, String grupo, String cursaMaterias, String tipoCarrera, int ciclo, int horesActuales) {
         super(idAlumno, nombreAlumno, carnet, carrera, escuela, grupo, cursaMaterias, tipoCarrera, ciclo, horesActuales);
         this.idSolicitud = idSolicitud;
         this.sedeItca = sedeItca;
@@ -31,35 +44,22 @@ public class SolicitudSSE extends Alumno
         this.institucion = institucion;
         this.encargado = encargado;
         this.comentarios = comentarios;
-        this.estado = estado;
-        this.fechaModificacion = fechaModificacion;
+        this.estadoS = estadoS;
+        this.fechaModificacionS = fechaModificacionS;
         this.fechaResgistro = fechaResgistro;
         this.idEstadoSSE = idEstadoSSE;
     }
 
-    public SolicitudSSE(int idSolicitud, String sedeItca, String fechaSolicitud, String institucion, String encargado, String comentarios, int estado, String fechaModificacion, String fechaResgistro, int idEstadoSSE, int idAlumno, String nombreAlumno, int carnet, String carrera, String escuela, String grupo, String cursaMaterias, String tipoCarrera, int ciclo, int horesActuales, int codigo, String nombre, String pass, int rol) {
-        super(idAlumno, nombreAlumno, carnet, carrera, escuela, grupo, cursaMaterias, tipoCarrera, ciclo, horesActuales, codigo, nombre, pass, rol);
+    public SolicitudSSE(int idSolicitud, String sedeItca, String fechaSolicitud, String institucion, String encargado, String comentarios, int estadoS, String fechaModificacionS, String fechaResgistro, int idEstadoSSE, int idAlumno, String nombreAlumno, int carnet, String carrera, String escuela, String grupo, String cursaMaterias, String tipoCarrera, int ciclo, int horesActuales, int codigo, String nombre, String pass, int rol, String fechaRegistro, String fechaModificacion, int estado, String fechaEliminacion) {
+        super(idAlumno, nombreAlumno, carnet, carrera, escuela, grupo, cursaMaterias, tipoCarrera, ciclo, horesActuales, codigo, nombre, pass, rol, fechaRegistro, fechaModificacion, estado, fechaEliminacion);
         this.idSolicitud = idSolicitud;
         this.sedeItca = sedeItca;
         this.fechaSolicitud = fechaSolicitud;
         this.institucion = institucion;
         this.encargado = encargado;
         this.comentarios = comentarios;
-        this.estado = estado;
-        this.fechaModificacion = fechaModificacion;
-        this.fechaResgistro = fechaResgistro;
-        this.idEstadoSSE = idEstadoSSE;
-    }
-
-    public SolicitudSSE(int idSolicitud, String sedeItca, String fechaSolicitud, String institucion, String encargado, String comentarios, int estado, String fechaModificacion, String fechaResgistro, int idEstadoSSE) {
-        this.idSolicitud = idSolicitud;
-        this.sedeItca = sedeItca;
-        this.fechaSolicitud = fechaSolicitud;
-        this.institucion = institucion;
-        this.encargado = encargado;
-        this.comentarios = comentarios;
-        this.estado = estado;
-        this.fechaModificacion = fechaModificacion;
+        this.estadoS = estadoS;
+        this.fechaModificacionS = fechaModificacionS;
         this.fechaResgistro = fechaResgistro;
         this.idEstadoSSE = idEstadoSSE;
     }
@@ -112,20 +112,20 @@ public class SolicitudSSE extends Alumno
         this.comentarios = comentarios;
     }
 
-    public int getEstado() {
-        return estado;
+    public int getEstadoS() {
+        return estadoS;
     }
 
-    public void setEstado(int estado) {
-        this.estado = estado;
+    public void setEstadoS(int estadoS) {
+        this.estadoS = estadoS;
     }
 
-    public String getFechaModificacion() {
-        return fechaModificacion;
+    public String getFechaModificacionS() {
+        return fechaModificacionS;
     }
 
-    public void setFechaModificacion(String fechaModificacion) {
-        this.fechaModificacion = fechaModificacion;
+    public void setFechaModificacionS(String fechaModificacionS) {
+        this.fechaModificacionS = fechaModificacionS;
     }
 
     public String getFechaResgistro() {
@@ -143,6 +143,9 @@ public class SolicitudSSE extends Alumno
     public void setIdEstadoSSE(int idEstadoSSE) {
         this.idEstadoSSE = idEstadoSSE;
     }
-
+    
+    
+   
+    
     
 }

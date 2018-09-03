@@ -12,20 +12,72 @@ public class HorarioAtencion {
     private int idHorarioA;
     private int idCoordinador;
     private String dia;
-    private String horaDesde;
-    private String horaHasta;
+    private int horaDesde;
+    private int horaHasta;
+    private int minutosDesde;
+    private int minutosHasta;
     private String lugar;
+    private String fechaRegistro;
+    private String fechaModificacion;
+    private String fechaEliminacion;
 
-    public HorarioAtencion() {
+    public int getHoraDesde() {
+        return horaDesde;
     }
 
-    public HorarioAtencion(int idHorarioA, int idCoordinador, String dia, String horaDesde, String horaHasta, String lugar) {
-        this.idHorarioA = idHorarioA;
-        this.idCoordinador = idCoordinador;
-        this.dia = dia;
+    public void setHoraDesde(int horaDesde) {
         this.horaDesde = horaDesde;
+    }
+
+    public int getHoraHasta() {
+        return horaHasta;
+    }
+
+    public void setHoraHasta(int horaHasta) {
         this.horaHasta = horaHasta;
-        this.lugar = lugar;
+    }
+
+    public int getMinutosDesde() {
+        return minutosDesde;
+    }
+
+    public void setMinutosDesde(int minutosDesde) {
+        this.minutosDesde = minutosDesde;
+    }
+
+    public int getMinutosHasta() {
+        return minutosHasta;
+    }
+
+    public void setMinutosHasta(int minutosHasta) {
+        this.minutosHasta = minutosHasta;
+    }
+
+    public String getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public void setFechaRegistro(String fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
+    }
+
+    public String getFechaModificacion() {
+        return fechaModificacion;
+    }
+
+    public void setFechaModificacion(String fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
+    }
+
+    public String getFechaEliminacion() {
+        return fechaEliminacion;
+    }
+
+    public void setFechaEliminacion(String fechaEliminacion) {
+        this.fechaEliminacion = fechaEliminacion;
+    }
+
+    public HorarioAtencion() {
     }
 
     public int getIdHorarioA() {
@@ -52,21 +104,6 @@ public class HorarioAtencion {
         this.dia = dia;
     }
 
-    public String getHoraDesde() {
-        return horaDesde;
-    }
-
-    public void setHoraDesde(String horaDesde) {
-        this.horaDesde = horaDesde;
-    }
-
-    public String getHoraHasta() {
-        return horaHasta;
-    }
-
-    public void setHoraHasta(String horaHasta) {
-        this.horaHasta = horaHasta;
-    }
 
     public String getLugar() {
         return lugar;
