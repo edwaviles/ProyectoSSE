@@ -120,7 +120,7 @@ public class DaoCoordinador extends Conexion{
         try 
         {
             this.conectar();
-            String sql = "update coordinadorSSE set nombre = ? , correo = ?,fechaModificacion =?, carrera_idCarrera =?  where idCoordinador = ? ;";
+            String sql = "update coordinadorsse set nombre = ? , correo = ?,fechaModificacion =?, carrera_idCarrera =?  where idCoordinador = ? ;";
             PreparedStatement pre = this.getCon().prepareStatement(sql);
             pre.setString(1, cor.getNombre());
             pre.setString(2, cor.getCorreo());
@@ -144,7 +144,7 @@ public class DaoCoordinador extends Conexion{
         try 
         {
             this.conectar();
-            String sql = "delete from coordinadorSSE where idCoordinador = ?;";
+            String sql = "delete from coordinadorsse where idCoordinador = ?;";
             PreparedStatement pre = this.getCon().prepareStatement(sql);
             pre.setInt(1, idCoor);
             pre.executeUpdate();
@@ -193,7 +193,7 @@ public class DaoCoordinador extends Conexion{
         try 
         {
             this.conectar();
-            String sql = "select * from coordinadorSSE where idCoordinador = ?";
+            String sql = "select * from coordinadorsse where idCoordinador = ?";
             PreparedStatement pre = this.getCon().prepareStatement(sql);
             pre.setInt(1, idCoordinador);
             res = pre.executeQuery();
@@ -224,7 +224,7 @@ public class DaoCoordinador extends Conexion{
         try 
         {
             this.conectar();
-            String sql = "select nombre from coordinadorSSE where estado=1 and carrera_idCarrera = ?;";
+            String sql = "select nombre from coordinadorsse where estado=1 and carrera_idCarrera = ?;";
             PreparedStatement pre = this.getCon().prepareStatement(sql);
             pre.setInt(1, idCar);
             res = pre.executeQuery();
@@ -282,7 +282,7 @@ public class DaoCoordinador extends Conexion{
             try 
             {
                 this.conectar();
-                String sql="select idCoordinador as id ,nombre from coordinadorSSE where usuario_IdUSuario=?;";
+                String sql="select idCoordinador as id ,nombre from coordinadorsse where usuario_IdUSuario=?;";
                 PreparedStatement pre=this.getCon().prepareCall(sql);
                 pre.setInt(1, id);
                 res=pre.executeQuery();
