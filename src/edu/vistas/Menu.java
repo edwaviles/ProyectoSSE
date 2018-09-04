@@ -29,6 +29,7 @@ public class Menu extends javax.swing.JFrame {
     Notificaciones frmNoti;
     FrmHorario gestionH;
     FrmSolicitudes gestionS;
+    FrmSolicitud frms;
     FrmUsuario gestionU;
     Usuario use=new Usuario();
      public static List lsUs;
@@ -258,12 +259,7 @@ public class Menu extends javax.swing.JFrame {
     }
     
     
-    public void frmSoli(int x)
-    {
-        FrmSolicitud frms = new FrmSolicitud(x);
-        this.desktopPane.add(frms);
-        frms.setVisible(true);
-    }
+   
     private void GestionarUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GestionarUsuarioMouseClicked
         if(FormularioVal==false)
         {
@@ -319,6 +315,8 @@ public class Menu extends javax.swing.JFrame {
             }
         });
     }
+    
+  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu GestionCoordinador;

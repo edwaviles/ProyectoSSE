@@ -30,11 +30,9 @@ public class FrmSolicitud extends javax.swing.JInternalFrame {
     int id=0;
     Menu menu = new Menu();
     
-    public FrmSolicitud(int id) {
+    public FrmSolicitud() {
         initComponents();
         cargarEstados();
-        this.id=id;
-        JOptionPane.showMessageDialog(null, id);
     }
 
     @SuppressWarnings("unchecked")

@@ -141,10 +141,7 @@ public class FrmSolicitudes extends javax.swing.JInternalFrame {
         
        int fila = this.tbSolicitudes.getSelectedRow();
        int id = Integer.parseInt(idSolLocal.get(fila).toString());
-       menu.frmSoli(id);
-       this.setVisible(false);
     }//GEN-LAST:event_txtMostrarMouseClicked
-
     
       public void Cerrar()
      {
