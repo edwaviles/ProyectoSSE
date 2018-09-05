@@ -14,16 +14,22 @@ public class CoordinadorSSE {
     private String correo;
     private int idUsuario;
     private int idCarrera;
+    private String fechaRegistro;
+    private String fechaModificacion;
+    private String fechaEliminacion;
 
     public CoordinadorSSE() {
     }
 
-    public CoordinadorSSE(int idCoordinador, String nombre, String correo, int idUsuario, int idCarrera) {
+    public CoordinadorSSE(int idCoordinador, String nombre, String correo, int idUsuario, int idCarrera, String fechaRegistro, String fechaModificacion, String fechaEliminacion, int estado) {
         this.idCoordinador = idCoordinador;
         this.nombre = nombre;
         this.correo = correo;
         this.idUsuario = idUsuario;
         this.idCarrera = idCarrera;
+        this.fechaRegistro = fechaRegistro;
+        this.fechaModificacion = fechaModificacion;
+        this.fechaEliminacion = fechaEliminacion;
     }
 
     public int getIdCoordinador() {
@@ -64,6 +70,30 @@ public class CoordinadorSSE {
 
     public void setIdCarrera(int idCarrera) {
         this.idCarrera = idCarrera;
+    }
+
+    public String getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public void setFechaRegistro(String fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
+    }
+
+    public String getFechaModificacion() {
+        return fechaModificacion;
+    }
+
+    public void setFechaModificacion(String fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
+    }
+
+    public String getFechaEliminacion() {
+        return fechaEliminacion;
+    }
+
+    public void setFechaEliminacion(String fechaEliminacion) {
+        this.fechaEliminacion = fechaEliminacion;
     }
     
 }

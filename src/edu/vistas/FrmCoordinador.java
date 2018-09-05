@@ -17,8 +17,6 @@ import edu.utilidades.Validaciones;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ItemEvent;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.table.TableColumnModel;
@@ -41,6 +39,8 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
    Validaciones validar = new Validaciones();
    Menu menu = new Menu();
    
+   public static int estado=0;
+   
    //Instancias para cargar dos combos
    List<Escuela> lista;
    List<Carrera> li;
@@ -56,6 +56,8 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
         this.jTxtUsuario.setEnabled(false);
         this.jTxtNombre.setEnabled(false);
         this.jTxtCorreo.setEnabled(false);
+        this.jCmbCarrera.setEnabled(false);
+        this.jCmbEscuela.setEnabled(false);
     }
     
      public void tamanioTabla()
@@ -76,24 +78,6 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
 
         return retValue;
     }
-    
-    public boolean validarCorreo(String correo)
-    {
-        Pattern pat = null;
-        Matcher mat = null;
-        
-        pat = Pattern.compile("^[\\w\\-\\_\\+]+(\\.[\\w\\-\\_]+)*@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,4}$");
-        mat = pat.matcher(correo);
-        if(mat.find())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-        //String valCor = "^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@"+"[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,4})$";
-    }
   
     public void cargarComboE()
     {
@@ -113,7 +97,9 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
         if (mando == 1 || mando == 2) 
         {
             this.jTxtNombre.setEnabled(true);
-            this.jTxtCorreo.setEnabled(true);   
+            this.jTxtCorreo.setEnabled(true); 
+            this.jCmbCarrera.setEnabled(true);
+            this.jCmbEscuela.setEnabled(true);
         }
 
         //limpiar
@@ -121,33 +107,38 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
         {
             this.jTxtNombre.setEnabled(false);
             this.jTxtCorreo.setEnabled(false);
-            this.jBtnAgregar.setEnabled(false);
+            //this.jBtnAgregar.setEnabled(false);
             this.jBtnLimpiar.setEnabled(false);
             this.jBtnNuevo.setEnabled(true);
-            this.jBtnEditar.setEnabled(false);
+            //this.jBtnEditar.setEnabled(false);
             this.jBtnEliminar.setEnabled(false);
+            this.jBtnGuardar.setEnabled(false);
             this.jTablaDatos.setEnabled(true);
+            this.jCmbCarrera.setEnabled(false);
+            this.jCmbEscuela.setEnabled(false);
         }
         //nuevo
         if (mando==1) 
         {          
-            this.jBtnAgregar.setEnabled(true);
+            //this.jBtnAgregar.setEnabled(true);
             this.jBtnLimpiar.setEnabled(true);
             this.jBtnNuevo.setEnabled(false);
-            this.jBtnEditar.setEnabled(false);
+            //this.jBtnEditar.setEnabled(false);
             this.jBtnEliminar.setEnabled(false);
+            this.jBtnGuardar.setEnabled(true);
             this.jTablaDatos.setEnabled(false);
             this.jTablaDatos.setCellSelectionEnabled(false);
         }
         //click en tabla
         if (mando==2) 
         {
-            this.jBtnAgregar.setEnabled(false);
+            //this.jBtnAgregar.setEnabled(false);
             this.jBtnLimpiar.setEnabled(true);
             this.jBtnNuevo.setEnabled(false);
-            this.jBtnEditar.setEnabled(true);
+            //this.jBtnEditar.setEnabled(true);
             this.jBtnEliminar.setEnabled(true);
             this.jTablaDatos.setEnabled(true);
+            this.jBtnGuardar.setEnabled(true);
         }   
     }
         
@@ -221,122 +212,128 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
     
     public void insertarCoordinador()
     {
-        if(validarCorreo(this.jTxtCorreo.getText()))
-        {
-            cor.setNombre(jTxtNombre.getText());
-            cor.setCorreo(jTxtCorreo.getText());
-            cor.setIdUsuario(1);
+        cor.setNombre(jTxtNombre.getText());
+        cor.setCorreo(jTxtCorreo.getText());
+        cor.setIdUsuario(2);   
+        cor.setFechaRegistro(validar.CapturarFecha());
 
-            int idCarrera=0;
+        int idCarrera=0;
 
-                for(int i=0;i<li.size();i++)
-                {
-                    if(jCmbCarrera.getSelectedItem().equals(li.get(i).getNombre()))
-                    {
-                         idCarrera = li.get(i).getIdCarrera();
-                    }
-                }
-            cor.setIdCarrera(idCarrera);
-            if(!validar.IsNullOrEmpty(String.valueOf(cor.getIdCoordinador()))
-                                     && !validar.IsNullOrEmpty(cor.getNombre())
-                                     && !validar.IsNullOrEmpty(cor.getCorreo()))
+            for(int i=0;i<li.size();i++)
             {
-                try 
+                if(jCmbCarrera.getSelectedItem().equals(li.get(i).getNombre()))
                 {
-                    int NomCar = daoC.verificarCarrera(idCarrera);
-                    if(NomCar==1)
-                    {
-                        JOptionPane.showMessageDialog(null, "Ya existe un coordinador asignado a este carrera ","Carrera asignada",
-                                JOptionPane.WARNING_MESSAGE);
-                        limpiar();
-                    }
-                    else
-                    {
-                        insertar(cor);
-                        mostrar();
-                        limpiar();
-                        JOptionPane.showMessageDialog(null, "El registro se ha guardado con exito", "Coordinador",
-                                        JOptionPane.INFORMATION_MESSAGE);
-                    }     
+                     idCarrera = li.get(i).getIdCarrera();//validarCorreo(this.jTxtCorreo.getText())
                 }
-                catch (Exception e) 
-                {
-                    JOptionPane.showMessageDialog(null,"Ocurrio un problema al insertar: " + e.getMessage());
-                        limpiar();
-                }
+            }
+            cor.setIdCarrera(idCarrera);
+            
+        if(!validar.IsNullOrEmpty(String.valueOf(cor.getIdCoordinador()))
+                                 && !validar.IsNullOrEmpty(cor.getNombre())
+                                 && !validar.IsNullOrEmpty(cor.getCorreo()))
+        {
+            int NomCar = daoCa.verificarCarrera(idCarrera);
+            if(NomCar==1)
+            {
+                JOptionPane.showMessageDialog(null, "Ya existe un coordinador asignado a este carrera ","Carrera asignada",
+                        JOptionPane.WARNING_MESSAGE);
+            }
+            else if(validar.ValidarC(this.jTxtCorreo.getText())==true)
+            {
+                insertar(cor);
+                mostrar();
+                limpiar();
+                JOptionPane.showMessageDialog(null, "El registro se ha guardado con exito", "Coordinador",
+                                JOptionPane.INFORMATION_MESSAGE);
             }
             else
             {
-                JOptionPane.showMessageDialog(null,"¡No dejar campos vacios! ",
-                        "Datos Incompletos",
-                        JOptionPane.WARNING_MESSAGE); 
+                JOptionPane.showMessageDialog(null,"Correo electronico invalido ","Validacion de Email",
+                        JOptionPane.ERROR_MESSAGE);
+                this.jTxtCorreo.requestFocus();
             }
         }
         else
         {
-            JOptionPane.showMessageDialog(null,"Correo electronico invalido ","Validacion de Email", JOptionPane.ERROR_MESSAGE);
-            this.jTxtCorreo.requestFocus();
+            JOptionPane.showMessageDialog(null,"¡No dejar campos vacios! ",
+                    "Datos Incompletos",
+                    JOptionPane.WARNING_MESSAGE); 
         }
     }
     
     //METODOS MODIFICAR
     public void modificar()
     {
-        try 
+        int idCoordinador = Integer.parseInt(jTxtCodigo.getText());
+        cor.setNombre(jTxtNombre.getText());
+        cor.setCorreo(jTxtCorreo.getText());
+        cor.setFechaModificacion(validar.CapturarFecha());
+
+        int idCar=0;
+
+        for(int i=0;i<li.size();i++)
         {
-            if(validarCorreo(this.jTxtCorreo.getText()))
-            { 
-                int idCoordinador = Integer.parseInt(jTxtCodigo.getText());
-                cor.setNombre(jTxtNombre.getText());
-                cor.setCorreo(jTxtCorreo.getText());
+            if(jCmbCarrera.getSelectedItem().equals(li.get(i).getNombre()))
+            {
+                 idCar = li.get(i).getIdCarrera();
+            }
+        }
+        cor.setIdCarrera(idCar);
+        cor.setIdCoordinador(idCoordinador);
 
-                int idCar=0;
-
-                for(int i=0;i<li.size();i++)
+        if (!validar.IsNullOrEmpty(cor.getNombre())
+                && !validar.IsNullOrEmpty(cor.getCorreo())
+                && !validar.IsNullOrEmpty(String.valueOf(cor.getIdCoordinador()))) 
+        {
+            int NomCar = daoCa.verificarCarrera(idCar);
+            
+            int NomCarM = daoCa.verificarCarM(idCar);
+            if(NomCar==1 && NomCarM==idCoordinador)
+            {
+                if(validar.ValidarC(this.jTxtCorreo.getText()))
                 {
-                    if(jCmbCarrera.getSelectedItem().equals(li.get(i).getNombre()))
-                    {
-                         idCar = li.get(i).getIdCarrera();
-                    }
-                }
-                cor.setIdCarrera(idCar);
-                cor.setIdCoordinador(idCoordinador);
-
-                if (!validar.IsNullOrEmpty(cor.getNombre())
-                        && !validar.IsNullOrEmpty(cor.getCorreo())
-                        && !validar.IsNullOrEmpty(String.valueOf(cor.getIdCoordinador()))) 
-                {
-                    try 
-                    {
-                        modificarCoordinador(cor);
+                   modificarCoordinador(cor);
                         limpiar();
                         mostrar();
                         JOptionPane.showMessageDialog(null, "Coordinador Modificado Exitosamente", "Guardado", 
-                        JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.INFORMATION_MESSAGE);
                         OnOFF(3);
-                    } 
-                    catch (Exception e) 
-                    {
-                        JOptionPane.showMessageDialog(null,"Ocurrio un error al modificar " + e.getMessage(),
-                                "Error",JOptionPane.ERROR_MESSAGE);
-                        limpiar();
-                    }
-                } 
-                else 
+                }
+                else
                 {
-                    JOptionPane.showMessageDialog(null,"¡No dejar campos vacios! ",
-                            "Datos Incompletos",JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"Correo electronico invalido ","Validacion de Email",
+                            JOptionPane.ERROR_MESSAGE);
+                    this.jTxtCorreo.requestFocus();
                 }
             }
-            else 
+            else if(NomCar==1 && NomCarM!=idCoordinador)
             {
-                JOptionPane.showMessageDialog(null,"Correo electronico invalido ","Validacion de Email", JOptionPane.ERROR_MESSAGE);
-                this.jTxtCorreo.requestFocus();
+                JOptionPane.showMessageDialog(null, "Ya existe un coordinador asignado a este carrera ","Carrera asignada",
+                            JOptionPane.WARNING_MESSAGE);
+            }
+            else
+            {
+                if(validar.ValidarC(this.jTxtCorreo.getText()))
+                {
+                   modificarCoordinador(cor);
+                        limpiar();
+                        mostrar();
+                        JOptionPane.showMessageDialog(null, "Coordinador Modificado Exitosamente", "Guardado", 
+                            JOptionPane.INFORMATION_MESSAGE);
+                        OnOFF(3);
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null,"Correo electronico invalido ","Validacion de Email",
+                            JOptionPane.ERROR_MESSAGE);
+                    this.jTxtCorreo.requestFocus();
+                }
             }
         } 
-        catch (Exception e) 
+        else 
         {
-
+            JOptionPane.showMessageDialog(null,"¡No dejar campos vacios! ",
+                    "Datos Incompletos",JOptionPane.WARNING_MESSAGE);
         }
     }
     
@@ -353,19 +350,37 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
         }
     }
     
+    private void guardar()
+    {
+        if(estado==1)
+        {
+            insertarCoordinador();
+        }
+        else if(estado==2)
+        {
+            modificar();
+        }
+        else
+        {
+            
+        }
+    }
+    
     //METODO ELIMINAR
      public void eliminar()
      {
          try 
         {
             int idCoordinador = Integer.parseInt(jTxtCodigo.getText());
+            cor.setIdCoordinador(idCoordinador);
+            cor.setFechaEliminacion(validar.CapturarFecha());
 
             int SioNo = JOptionPane.showConfirmDialog(this, "¿Desea Eliminar el registro seleccionado?", 
                     "Eliminar Coordinador", JOptionPane.YES_NO_OPTION);
 
             if (SioNo == 0) 
             {
-                daoC.eliminarCLogico(idCoordinador);
+                daoC.eliminarCLogico(cor);
                 JOptionPane.showMessageDialog(null, "Se elimino exitosamente");
                 mostrar();
                 limpiar();
@@ -435,12 +450,12 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
         jLabel9 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jBtnEditar = new javax.swing.JButton();
         jBtnEliminar = new javax.swing.JButton();
-        jBtnAgregar = new javax.swing.JButton();
         jBtnLimpiar = new javax.swing.JButton();
         jBtnNuevo = new javax.swing.JButton();
+        jBtnGuardar = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
 
         setTitle("Control SSE - Coordinador");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -550,40 +565,12 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Acciones", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
 
-        jBtnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/mod.png"))); // NOI18N
-        jBtnEditar.setText("Modificar");
-        jBtnEditar.setEnabled(false);
-        jBtnEditar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jBtnEditarMouseClicked(evt);
-            }
-        });
-        jBtnEditar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtnEditarActionPerformed(evt);
-            }
-        });
-
         jBtnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/delete.png"))); // NOI18N
         jBtnEliminar.setText("Eliminar");
         jBtnEliminar.setEnabled(false);
         jBtnEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jBtnEliminarMouseClicked(evt);
-            }
-        });
-
-        jBtnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/n.png"))); // NOI18N
-        jBtnAgregar.setText("Agregar");
-        jBtnAgregar.setEnabled(false);
-        jBtnAgregar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jBtnAgregarMouseClicked(evt);
-            }
-        });
-        jBtnAgregar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtnAgregarActionPerformed(evt);
             }
         });
 
@@ -604,40 +591,46 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
             }
         });
 
+        jBtnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/g.png"))); // NOI18N
+        jBtnGuardar.setText("Guardar");
+        jBtnGuardar.setEnabled(false);
+        jBtnGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jBtnGuardarMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jBtnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jBtnEditar, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
-                            .addComponent(jBtnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jBtnLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jBtnNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jBtnNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                    .addComponent(jBtnGuardar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jBtnEliminar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                    .addComponent(jBtnLimpiar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(9, 9, 9)
                 .addComponent(jBtnNuevo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jBtnAgregar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jBtnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jBtnGuardar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jBtnEliminar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jBtnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/l.png"))); // NOI18N
+
+        jLabel7.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jLabel7.setText("Coordinador");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -651,7 +644,7 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
                         .addGroup(layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel10)
+                                .addComponent(jLabel7)
                                 .addGroup(layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel3)
@@ -661,28 +654,31 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
                                         .addComponent(jLabel5)
                                         .addComponent(jLabel6))
                                     .addGap(23, 23, 23)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jCmbCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTxtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jTxtCorreo, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
                                         .addComponent(jTxtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jCmbEscuela, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jTxtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTxtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(jTxtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jCmbCarrera, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jCmbEscuela, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(jLabel10))
                             .addGap(18, 18, 18)
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 521, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 35, Short.MAX_VALUE))
+                .addGap(0, 25, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel2)
-                        .addGap(23, 23, 23)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTxtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))
@@ -706,27 +702,18 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTxtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(55, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1)
+                        .addGap(18, 18, 18))
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
-                .addGap(18, 18, 18))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jBtnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAgregarActionPerformed
-         
-    }//GEN-LAST:event_jBtnAgregarActionPerformed
-
-    private void jBtnAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBtnAgregarMouseClicked
-        insertarCoordinador();       
-    }//GEN-LAST:event_jBtnAgregarMouseClicked
 
     private void jTxtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtNombreKeyTyped
         validar.wordsOnly(evt);
@@ -734,15 +721,8 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
 
     private void jTablaDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablaDatosMouseClicked
        llenarTabla();
+       estado=2;
     }//GEN-LAST:event_jTablaDatosMouseClicked
-
-    private void jBtnEditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBtnEditarMouseClicked
-        modificar();
-    }//GEN-LAST:event_jBtnEditarMouseClicked
-
-    private void jBtnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnEditarActionPerformed
-        
-    }//GEN-LAST:event_jBtnEditarActionPerformed
 
     private void jBtnLimpiarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBtnLimpiarMouseClicked
         limpiar();
@@ -793,6 +773,7 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
 
     private void jBtnNuevoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBtnNuevoMouseClicked
         OnOFF(1);
+        estado=1;
     }//GEN-LAST:event_jBtnNuevoMouseClicked
 
     private void jTxtCorreoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtCorreoKeyTyped
@@ -806,11 +787,14 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jBtnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBtnGuardarMouseClicked
+        guardar();
+    }//GEN-LAST:event_jBtnGuardarMouseClicked
  
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jBtnAgregar;
-    private javax.swing.JButton jBtnEditar;
     private javax.swing.JButton jBtnEliminar;
+    private javax.swing.JButton jBtnGuardar;
     private javax.swing.JButton jBtnLimpiar;
     private javax.swing.JButton jBtnNuevo;
     private javax.swing.JButton jButton1;
@@ -822,6 +806,7 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;

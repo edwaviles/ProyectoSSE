@@ -79,4 +79,58 @@ public class DaoCarrera extends Conexion{
         return c;
     }
     
+    public int verificarCarrera(int idCar)
+    {
+        int r=0;
+        ResultSet res;
+        try 
+        {
+            this.conectar();
+            String sql = "select nombre from coordinadorSSE where estado=1 and carrera_idCarrera = ?;";
+            PreparedStatement pre = this.getCon().prepareStatement(sql);
+            pre.setInt(1, idCar);
+            res = pre.executeQuery();
+            if(res.next()) 
+            {
+                r=1;
+            }
+        } 
+        catch (Exception e) 
+        {
+            JOptionPane.showMessageDialog(null,"Hubo un problema en la consulta  " +e.getMessage());
+        } 
+        finally 
+        {
+            this.desconectar();
+        }
+        return r;
+    } 
+     
+    public int verificarCarM(int idCar)
+    {
+        int r=0;
+        ResultSet res;
+        try 
+        {
+            this.conectar();
+            String sql = "select idCoordinador from coordinadorsse where carrera_idCarrera = ?;";
+            PreparedStatement pre = this.getCon().prepareStatement(sql);
+            pre.setInt(1, idCar);
+            res = pre.executeQuery();
+            if(res.next()) 
+            {
+                r=res.getInt("idCoordinador");
+            }
+        } 
+        catch (Exception e) 
+        {
+            JOptionPane.showMessageDialog(null,"Hubo un problema en la consulta  " +e.getMessage());
+        } 
+        finally 
+        {
+            this.desconectar();
+        }
+        return r;
+    } 
+    
 }

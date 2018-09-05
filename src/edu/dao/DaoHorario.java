@@ -5,6 +5,7 @@ import edu.conexion.Conexion;
 import edu.modelo.CoordinadorSSE;
 import java.sql.*;
 import edu.modelo.HorarioAtencion;
+import edu.vistas.Menu;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -17,16 +18,28 @@ import javax.swing.JOptionPane;
  * @author Roxana Menjivar
  */
 public class DaoHorario extends Conexion{
-    
-    public List<HorarioAtencion>mostrarHorario()
+    Menu men= new Menu();
+    public List<HorarioAtencion>mostrarHorario(String dia)
     {
        List<HorarioAtencion> lista = new ArrayList();
        ResultSet res;
         try 
         {
             this.conectar();
-            String sql ="select * from horarioAtencion where estado=1;";
-            PreparedStatement pre = this.getCon().prepareStatement(sql);
+            String sql="";  
+            PreparedStatement pre;
+            
+            if (dia.equals("Todos")) 
+            {               
+                sql ="select * from horarioAtencion where estado=1 and idCoordinador="+men.getLsUs().get(1);
+                pre = this.getCon().prepareStatement(sql);            
+            }
+            else{                                                
+               sql ="select * from horarioAtencion where estado=1 and idCoordinador="+men.getLsUs().get(1)+" and dia=?;";
+               pre = this.getCon().prepareStatement(sql);
+               pre.setString(1, dia);
+            }
+            
             res=pre.executeQuery();
             while(res.next())
             {
@@ -34,13 +47,15 @@ public class DaoHorario extends Conexion{
                 ho.setIdHorarioA(res.getInt("idHorarioA"));
                 ho.setIdCoordinador(res.getInt("idCoordinador"));
                 ho.setDia(res.getString("dia"));
-                ho.setHoraDesde(res.getString("horaDesde"));
-                ho.setHoraHasta(res.getString("horaHasta"));
+                ho.setHoraDesde(res.getInt("horaDesde"));
+                ho.setMinutosDesde(res.getInt("minutosDesde"));
+                ho.setHoraHasta(res.getInt("horaHasta"));
+                ho.setMinutosHasta(res.getInt("minutosHasta"));
                 ho.setLugar(res.getString("lugar"));
                 lista.add(ho);
             }
         }
-        catch (Exception e) 
+        catch (SQLException e) 
         {
             JOptionPane.showMessageDialog(null,"Ocurrio un problema al mostrar los datos " +e.getMessage());
         }
@@ -50,6 +65,51 @@ public class DaoHorario extends Conexion{
         }
        return lista;
     }
+    
+    
+    public List<HorarioAtencion>MostrarParaEditarHorario(String dia, int idH)
+    {
+       List<HorarioAtencion> lista = new ArrayList();
+       ResultSet res;
+        try 
+        {
+            this.conectar();
+            String sql="";  
+            PreparedStatement pre;
+            sql ="select * from horarioAtencion where estado=1 and idCoordinador="+men.getLsUs().get(1)+" and dia=? and `idHorarioA` not IN (?);";
+            JOptionPane.showMessageDialog(null, dia+" dia:"+idH);
+            pre = this.getCon().prepareStatement(sql);
+            pre.setString(1, dia);
+            pre.setInt(2, idH);  
+            res=pre.executeQuery();
+            while(res.next())
+            {
+                HorarioAtencion ho = new HorarioAtencion();
+                ho.setHoraDesde(res.getInt("horaDesde"));
+                ho.setMinutosDesde(res.getInt("minutosDesde"));
+                ho.setHoraHasta(res.getInt("horaHasta"));
+                ho.setMinutosHasta(res.getInt("minutosHasta"));
+                lista.add(ho);
+            }
+        }
+        catch (SQLException e) 
+        {
+            JOptionPane.showMessageDialog(null,"Ocurrio un problema al mostrar los datos " +e.getMessage());
+        }
+        finally
+        {
+            this.desconectar();
+        }
+       return lista;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
     
     public List<CoordinadorSSE>mostrarCoordinador()
     {
@@ -85,19 +145,23 @@ public class DaoHorario extends Conexion{
         try 
         {
             this.conectar();
-            String sql="insert into horarioAtencion (idCoordinador,dia,horaDesde,horaHasta,lugar) values (?,?,?,?,?); ";
+            String sql="INSERT INTO `horarioatencion` (`idCoordinador`, `dia`, `horaDesde`, `minutosDesde`, `horaHasta`, `minutosHasta`, `lugar`, `estado`, `fechaRegistro`) VALUES (?,?,?,?,?,?,?,1,?);";
             PreparedStatement pre = this.getCon().prepareStatement(sql);
-            pre.setInt(1, hor.getIdCoordinador());
+            pre.setInt(1, Integer.parseInt(men.getLsUs().get(1).toString()));
             pre.setString(2, hor.getDia());
-            pre.setString(3, hor.getHoraDesde());
-            pre.setString(4, hor.getHoraHasta());
-            pre.setString(5, hor.getLugar());
+            pre.setInt(3, hor.getHoraDesde());
+            pre.setInt(4, hor.getMinutosDesde());
+            pre.setInt(5, hor.getHoraHasta());
+            pre.setInt(6, hor.getMinutosHasta());
+            pre.setString(7, hor.getLugar());
+            pre.setString(8, hor.getFechaRegistro());
             pre.executeUpdate();
+            JOptionPane.showMessageDialog(null, "El registro se ha guardado con exito", "Horario coordinador",
+                                    JOptionPane.INFORMATION_MESSAGE);
         }
-        catch (Exception e) 
+        catch (SQLException e) 
         {
-            JOptionPane.showMessageDialog(null,"Ingrese los datos que se piden ","Llenar campos",
-                   JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Ingrese los datos que se piden "+e.getMessage());
         }
         finally
         {
@@ -110,17 +174,19 @@ public class DaoHorario extends Conexion{
         try 
         {
             this.conectar();
-            String sql="update horarioAtencion set idCoordinador=?, dia =?, horaDesde=?, horaHasta=?, lugar =?  where idHorarioA= ? ;";
+            String sql="update horarioAtencion set dia =?, horaDesde=?, minutosDesde=?, horaHasta=?, minutosHasta=?, lugar =?, fechaModificacion = ? where idHorarioA= ? ;";
             PreparedStatement pre = this.getCon().prepareStatement(sql);
-            pre.setInt(1, ho.getIdCoordinador());
-            pre.setString(2, ho.getDia());
-            pre.setString(3, ho.getHoraDesde());
-            pre.setString(4, ho.getHoraHasta());
-            pre.setString(5, ho.getLugar());
-            pre.setInt(6, ho.getIdHorarioA());
+            pre.setString(1, ho.getDia());
+            pre.setInt(2, ho.getHoraDesde());
+            pre.setInt(3, ho.getMinutosDesde());
+            pre.setInt(4, ho.getHoraHasta());
+            pre.setInt(5, ho.getMinutosHasta());
+            pre.setString(6, ho.getLugar());
+            pre.setString(7, ho.getFechaModificacion());                        
+            pre.setInt(8, ho.getIdHorarioA());
             pre.executeUpdate();
         }
-        catch (Exception e) 
+        catch (SQLException e) 
         {
             JOptionPane.showMessageDialog(null,
                     "Imposible modificar, seleccione un registro " + e.getMessage(),
@@ -133,14 +199,15 @@ public class DaoHorario extends Conexion{
         }
     }
     
-    public void eliminar(int idHora)
+    public void eliminar(HorarioAtencion hor)
     {
         try 
         {
             this.conectar();
-            String sql="update horarioatencion set estado=0 where idHorarioA = ? ;";
+            String sql="update horarioatencion set estado=0, fechaEliminacion = ? where idHorarioA = ? ;";
             PreparedStatement pre = this.getCon().prepareStatement(sql);
-            pre.setInt(1, idHora);
+            pre.setString(1, hor.getFechaEliminacion());
+            pre.setInt(2, hor.getIdHorarioA());
             pre.executeUpdate();
         }
         catch (Exception e) 
@@ -172,8 +239,8 @@ public class DaoHorario extends Conexion{
                hor.setIdHorarioA(res.getInt("idHorarioA"));
                hor.setIdCoordinador(res.getInt("idCoordinador"));
                hor.setDia(res.getString("dia"));
-               hor.setHoraDesde(res.getString("horaDesde"));
-               hor.setHoraHasta(res.getString("horaHasta"));
+               //hor.setHoraDesde(res.getString("horaDesde"));
+               //hor.setHoraHasta(res.getString("horaHasta"));
                hor.setLugar(res.getString("lugar"));
            }
         }
