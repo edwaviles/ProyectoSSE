@@ -46,23 +46,11 @@ public class Menu extends javax.swing.JFrame {
         initComponents();        
         setIconImage(new ImageIcon(getClass().getResource("addd.png")).getImage());
         this.setExtendedState(MAXIMIZED_BOTH); 
-        visibilidad();
-    } 
+        //GestionCoordinador.setVisible(false);
+        
+        } 
     
-    public void visibilidad(){
-        if (idUs==1) {
-            
-        }
-        if (idUs==2) {
-            
-        }
-        if (idUs==3) {
-            
-        }
-        if (idUs==4) {
-            
-        }
-    }
+ 
     
     public void correr()
     {        
