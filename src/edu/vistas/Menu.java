@@ -46,6 +46,7 @@ public class Menu extends javax.swing.JFrame {
         initComponents();        
         setIconImage(new ImageIcon(getClass().getResource("addd.png")).getImage());
         this.setExtendedState(MAXIMIZED_BOTH); 
+        visibilidad();
     } 
     
     public void visibilidad(){
