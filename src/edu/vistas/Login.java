@@ -12,9 +12,11 @@ import javax.swing.JOptionPane;
 
 import ds.desktop.notify.DesktopNotify;
 import ds.desktop.notify.NotifyTheme;
-import edu.utilidades.Encriptacion;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.Timer;
 //import rojerusan.RSNotifyFade;
 
@@ -32,6 +34,7 @@ public class Login extends javax.swing.JFrame {
     
     public Login() {
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("addd.png")).getImage());
         this.setLocationRelativeTo(null);
         this.jProgressBar1.setVisible(false);
     }
@@ -87,8 +90,25 @@ public class Login extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel2.setText("Usuario");
 
+        TxtUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TxtUsuarioKeyTyped(evt);
+            }
+        });
+
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel4.setText("Contraseña");
+
+        txtContrasenia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtContraseniaActionPerformed(evt);
+            }
+        });
+        txtContrasenia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtContraseniaKeyTyped(evt);
+            }
+        });
 
         jProgressBar1.setForeground(new java.awt.Color(0, 153, 153));
 
@@ -236,6 +256,32 @@ public class Login extends javax.swing.JFrame {
         ingresar();
     }//GEN-LAST:event_btnIngresar1ActionPerformed
 
+    private void TxtUsuarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtUsuarioKeyTyped
+        Character c=evt.getKeyChar();
+        if (c==KeyEvent.VK_ENTER) 
+        {
+            if (TxtUsuario.getText().length()>2) 
+            {
+                this.txtContrasenia.requestFocus();
+            }            
+        }
+    }//GEN-LAST:event_TxtUsuarioKeyTyped
+
+    private void txtContraseniaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContraseniaActionPerformed
+        btnIngresar1ActionPerformed(evt);
+    }//GEN-LAST:event_txtContraseniaActionPerformed
+
+    private void txtContraseniaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContraseniaKeyTyped
+        Character c= evt.getKeyChar();
+        if (c==KeyEvent.VK_ENTER) 
+        {
+            if (txtContrasenia.getText().length()>5) 
+            {
+                
+            }
+        }
+    }//GEN-LAST:event_txtContraseniaKeyTyped
+
     public void iterador()
     {
             if (resul==1) 
@@ -252,6 +298,7 @@ public class Login extends javax.swing.JFrame {
                 //new rojerusan.RSNotifyFade("Bienvenido", " "+daoC.getNombreIdCoR(idUsuario).get(0), 3, RSNotifyFade.PositionNotify.BottomRight, RSNotifyFade.TypeNotify.SUCCESS).setVisible(true);
                 conetenedor.setVisible(true);  
                 conetenedor.correr();
+                this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 this.dispose();
             }
             if (resul==3) 
@@ -264,7 +311,6 @@ public class Login extends javax.swing.JFrame {
     
     public void ingresar()
     {                    
-        Encriptacion enc = new Encriptacion();
         us.setNombre(this.TxtUsuario.getText());
         us.setPass(this.txtContrasenia.getText());
         resul=daoUs.logear(us.getNombre(), us.getPass()); 

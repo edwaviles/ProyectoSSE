@@ -13,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
@@ -40,6 +42,7 @@ public class Menu extends javax.swing.JFrame {
     
     public Menu() {
         initComponents(); 
+        setIconImage(new ImageIcon(getClass().getResource("addd.png")).getImage());
         this.setExtendedState(MAXIMIZED_BOTH);        
     }  
     
@@ -131,32 +134,43 @@ public class Menu extends javax.swing.JFrame {
         desktopPane = new javax.swing.JDesktopPane();
         menuBar = new javax.swing.JMenuBar();
         GestionarUsuario = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        solicitudes = new javax.swing.JMenu();
         GestionCoordinador = new javax.swing.JMenu();
         GestionHorarios = new javax.swing.JMenu();
         editMenu1 = new javax.swing.JMenu();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         desktopPane.setBackground(java.awt.SystemColor.activeCaption);
 
+        javax.swing.GroupLayout desktopPaneLayout = new javax.swing.GroupLayout(desktopPane);
+        desktopPane.setLayout(desktopPaneLayout);
+        desktopPaneLayout.setHorizontalGroup(
+            desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 941, Short.MAX_VALUE)
+        );
+        desktopPaneLayout.setVerticalGroup(
+            desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 475, Short.MAX_VALUE)
+        );
+
+        menuBar.setBackground(new java.awt.Color(0, 0, 0));
+
         GestionarUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/us.png"))); // NOI18N
         GestionarUsuario.setText("Gestion de Usuarios");
-        GestionarUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                GestionarUsuarioMouseClicked(evt);
-            }
-        });
         menuBar.add(GestionarUsuario);
 
-        jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/sss.png"))); // NOI18N
-        jMenu2.setText("Solicitudes");
-        jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
+        solicitudes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/sss.png"))); // NOI18N
+        solicitudes.setText("Solicitudes");
+        solicitudes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenu2MouseClicked(evt);
+                solicitudesMouseClicked(evt);
             }
         });
-        menuBar.add(jMenu2);
+        menuBar.add(solicitudes);
 
         GestionCoordinador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/coordinador.png"))); // NOI18N
         GestionCoordinador.setMnemonic('f');
@@ -183,17 +197,38 @@ public class Menu extends javax.swing.JFrame {
         editMenu1.setText("Reportes");
         menuBar.add(editMenu1);
 
+        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/Mass.png"))); // NOI18N
+
+        jMenuItem1.setText("Cerrar seession");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_BACK_SPACE, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem2.setText("Salir");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
+        menuBar.add(jMenu1);
+
         setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 941, Short.MAX_VALUE)
+            .addComponent(desktopPane)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 473, Short.MAX_VALUE)
+            .addComponent(desktopPane)
         );
 
         pack();
@@ -238,8 +273,7 @@ public class Menu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_GestionHorariosMouseClicked
 
-      
-    private void GestionarUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GestionarUsuarioMouseClicked
+    private void GestionarUsuarioMouseClicked(java.awt.event.MouseEvent evt) {                                              
         if(FormularioVal==false)
         {
             this.gestionU = new FrmUsuario();
@@ -254,9 +288,34 @@ public class Menu extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(null,"Ya tiene una ventana abierta!");
         }
-    }//GEN-LAST:event_GestionarUsuarioMouseClicked
+    }                                             
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.dispose();
+        Login log=new Login();
+        log.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        int r=JOptionPane.showConfirmDialog(null, "Desea salir", "Salir", JOptionPane.YES_NO_OPTION, JOptionPane.YES_NO_OPTION);
+        if (r==0) 
+        {
+            if (!FormularioVal) {
+                 System.exit(0);
+            }    
+            else{
+                JOptionPane.showMessageDialog(null, "Cierre la ventana abierta antes de cerrar");
+            }
+        }
+        
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+      
     private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
+        
+    }//GEN-LAST:event_jMenu2MouseClicked
+
+    private void solicitudesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_solicitudesMouseClicked
         if(FormularioVal==false)
         {
             this.gestionS = new FrmSSSE();
@@ -271,7 +330,7 @@ public class Menu extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(null,"Ya tiene una ventana abierta!");
         }
-    }//GEN-LAST:event_jMenu2MouseClicked
+    }//GEN-LAST:event_solicitudesMouseClicked
    
     /**
      * @param args the command line arguments
@@ -316,8 +375,11 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenu GestionarUsuario;
     private javax.swing.JDesktopPane desktopPane;
     private javax.swing.JMenu editMenu1;
-    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuBar menuBar;
+    private javax.swing.JMenu solicitudes;
     // End of variables declaration//GEN-END:variables
 
 }
