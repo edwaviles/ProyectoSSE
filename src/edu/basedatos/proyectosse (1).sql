@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.7
+-- version 4.8.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-09-2018 a las 06:41:06
--- Versión del servidor: 10.1.30-MariaDB
--- Versión de PHP: 7.2.2
+-- Tiempo de generación: 05-09-2018 a las 23:15:19
+-- Versión del servidor: 10.1.31-MariaDB
+-- Versión de PHP: 7.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -95,7 +95,9 @@ INSERT INTO `carrera` (`idCarrera`, `nombre`, `escuela_idEscuela`) VALUES
 (8, 'Ingenieria Electrica', 4),
 (9, 'Ingenieria Mecanica Opcion Mantenimiento', 5),
 (10, 'Ingenieria Mecanica Opcion CNC', 5),
-(11, 'Ingeniería Eléctrica Industrial', 4);
+(11, 'Ingeniería Eléctrica Industrial', 4),
+(12, 'Laboratorio Quimico', 6),
+(13, 'Quimica Industrial', 6);
 
 -- --------------------------------------------------------
 
@@ -134,13 +136,16 @@ CREATE TABLE `coordinadorsse` (
 --
 
 INSERT INTO `coordinadorsse` (`idCoordinador`, `nombre`, `correo`, `estado`, `usuario_idUsuario`, `fechaRegistro`, `fechaModificacion`, `carrera_idCarrera`, `fechaEliminacion`) VALUES
-(2, 'Coordinador 1', 'hola@gmail.com', 1, 1, NULL, '2018-09-01', 2, NULL),
-(5, 'Nancy Lopez', 'Nancy@gmail.com', 1, 5, '2018-09-01', '2018-09-01', 1, NULL),
-(6, 'Ernesto Aviles', 'Ernesto01@outlook.com', 1, 6, '2018-09-01', '2018-09-01', 8, NULL),
-(7, 'Reniery Garcia', 'Reniery@yahoo.com', 1, 7, '2018-09-01', '2018-09-01', 6, NULL),
-(8, 'Roxana Menjivar', 'Roxana@itca.edu.sv', 1, 8, '2018-09-01', NULL, 3, NULL),
+(2, 'CoordinadorN', 'hola@gmail.com', 1, 1, NULL, '2018-09-05', 2, NULL),
+(5, 'Nancy Lopez', 'Nancy@gmail.com', 0, 5, '2018-09-01', '2018-09-01', 1, '2018-09-05'),
+(7, 'Reniery Garcia', 'Reniery@yahoo.com', 0, 7, '2018-09-01', '2018-09-01', 6, '2018-09-05'),
+(8, 'Roxana Menjivar', 'Roxana@itca.edu.sv', 0, 8, '2018-09-01', NULL, 3, '2018-09-05'),
 (9, 'Prueba', 'prueba@gmail.com', 0, 9, '2018-09-01', NULL, 4, '2018-09-01'),
-(10, 'PruebaDos', 'prueba2@gmail.com', 0, 10, '2018-09-01', NULL, 4, '2018-09-01');
+(10, 'PruebaDos', 'prueba2@gmail.com', 0, 10, '2018-09-01', NULL, 4, '2018-09-01'),
+(11, 'asasas', 'asas@gmail.com', 0, 11, '2018-09-05', NULL, 1, '2018-09-05'),
+(12, 'qwqwq', 'qwqw@gmail.com', 0, 12, '2018-09-05', NULL, 1, '2018-09-05'),
+(13, 'prueba', 'prueba@gmail.com', 1, 13, '2018-09-05', NULL, 3, NULL),
+(14, 'Ernesto', 'ernesto@gmail.com', 1, 16, '2018-09-05', NULL, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -162,7 +167,8 @@ INSERT INTO `escuela` (`idEscuela`, `nombre`) VALUES
 (2, 'Civil y Arquitectura'),
 (3, 'Alimentos'),
 (4, 'Electrica'),
-(5, 'Automotriz');
+(5, 'Automotriz'),
+(6, 'Quimica');
 
 -- --------------------------------------------------------
 
@@ -226,13 +232,29 @@ CREATE TABLE `horarioatencion` (
   `idHorarioA` int(11) NOT NULL,
   `idCoordinador` int(11) DEFAULT NULL,
   `dia` varchar(10) DEFAULT NULL,
-  `horaDesde` time DEFAULT NULL,
-  `horaHasta` time DEFAULT NULL,
+  `horaDesde` int(11) DEFAULT NULL,
+  `minutosDesde` int(11) NOT NULL,
+  `horaHasta` int(11) DEFAULT NULL,
+  `minutosHasta` int(11) NOT NULL,
   `lugar` varchar(45) DEFAULT NULL,
   `estado` int(11) DEFAULT NULL,
   `fechaRegistro` date DEFAULT NULL,
-  `fechaModificacion` date DEFAULT NULL
+  `fechaModificacion` date DEFAULT NULL,
+  `fechaEliminacion` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `horarioatencion`
+--
+
+INSERT INTO `horarioatencion` (`idHorarioA`, `idCoordinador`, `dia`, `horaDesde`, `minutosDesde`, `horaHasta`, `minutosHasta`, `lugar`, `estado`, `fechaRegistro`, `fechaModificacion`, `fechaEliminacion`) VALUES
+(10, 2, 'Lunes', 8, 30, 9, 40, 'Edificio a', 0, '2018-09-03', '2018-09-03', '2018-09-04'),
+(11, 2, 'Lunes', 9, 50, 11, 0, 'Edificio E', 0, '2018-09-03', '2018-09-03', '2018-09-04'),
+(12, 2, 'Lunes', 11, 10, 12, 0, 'sdsd', 0, '2018-09-03', NULL, '2018-09-04'),
+(13, 2, 'Miercoles', 10, 10, 11, 5, 'sdsd', 1, '2018-09-03', '2018-09-04', NULL),
+(14, 2, 'Miercoles', 11, 0, 11, 5, 'ok', 0, '2018-09-03', '2018-09-04', '2018-09-04'),
+(15, 2, 'Lunes', 8, 0, 10, 9, 'sds', 1, '2018-09-04', '2018-09-04', NULL),
+(16, 2, 'Lunes', 10, 10, 11, 0, 'Edificioc', 1, '2018-09-04', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -298,7 +320,9 @@ CREATE TABLE `rol` (
 
 INSERT INTO `rol` (`idRol`, `nombre`) VALUES
 (1, 'Administrador'),
-(2, 'Coordinador');
+(2, 'Coordinador'),
+(3, 'CoordinadorPrincipal'),
+(4, 'Estudiante');
 
 -- --------------------------------------------------------
 
@@ -360,14 +384,22 @@ CREATE TABLE `usuario` (
 INSERT INTO `usuario` (`idUsuario`, `idRol`, `usuario`, `contrasenia`, `fechaRegistro`, `fechaModifica`, `estado`, `fechaEliminacion`) VALUES
 (1, 2, 'Usuario1', '123', NULL, NULL, 1, NULL),
 (2, 2, 'usuario2', '123', NULL, NULL, 1, NULL),
-(3, 2, 'Elmer', 'Itca123!', '2018-09-01', NULL, 1, NULL),
+(3, 2, 'Elmer Mejia', 'd41d8cd98f00b204e9800998ecf8427e', '2018-09-01', '2018-09-05', 1, NULL),
 (4, 2, 'otro', 'Itca123!', '2018-09-01', NULL, 1, NULL),
-(5, 2, 'Nancy', 'Itca123!', '2018-09-01', NULL, 1, NULL),
-(6, 2, 'Ernesto', 'Itca123!', '2018-09-01', NULL, 1, NULL),
+(5, 2, 'Nancy Lop', '202cb962ac59075b964b07152d234b70', '2018-09-01', '2018-09-05', 2, '2018-09-05'),
+(6, 2, 'Ernesto', 'Itca123!', '2018-09-01', NULL, 2, '2018-09-05'),
 (7, 2, 'Reniery', 'Itca123!', '2018-09-01', NULL, 1, NULL),
 (8, 2, 'Roxana', 'Itca123!', '2018-09-01', NULL, 1, NULL),
 (9, 2, 'Prueba', 'Itca123!', '2018-09-01', NULL, 1, NULL),
-(10, 2, 'PruebaDos', 'Itca123!', '2018-09-01', NULL, 1, NULL);
+(10, 2, 'PruebaDos', 'Itca123!', '2018-09-01', NULL, 1, NULL),
+(11, 2, 'asasas', 'Itca123!', '2018-09-05', NULL, 1, NULL),
+(12, 2, 'qwqwq', 'Itca123!', '2018-09-05', NULL, 0, '2018-09-05'),
+(13, 2, 'prueba2', 'Itca123!', '2018-09-05', NULL, 1, NULL),
+(14, 1, 'Veronica', '202cb962ac59075b964b07152d234b70', '2018-09-05', NULL, 2, '2018-09-05'),
+(15, 1, 'Nancy Lopez', 'd41d8cd98f00b204e9800998ecf8427e', '2018-09-05', NULL, 1, NULL),
+(16, 2, 'Ernesto13', 'Itca123!', '2018-09-05', NULL, 1, NULL),
+(17, 2, 'Ernesto Avilez', 'd41d8cd98f00b204e9800998ecf8427e', '2018-09-05', '2018-09-05', 2, '2018-09-05'),
+(18, 2, 'Raquel', 'Itca123!', '2018-09-05', NULL, 2, '2018-09-05');
 
 --
 -- Índices para tablas volcadas
@@ -518,7 +550,7 @@ ALTER TABLE `alumno`
 -- AUTO_INCREMENT de la tabla `carrera`
 --
 ALTER TABLE `carrera`
-  MODIFY `idCarrera` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `idCarrera` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `controlhoras`
@@ -530,13 +562,13 @@ ALTER TABLE `controlhoras`
 -- AUTO_INCREMENT de la tabla `coordinadorsse`
 --
 ALTER TABLE `coordinadorsse`
-  MODIFY `idCoordinador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `idCoordinador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `escuela`
 --
 ALTER TABLE `escuela`
-  MODIFY `idEscuela` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idEscuela` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `estadosolicitudsse`
@@ -560,7 +592,7 @@ ALTER TABLE `horario`
 -- AUTO_INCREMENT de la tabla `horarioatencion`
 --
 ALTER TABLE `horarioatencion`
-  MODIFY `idHorarioA` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idHorarioA` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `materia`
@@ -584,7 +616,7 @@ ALTER TABLE `observacion`
 -- AUTO_INCREMENT de la tabla `rol`
 --
 ALTER TABLE `rol`
-  MODIFY `idRol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idRol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `solicitudsse`
@@ -602,7 +634,7 @@ ALTER TABLE `sse`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Restricciones para tablas volcadas

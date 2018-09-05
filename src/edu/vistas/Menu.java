@@ -46,8 +46,8 @@ public class Menu extends javax.swing.JFrame {
         initComponents();        
         setIconImage(new ImageIcon(getClass().getResource("addd.png")).getImage());
         this.setExtendedState(MAXIMIZED_BOTH); 
-        //GestionCoordinador.setVisible(false);
-        
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JOptionPane.showMessageDialog(null, idUs);
         } 
     
  
