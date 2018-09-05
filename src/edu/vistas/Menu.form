@@ -16,6 +16,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Gestion de Usuarios"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="GestionarUsuarioMouseClicked"/>
+          </Events>
         </Menu>
         <Menu class="javax.swing.JMenu" name="solicitudes">
           <Properties>

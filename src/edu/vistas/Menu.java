@@ -161,6 +161,11 @@ public class Menu extends javax.swing.JFrame {
 
         GestionarUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/us.png"))); // NOI18N
         GestionarUsuario.setText("Gestion de Usuarios");
+        GestionarUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                GestionarUsuarioMouseClicked(evt);
+            }
+        });
         menuBar.add(GestionarUsuario);
 
         solicitudes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/sss.png"))); // NOI18N
@@ -272,23 +277,7 @@ public class Menu extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Ya tiene una ventana abierta!");
         }
     }//GEN-LAST:event_GestionHorariosMouseClicked
-
-    private void GestionarUsuarioMouseClicked(java.awt.event.MouseEvent evt) {                                              
-        if(FormularioVal==false)
-        {
-            this.gestionU = new FrmUsuario();
-            this.desktopPane.add(gestionU);
-            gestionU.setVisible(true);
-            gestionU.setLocation(
-            desktopPane.getWidth()/2 - gestionU.getWidth()/2,
-            desktopPane.getHeight()/2 - gestionU.getHeight()/2);
-            FormularioVal=true;
-        }
-        else
-        {
-            JOptionPane.showMessageDialog(null,"Ya tiene una ventana abierta!");
-        }
-    }                                             
+                                             
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -331,6 +320,23 @@ public class Menu extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Ya tiene una ventana abierta!");
         }
     }//GEN-LAST:event_solicitudesMouseClicked
+
+    private void GestionarUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GestionarUsuarioMouseClicked
+        if(FormularioVal==false)
+        {
+            this.gestionU = new FrmUsuario();
+            this.desktopPane.add(gestionU);
+            gestionU.setVisible(true);
+            gestionU.setLocation(
+            desktopPane.getWidth()/2 - gestionU.getWidth()/2,
+            desktopPane.getHeight()/2 - gestionU.getHeight()/2);
+            FormularioVal=true;
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null,"Ya tiene una ventana abierta!");
+        }
+    }//GEN-LAST:event_GestionarUsuarioMouseClicked
    
     /**
      * @param args the command line arguments

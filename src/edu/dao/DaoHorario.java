@@ -31,11 +31,11 @@ public class DaoHorario extends Conexion{
             
             if (dia.equals("Todos")) 
             {               
-                sql ="select * from horarioAtencion where estado=1 and idCoordinador="+men.getLsUs().get(1);
+                sql ="select * from horarioatencion where estado=1 and idCoordinador="+men.getLsUs().get(1);
                 pre = this.getCon().prepareStatement(sql);            
             }
             else{                                                
-               sql ="select * from horarioAtencion where estado=1 and idCoordinador="+men.getLsUs().get(1)+" and dia=?;";
+               sql ="select * from horarioatencion where estado=1 and idCoordinador="+men.getLsUs().get(1)+" and dia=?;";
                pre = this.getCon().prepareStatement(sql);
                pre.setString(1, dia);
             }
@@ -76,7 +76,7 @@ public class DaoHorario extends Conexion{
             this.conectar();
             String sql="";  
             PreparedStatement pre;
-            sql ="select * from horarioAtencion where estado=1 and idCoordinador="+men.getLsUs().get(1)+" and dia=? and `idHorarioA` not IN (?);";
+            sql ="select * from horarioatencion where estado=1 and idCoordinador="+men.getLsUs().get(1)+" and dia=? and `idHorarioA` not IN (?);";
             JOptionPane.showMessageDialog(null, dia+" dia:"+idH);
             pre = this.getCon().prepareStatement(sql);
             pre.setString(1, dia);
@@ -118,7 +118,7 @@ public class DaoHorario extends Conexion{
         try 
         {
             this.conectar();
-            String sql="select * from coordinadorSSE;";
+            String sql="select * from coordinadorsse;";
             PreparedStatement pre = this.getCon().prepareStatement(sql);
             res=pre.executeQuery();
             while(res.next())
@@ -174,7 +174,7 @@ public class DaoHorario extends Conexion{
         try 
         {
             this.conectar();
-            String sql="update horarioAtencion set dia =?, horaDesde=?, minutosDesde=?, horaHasta=?, minutosHasta=?, lugar =?, fechaModificacion = ? where idHorarioA= ? ;";
+            String sql="update horarioatencion set dia =?, horaDesde=?, minutosDesde=?, horaHasta=?, minutosHasta=?, lugar =?, fechaModificacion = ? where idHorarioA= ? ;";
             PreparedStatement pre = this.getCon().prepareStatement(sql);
             pre.setString(1, ho.getDia());
             pre.setInt(2, ho.getHoraDesde());
@@ -230,7 +230,7 @@ public class DaoHorario extends Conexion{
         try 
         {
            this.conectar();
-           String sql="select * from horarioAtencion where idHorarioA = ?";
+           String sql="select * from horarioatencion where idHorarioA = ?";
            PreparedStatement pre = this.getCon().prepareStatement(sql);
            pre.setInt(1, idHorarioA);
            res = pre.executeQuery();
