@@ -1,6 +1,7 @@
 
 package edu.vistas;
 
+import ds.desktop.notify.DesktopNotify;
 import edu.dao.DaoCoordinador;
 import edu.dao.DaoHorario;
 import edu.modelo.CoordinadorSSE;
@@ -8,9 +9,9 @@ import edu.modelo.HorarioAtencion;
 import edu.modelo.Usuario;
 import edu.utilidades.Validaciones;
 import static edu.vistas.FrmCoordinador.estado;
+import static edu.vistas.Login.idUsuario;
 import java.awt.HeadlessException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -18,9 +19,9 @@ import javax.swing.table.DefaultTableModel;
 /**
  * Nombre de la clase:FrmHorario
  * Fecha:12/08/18
- * Versión: 2.2
+ * Versión: 1.0
  * CopyRight:SSE-ITCA
- * @author Roxana Menjivar
+ * @author Ernesto Aviles
  */
 public class FrmHorario extends javax.swing.JInternalFrame {
 
@@ -239,16 +240,14 @@ public class FrmHorario extends javax.swing.JInternalFrame {
                            limpiar();                        
                        } 
                        catch (Exception e) 
-                       {
+                       {                           
                            JOptionPane.showMessageDialog(null,"Ocurrio un problema al insertar: " + e.getMessage());
                            limpiar();
                        }
                    } 
                    else 
                    {
-                       JOptionPane.showMessageDialog(null,"¡No dejar campos vacios! ",
-                               "Datos Incompletos",
-                               JOptionPane.WARNING_MESSAGE);
+                       JOptionPane.showMessageDialog(null,"¡No dejar campos vacios! ","Datos Incompletos",JOptionPane.WARNING_MESSAGE);                       
                    } 
             }
         }
@@ -993,10 +992,7 @@ public class FrmHorario extends javax.swing.JInternalFrame {
                 }  
               }
           }
-          if (res==false && res2==false && res3==false) 
-          {
-              JOptionPane.showMessageDialog(null, "yes");
-          }  
+ 
     }
       //compara elemento de tabla seleecionado con elemento de los Jspiner
     public boolean CompararALModificar()

@@ -23,7 +23,7 @@ import javax.swing.table.TableColumnModel;
 
 /**
  * Nombre de la clase: FrmCoordinador
- * Version: 2.0
+ * Version: 1.0
  * Fecha:11/08/18
  * CopyRight:SSE-ITCA
  * @author Roxana Menjivar
@@ -381,6 +381,12 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
             if (SioNo == 0) 
             {
                 daoC.eliminarCLogico(cor);
+                int idUsuario=daoU.idUs(idCoordinador);
+                JOptionPane.showMessageDialog(null, idUsuario);
+                if (idUsuario>=0) 
+                {
+                    daoU.Eliminar(idUsuario);
+                } 
                 JOptionPane.showMessageDialog(null, "Se elimino exitosamente");
                 mostrar();
                 limpiar();

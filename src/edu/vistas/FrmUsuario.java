@@ -1,6 +1,7 @@
 
 package edu.vistas;
 
+import edu.dao.DaoCoordinador;
 import edu.dao.DaoRol;
 import edu.dao.DaoUsuario;
 import edu.modelo.Combo;
@@ -16,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  * Nombre de la clase:FrmUsuario
- * Verion:
+ * Verion:1.0
  * Fecha:25/08/18
  * CopyRight:SSE-ITCA
  * @author Nancy Lopez
@@ -24,6 +25,7 @@ import javax.swing.table.DefaultTableModel;
 public class FrmUsuario extends javax.swing.JInternalFrame {
 
      DaoUsuario daou=new DaoUsuario();
+     DaoCoordinador daoc=new DaoCoordinador();
      edu.modelo.Usuario us=new edu.modelo.Usuario();
      Validaciones validar=new Validaciones();
      Encriptacion encrip = new Encriptacion();
@@ -38,169 +40,168 @@ public class FrmUsuario extends javax.swing.JInternalFrame {
         initComponents();
          mostrarUsuario();
         cargarCombo();
-        controlBtn(0);
-        controlTxt(false);
-       
+        OnOFF(0);
+        this.jtxtId.setEnabled(false);
+        this.jtxtcontra2.setEnabled(false); 
+        this.jtxtContra.setEnabled(false);
+        this.jtxtUsuario3.setEnabled(false);
+          
+      
     }
     
-    //metodos
-    
+    //metodos  
      public void cargarCombo()
     {
         lista = daoR.getRol();
         for(int i=0;i<lista.size();i++)
         {
             cmb = new Combo(lista.get(i).getIdRol(),lista.get(i).getNombre());
-            this.jcmRol.addItem(cmb.toString());    
+              
         }    
     }
     
-      public void controlBtn(int btn)
+    public void OnOFF(int mando)
     {
-        if(btn==0)
+        //NUEVO
+        if (mando == 1 || mando == 2) 
         {
-            this.jbtnEliminar.setEnabled(false);
-            this.jbtnModificar.setEnabled(false);
-            this.jbtnNuevo.setEnabled(true);
-            this.jbtnCancelar.setEnabled(false);
-            this.jbtnGuardar.setEnabled(false);
+      
+            this.jtxtcontra2.setEnabled(true); 
+            this.jtxtContra.setEnabled(true);
+            this.jtxtUsuario3.setEnabled(true);
+          
         }
-         if(btn==1)
+
+        //limpiar
+        if (mando==0) 
         {
-            this.jbtnEliminar.setEnabled(false);
-            this.jbtnModificar.setEnabled(false);
-            this.jbtnNuevo.setEnabled(false);
-            this.jbtnCancelar.setEnabled(true);
-            this.jbtnGuardar.setEnabled(true);
+           this.jtxtcontra2.setEnabled(false); 
+            this.jtxtContra.setEnabled(false);
+            this.jtxtUsuario3.setEnabled(false);
+            //this.jBtnAgregar.setEnabled(false);
+            this.jBtnLimpiar.setEnabled(false);
+            this.jBtnNuevo.setEnabled(true);
+            //this.jBtnEditar.setEnabled(false);
+            this.jBtnEliminar.setEnabled(false);
+            this.jBtnGuardar.setEnabled(false);
+            this.jTableuser.setEnabled(true);
+          
         }
-          if(btn==2)
-        {
-            this.jbtnEliminar.setEnabled(true);
-            this.jbtnModificar.setEnabled(true);
-            this.jbtnNuevo.setEnabled(false);
-            this.jbtnCancelar.setEnabled(true);
-            this.jbtnGuardar.setEnabled(false);
+        //nuevo
+        if (mando==1) 
+        {          
+            //this.jBtnAgregar.setEnabled(true);
+            this.jBtnLimpiar.setEnabled(true);
+            this.jBtnNuevo.setEnabled(false);
+            //this.jBtnEditar.setEnabled(false);
+            this.jBtnEliminar.setEnabled(false);
+            this.jBtnGuardar.setEnabled(true);
+            this.jTableuser.setEnabled(false);
+            this.jTableuser.setCellSelectionEnabled(false);
         }
-           if(btn==3)
+        //click en tabla
+        if (mando==2) 
         {
-            this.jbtnEliminar.setEnabled(false);
-            this.jbtnModificar.setEnabled(false);
-            this.jbtnNuevo.setEnabled(false);
-            this.jbtnCancelar.setEnabled(true);
-            this.jbtnGuardar.setEnabled(true);
-        }           
+            //this.jBtnAgregar.setEnabled(false);
+            this.jBtnLimpiar.setEnabled(true);
+            this.jBtnNuevo.setEnabled(false);
+            //this.jBtnEditar.setEnabled(true);
+            this.jBtnEliminar.setEnabled(true);
+            this.jTableuser.setEnabled(true);
+            this.jBtnGuardar.setEnabled(true);
+        }   
     }
-    
-    
-    public void controlTxt(boolean x)
-    {
-        this.jtxtId.setEnabled(false);
-       this.jtxtContra.setEnabled(x);
-       this.jtxtUsuario3.setEnabled(x);
-       this.jtxtcontra2.setEnabled(x); 
-       this.jcmRol.setEnabled(x);
-    }
-   
-    
- 
+  
+
     public void mostrarUsuario()
- {
-     String[]columna={"codigo","nombre","Fecha Ingreso","Tipo de Usuario"};
-     Object[]obj= new Object[4];
-     DefaultTableModel tabla = new DefaultTableModel(null,columna);
-     try 
-       {
-         List lista=daou.mostrar();
-         for (int i = 0; i < lista.size(); i++) {
-             us=(Usuario)lista.get(i);
-             obj[0]=us.getCodigo();
-             obj[1]=us.getNombre();
-             obj[2]=us.getFechaRegistro();
-             obj[3]=daoR.getidRol(us.getRol()).getNombre();      
-             tabla.addRow(obj);                        
-         }
-         this.jTableuser.setModel(tabla);
-     }
-     catch (Exception e)
-     {
-         JOptionPane.showMessageDialog(null,"Error al mostrar"+e.toString());
-     }
+    {
+        String[]columna={"codigo","nombre","Fecha Ingreso","Tipo de Usuario"};
+        Object[]obj= new Object[4];
+        DefaultTableModel tabla = new DefaultTableModel(null,columna);
+        try 
+          {
+            List lista=daou.mostrar();
+            for (int i = 0; i < lista.size(); i++) {
+                us=(Usuario)lista.get(i);
+                obj[0]=us.getCodigo();
+                obj[1]=us.getNombre();
+                obj[2]=us.getFechaRegistro();
+                obj[3]=daoR.getidRol(us.getRol()).getNombre();      
+                tabla.addRow(obj);                        
+            }
+            this.jTableuser.setModel(tabla);
+        }
+        catch (Exception e)
+        {
+            JOptionPane.showMessageDialog(null,"Error al mostrar"+e.toString());
+        }
+
+    }
      
- }
-     
-   public void llenarTabla()
-   {
-     int fila=this.jTableuser.getSelectedRow();
-     this.jtxtUsuario3.setText(String.valueOf(this.jTableuser.getValueAt(fila,1)));  
-     String rol=String.valueOf(this.jTableuser.getValueAt(fila, 3));
-     this.jtxtId.setText(String.valueOf(this.jTableuser.getValueAt(fila,0)));
-     jcmRol.getModel().setSelectedItem(rol);   
- 
-   }
-   
-   public void limpiar()
-   {
-    
-     this.jtxtId.setText("");
-     this.jtxtUsuario3.setText("");
-     this.jcmRol.setSelectedItem(""); 
-     this.jtxtContra.setText("");
-     this.jtxtcontra2.setText("");
-   }
+    public void llenarTabla()
+    {
+      int fila=this.jTableuser.getSelectedRow();
+      this.jtxtUsuario3.setText(String.valueOf(this.jTableuser.getValueAt(fila,1)));  
+      String rol=String.valueOf(this.jTableuser.getValueAt(fila, 3));
+      this.jtxtId.setText(String.valueOf(this.jTableuser.getValueAt(fila,0)));
+       
+
+    }
+
+    public void limpiar()
+    {
+
+      this.jtxtId.setText("");
+      this.jtxtUsuario3.setText("");
+
+      this.jtxtContra.setText("");
+      this.jtxtcontra2.setText("");
+        OnOFF(0);
+    }
    
    public void insertar()
-   {
-    try {
-             
-    java.util.Date date = new java.util.Date();
-    java.text.SimpleDateFormat sdf=new java.text.SimpleDateFormat("yyyy-MM-dd");
-    String fecha = sdf.format(date);
-    
-    int id=0;
-    
-     for(int i=0;i<lista.size();i++)
+    {
+     try 
      {
-      if(jcmRol.getSelectedItem().equals(lista.get(i).getNombre()))
-         {
-          id = lista.get(i).getIdRol();
+        java.util.Date date = new java.util.Date();
+        java.text.SimpleDateFormat sdf=new java.text.SimpleDateFormat("yyyy-MM-dd");
+        String fecha = sdf.format(date);
+
+         String pass=new String(jtxtContra.getPassword());
+         String repitepass = new String(jtxtcontra2.getPassword());
+
+         if(pass.equals(repitepass))
+         { 
+             if(daou.Verificasiexiste(jtxtUsuario3.getText())==0)
+             {
+                us.setNombre(jtxtUsuario3.getText());  
+                us.setFechaRegistro(fecha);
+                us.setPass(encrip.encriptar(pass));
+                us.setEstado(1);
+                us.setFechaModificacion(null);
+                us.setFechaEliminacion(null);
+                us.setRol(1);
+                daou.insertar(us); 
+                mostrarUsuario();
+                limpiar();
+                JOptionPane.showMessageDialog(null,"Datos insertados");
+             }else
+             {
+
+              JOptionPane.showMessageDialog(null,"El usuario Ya existe");
+             }
          }
-     }
-    
-     String pass=new String(jtxtContra.getPassword());
-     String repitepass = new String(jtxtcontra2.getPassword());
-    
-     if(pass.equals(repitepass))
-     { 
-         if(daou.Verificasiexiste(jtxtUsuario3.getText())==0)
+         else
          {
-            us.setNombre(jtxtUsuario3.getText());  
-            us.setFechaRegistro(fecha);
-            us.setPass(encrip.encriptar(pass));
-            us.setEstado(1);
-            us.setFechaModificacion(null);
-            us.setFechaEliminacion(null);
-            us.setRol(id);
-            daou.insertar(us); 
-            mostrarUsuario();
-            limpiar();
-            JOptionPane.showMessageDialog(null,"Datos insertados");
-         }else
-         {
-         
-          JOptionPane.showMessageDialog(null,"El usuario Ya existe");
+           JOptionPane.showMessageDialog(null,"las contraseñas no coinciden");
          }
-     }
-     else
-     {
-       JOptionPane.showMessageDialog(null,"las contraseñas no coinciden");
-     }
-   
-       } 
-       catch (Exception e)
-       {
-           JOptionPane.showMessageDialog(null,"Error al insertar" +e.toString());
-       }
-   }
+
+           } 
+        catch (Exception e)
+        {
+            JOptionPane.showMessageDialog(null,"Error al insertar" +e.toString());
+        }
+    }
    
    public void modificar()
    {
@@ -209,23 +210,14 @@ public class FrmUsuario extends javax.swing.JInternalFrame {
            String fecha = sdf.format(date); 
            String pass=new String(jtxtContra.getPassword());
            String repitepass = new String(jtxtcontra2.getPassword());
-           int id=0;
-    
-           for(int i=0;i<lista.size();i++)
-             {
-               if(jcmRol.getSelectedItem().equals(lista.get(i).getNombre()))
-                 {
-                      id = lista.get(i).getIdRol();
-                 }
-              }
-          
+             
          if(pass.equals(repitepass))
-              { 
+         { 
                         us.setNombre(jtxtUsuario3.getText());
                         us.setCodigo(Integer.parseInt(jtxtId.getText()));
                         us.setFechaModificacion(fecha);
                         us.setPass(encrip.encriptar(pass));
-                        us.setRol(id);
+                      
                         int pregunta= JOptionPane.showConfirmDialog(null,"Desea modificar el registro","modificar",JOptionPane.YES_NO_OPTION);
                         if(pregunta==0)
                          {
@@ -237,25 +229,31 @@ public class FrmUsuario extends javax.swing.JInternalFrame {
                   else{
                         JOptionPane.showMessageDialog(null,"las contraseñas no coinciden");
                       }
-                       }
-     
-   
+    }
+
     public void eliminar()
    {
        
     java.util.Date date = new java.util.Date();
     java.text.SimpleDateFormat sdf=new java.text.SimpleDateFormat("yyyy-MM-dd");
     String fecha = sdf.format(date);
-    
+    int iduser=Integer.parseInt(jtxtId.getText());
      us.setCodigo(Integer.parseInt(jtxtId.getText()));
      us.setEstado(2);
      us.setFechaEliminacion(fecha);
      int pregunta= JOptionPane.showConfirmDialog(null,"Desea eliminar el registro","eliminar",JOptionPane.YES_NO_OPTION);
      if(pregunta==0)
      {
+         
+         int idcor=daoc.idCoor(iduser);
+         JOptionPane.showMessageDialog(null, idcor);
+         if (idcor>=0)
+       {
+       daoc.eliminarCoordinador(idcor);
        daou.Eliminar(us);
        mostrarUsuario();
        limpiar();
+       }
      }
    
    }
@@ -290,25 +288,23 @@ public class FrmUsuario extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        jbtnModificar = new javax.swing.JButton();
-        jbtnEliminar = new javax.swing.JButton();
-        jbtnNuevo = new javax.swing.JButton();
-        jbtnGuardar = new javax.swing.JButton();
-        jbtnCancelar = new javax.swing.JButton();
+        jBtnEliminar = new javax.swing.JButton();
+        jBtnNuevo = new javax.swing.JButton();
+        jBtnLimpiar = new javax.swing.JButton();
+        jBtnGuardar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jtxtId = new javax.swing.JTextField();
         jtxtUsuario3 = new javax.swing.JTextField();
-        jcmRol = new javax.swing.JComboBox<>();
         jtxtContra = new javax.swing.JPasswordField();
         jtxtcontra2 = new javax.swing.JPasswordField();
         jLabel15 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableuser = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/usuario.png"))); // NOI18N
@@ -318,68 +314,55 @@ public class FrmUsuario extends javax.swing.JInternalFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Acciones"));
 
-        jbtnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/mod.png"))); // NOI18N
-        jbtnModificar.setText("   MODIFICAR");
-        jbtnModificar.addMouseListener(new java.awt.event.MouseAdapter() {
+        jBtnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/delete.png"))); // NOI18N
+        jBtnEliminar.setText("  ELIMINAR");
+        jBtnEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jbtnModificarMouseClicked(evt);
+                jBtnEliminarMouseClicked(evt);
             }
         });
-        jbtnModificar.addActionListener(new java.awt.event.ActionListener() {
+        jBtnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnModificarActionPerformed(evt);
+                jBtnEliminarActionPerformed(evt);
             }
         });
 
-        jbtnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/delete.png"))); // NOI18N
-        jbtnEliminar.setText("  ELIMINAR");
-        jbtnEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
+        jBtnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/insertar.png"))); // NOI18N
+        jBtnNuevo.setText("NUEVO");
+        jBtnNuevo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jbtnEliminarMouseClicked(evt);
+                jBtnNuevoMouseClicked(evt);
             }
         });
-        jbtnEliminar.addActionListener(new java.awt.event.ActionListener() {
+        jBtnNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnEliminarActionPerformed(evt);
+                jBtnNuevoActionPerformed(evt);
             }
         });
 
-        jbtnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/insertar.png"))); // NOI18N
-        jbtnNuevo.setText("NUEVO");
-        jbtnNuevo.addMouseListener(new java.awt.event.MouseAdapter() {
+        jBtnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/modificar.png"))); // NOI18N
+        jBtnLimpiar.setText("LIMPIAR");
+        jBtnLimpiar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jbtnNuevoMouseClicked(evt);
+                jBtnLimpiarMouseClicked(evt);
             }
         });
-        jbtnNuevo.addActionListener(new java.awt.event.ActionListener() {
+        jBtnLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnNuevoActionPerformed(evt);
+                jBtnLimpiarActionPerformed(evt);
             }
         });
 
-        jbtnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/agregar.png"))); // NOI18N
-        jbtnGuardar.setText("GUARDAR");
-        jbtnGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
+        jBtnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/agregar.png"))); // NOI18N
+        jBtnGuardar.setText("GUARDAR");
+        jBtnGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jbtnGuardarMouseClicked(evt);
+                jBtnGuardarMouseClicked(evt);
             }
         });
-        jbtnGuardar.addActionListener(new java.awt.event.ActionListener() {
+        jBtnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnGuardarActionPerformed(evt);
-            }
-        });
-
-        jbtnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/modificar.png"))); // NOI18N
-        jbtnCancelar.setText("CANCELAR");
-        jbtnCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jbtnCancelarMouseClicked(evt);
-            }
-        });
-        jbtnCancelar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnCancelarActionPerformed(evt);
+                jBtnGuardarActionPerformed(evt);
             }
         });
 
@@ -389,27 +372,24 @@ public class FrmUsuario extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jbtnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jbtnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jbtnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jbtnModificar, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
-                    .addComponent(jbtnNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jBtnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+                    .addComponent(jBtnLimpiar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jBtnEliminar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+                    .addComponent(jBtnNuevo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jbtnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbtnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbtnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jbtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jBtnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jbtnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addComponent(jBtnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jBtnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBtnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(86, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(204, 204, 204)));
@@ -428,8 +408,6 @@ public class FrmUsuario extends javax.swing.JInternalFrame {
 
         jLabel14.setText("CONTRASEÑA");
 
-        jLabel13.setText("TIPO DE USUARIO");
-
         jLabel11.setText("USUARIO");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -437,20 +415,25 @@ public class FrmUsuario extends javax.swing.JInternalFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel13)
-                    .addComponent(jLabel14)
-                    .addComponent(jLabel15)
-                    .addComponent(jLabel12))
-                .addGap(66, 66, 66)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jtxtUsuario3)
-                    .addComponent(jcmRol, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jtxtId, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtxtContra)
-                    .addComponent(jtxtcontra2, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel12))
+                        .addGap(127, 127, 127)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jtxtUsuario3, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtxtId, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jtxtContra, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel15)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jtxtcontra2, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -464,19 +447,15 @@ public class FrmUsuario extends javax.swing.JInternalFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(jtxtUsuario3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(jcmRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(23, 23, 23)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
                     .addComponent(jtxtContra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(27, 27, 27)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel15)
                     .addComponent(jtxtcontra2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(87, Short.MAX_VALUE))
+                .addContainerGap(65, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -484,18 +463,21 @@ public class FrmUsuario extends javax.swing.JInternalFrame {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(29, 29, 29)
+                .addGap(37, 37, 37)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -520,35 +502,43 @@ public class FrmUsuario extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/l.png"))); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(228, 228, 228)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel13)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1))
+                        .addGap(0, 18, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-                .addGap(21, 21, 21)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel13)
+                        .addGap(0, 33, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(10, 10, 10)
                 .addComponent(jButton1))
         );
 
@@ -559,36 +549,26 @@ public class FrmUsuario extends javax.swing.JInternalFrame {
         validar.wordsOnly(evt);
     }//GEN-LAST:event_jtxtUsuario3KeyTyped
 
-    private void jbtnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnModificarMouseClicked
-        controlBtn(1);
-        controlTxt(true);
-        controlGuardar=2;
-    }//GEN-LAST:event_jbtnModificarMouseClicked
-
-    private void jbtnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnModificarActionPerformed
-
-    }//GEN-LAST:event_jbtnModificarActionPerformed
-
-    private void jbtnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnEliminarMouseClicked
+    private void jBtnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBtnEliminarMouseClicked
         eliminar();
-        controlBtn(0);
-    }//GEN-LAST:event_jbtnEliminarMouseClicked
+        OnOFF(0);
+    }//GEN-LAST:event_jBtnEliminarMouseClicked
 
-    private void jbtnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnEliminarActionPerformed
+    private void jBtnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnEliminarActionPerformed
 
-    }//GEN-LAST:event_jbtnEliminarActionPerformed
+    }//GEN-LAST:event_jBtnEliminarActionPerformed
 
-    private void jbtnNuevoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnNuevoMouseClicked
-        controlBtn(1);
-        controlTxt(true);
+    private void jBtnNuevoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBtnNuevoMouseClicked
+      OnOFF(1);
+       
         controlGuardar=1;
-    }//GEN-LAST:event_jbtnNuevoMouseClicked
+    }//GEN-LAST:event_jBtnNuevoMouseClicked
 
-    private void jbtnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnNuevoActionPerformed
+    private void jBtnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnNuevoActionPerformed
 
-    }//GEN-LAST:event_jbtnNuevoActionPerformed
+    }//GEN-LAST:event_jBtnNuevoActionPerformed
 
-    private void jbtnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnGuardarMouseClicked
+    private void jBtnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBtnGuardarMouseClicked
         
         if(controlGuardar==1)
         {
@@ -599,25 +579,25 @@ public class FrmUsuario extends javax.swing.JInternalFrame {
         {
             this.modificar();
         }
-    }//GEN-LAST:event_jbtnGuardarMouseClicked
+    }//GEN-LAST:event_jBtnGuardarMouseClicked
 
-    private void jbtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGuardarActionPerformed
+    private void jBtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnGuardarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnGuardarActionPerformed
+    }//GEN-LAST:event_jBtnGuardarActionPerformed
 
-    private void jbtnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnCancelarMouseClicked
-        controlBtn(0);
-        controlTxt(false);
+    private void jBtnLimpiarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBtnLimpiarMouseClicked
+      OnOFF(1);
+        
         limpiar();
-    }//GEN-LAST:event_jbtnCancelarMouseClicked
+    }//GEN-LAST:event_jBtnLimpiarMouseClicked
 
-    private void jbtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCancelarActionPerformed
+    private void jBtnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnLimpiarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnCancelarActionPerformed
+    }//GEN-LAST:event_jBtnLimpiarActionPerformed
 
     private void jTableuserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableuserMouseClicked
-        controlBtn(2);
-        controlTxt(false);
+        OnOFF(2);
+       controlGuardar=2;
         llenarTabla();
     }//GEN-LAST:event_jTableuserMouseClicked
 
@@ -631,6 +611,10 @@ public class FrmUsuario extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBtnEliminar;
+    private javax.swing.JButton jBtnGuardar;
+    private javax.swing.JButton jBtnLimpiar;
+    private javax.swing.JButton jBtnNuevo;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
@@ -643,12 +627,6 @@ public class FrmUsuario extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableuser;
-    private javax.swing.JButton jbtnCancelar;
-    private javax.swing.JButton jbtnEliminar;
-    private javax.swing.JButton jbtnGuardar;
-    private javax.swing.JButton jbtnModificar;
-    private javax.swing.JButton jbtnNuevo;
-    private javax.swing.JComboBox<String> jcmRol;
     private javax.swing.JPasswordField jtxtContra;
     private javax.swing.JTextField jtxtId;
     private javax.swing.JTextField jtxtUsuario3;

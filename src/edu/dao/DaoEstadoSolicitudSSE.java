@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
  * Fecha: 28-8-18
  * Version: 1.0
  * CopyRigth: SSE-ITCA
- * @author Garcia
+ * @author Reniery Garcia
  */
 public class DaoEstadoSolicitudSSE extends Conexion
 {

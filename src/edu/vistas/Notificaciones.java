@@ -1,12 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package edu.vistas;
 
 /**
- *
+ * Nombre de la clase: Notificaciones
+ * Version:1.0
+ * Fecha: 20/08/18
+ * CopyRight:SSE-ITCA
  * @author Ernesto Aviles
  */
 public class Notificaciones extends javax.swing.JInternalFrame {

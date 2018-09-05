@@ -2,8 +2,11 @@
 package edu.modelo;
 
 /**
- *
- * @author Lopez
+ * Nombre de la clase: Rol
+ * Verion:1.0
+ * Fecha:25/08/18
+ * CopyRight:SSE-ITCA
+ * @author Nancy Lopez
  */
 public class Rol
 {

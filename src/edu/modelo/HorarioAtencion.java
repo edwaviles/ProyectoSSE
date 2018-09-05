@@ -3,10 +3,10 @@ package edu.modelo;
 
 /**
  * Nombre de la clase: HorarioAtencion
- * Version: 1.2
- * Fecha: 05/08/18
+ * Version:1.0
+ * Fecha: 07/08/18
  * CopyRight: SSE-ITCA
- * @author Roxana Menjivar
+ * @author Ernesto Aviles
  */
 public class HorarioAtencion {
     private int idHorarioA;

@@ -12,10 +12,10 @@ import javax.swing.JOptionPane;
 
 /**
  * Nombre de la clase: DaoHorario
- * Version:
+ * Version:1.0
  * Fecha: 15/08/18
  * CopyRight: SSE-ITCA
- * @author Roxana Menjivar
+ * @author Ernesto Aviles
  */
 public class DaoHorario extends Conexion{
     Menu men= new Menu();
@@ -102,14 +102,6 @@ public class DaoHorario extends Conexion{
         }
        return lista;
     }
-    
-    
-    
-    
-    
-    
-    
-    
     
     public List<CoordinadorSSE>mostrarCoordinador()
     {

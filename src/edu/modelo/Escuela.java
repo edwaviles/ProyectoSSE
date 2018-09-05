@@ -3,7 +3,7 @@ package edu.modelo;
 
 /**
  * Nombre de la clase: Escuela
- * Version: 1.3
+ * Version:1.0
  * Fecha: 12/08/18
  * CopyRight: SSE-ITCA
  * @author Roxana Menjivar

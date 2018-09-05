@@ -1,17 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.vistas;
 
 import edu.dao.DaoCoordinador;
 import edu.dao.DaoUsuario;
 import edu.modelo.Usuario;
 import javax.swing.JOptionPane;
-
 import ds.desktop.notify.DesktopNotify;
 import ds.desktop.notify.NotifyTheme;
+import edu.dao.DaoRol;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -21,7 +16,10 @@ import javax.swing.Timer;
 //import rojerusan.RSNotifyFade;
 
 /**
- *
+ * Nombre de la clase: Login
+ * Version: 1.0
+ * Fecha: 15/08/18
+ * CopyRight: SSE-ITCA
  * @author Ernesto Aviles
  */
 public class Login extends javax.swing.JFrame {
@@ -31,6 +29,7 @@ public class Login extends javax.swing.JFrame {
     Menu conetenedor= new Menu();  
     public static int resul;
     public static int idUsuario;
+    DaoRol DRol=new DaoRol();
     
     public Login() {
         initComponents();
@@ -315,8 +314,8 @@ public class Login extends javax.swing.JFrame {
         us.setPass(this.txtContrasenia.getText());
         resul=daoUs.logear(us.getNombre(), us.getPass()); 
         idUsuario=daoC.getidUs(this.TxtUsuario.getText(), this.txtContrasenia.getText());
-        conetenedor.pasarDatos(daoC.getNombreIdCoR(idUsuario));
-        
+        conetenedor.pasarDatos(daoC.getNombreIdCoR(idUsuario));                
+        conetenedor.pasarUsuario(DRol.getidUser(idUsuario));
         us.setUser(us);
                                   
     }

@@ -9,9 +9,9 @@ import java.util.regex.Pattern;
 
 /**
  * Nombre de la clase: Validaciones
- * Version:
+ * Version:1.0
  * Fecha: 11/08/18
- * CopyRight: Proyecto Control SSE
+ * CopyRight: SSE-ITCA
  * @author Roxana Menjivar
  */
 public class Validaciones {
@@ -67,9 +67,12 @@ public class Validaciones {
         
         Matcher mather = pattern.matcher(correo);
  
-        if (mather.find() == true) {
+        if (mather.find() == true) 
+        {
             return true;
-        } else {
+        }
+        else 
+        {
             return false;
         }
     }

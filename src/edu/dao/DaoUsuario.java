@@ -3,6 +3,7 @@ package edu.dao;
 
 import edu.conexion.Conexion;
 import edu.modelo.Usuario;
+import edu.utilidades.Validaciones;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,7 +21,7 @@ import javax.swing.JOptionPane;
 public class DaoUsuario extends Conexion{
     
     Usuario us=new Usuario();
-   
+    Validaciones val=new Validaciones();
     
     public int logear(String user, String pass)
     {   
@@ -206,7 +207,7 @@ public class DaoUsuario extends Conexion{
       return listaUsuario;
     }
         
-        public void Eliminar(Usuario us)
+    public void Eliminar(Usuario us)
         {
             try 
             {
@@ -226,20 +227,66 @@ public class DaoUsuario extends Conexion{
             }
         
         }
-        
-               
-        public void Modificar(Usuario us)
+    public void Eliminar(int id)
         {
             try 
             {
                 this.conectar();
-                String sql="update usuario set usuario=?,fechaModifica=?,contrasenia=?,idRol=? where idUsuario=?";
+                String sql="update usuario set estado=0,fechaEliminacion=? where idUsuario =?;";
+                PreparedStatement pre= getCon().prepareStatement(sql);
+                pre.setString(1,this.val.CapturarFecha());
+                pre.setInt(2,id);
+                pre.executeUpdate();
+                
+                JOptionPane.showMessageDialog(null,"Datos elimnados");
+            }
+            catch (Exception e)
+            {
+                JOptionPane.showMessageDialog(null, "Error al eliminar el registro "+e.toString());
+            }
+        
+        }
+    
+    public int idUs(int idCoord)  
+    {
+        ResultSet res;
+        int id=-1;
+            try 
+            {
+                this.conectar();
+                String sql="select usuario_idUsuario from coordinadorsse where idcoordinador=?;";
+                PreparedStatement pre= getCon().prepareStatement(sql);
+                pre.setInt(1,idCoord);
+                res=pre.executeQuery();
+                while(res.next())
+                {
+                    id=res.getInt("usuario_idUsuario");
+                }
+                
+                JOptionPane.showMessageDialog(null,"Datos elimnados");
+            }
+            catch (Exception e)
+            {
+                JOptionPane.showMessageDialog(null, "Error al eliminar el registro "+e.toString());
+            }
+            finally
+            {
+                this.desconectar();
+            }
+            return id;
+        }
+                 
+    public void Modificar(Usuario us)
+        {
+            try 
+            {
+                this.conectar();
+                String sql="update usuario set usuario=?,fechaModifica=?,contrasenia=? where idUsuario=?";
                 PreparedStatement pre= getCon().prepareStatement(sql);
                 pre.setString(1,us.getNombre());
                 pre.setString(2,us.getFechaModificacion());
                 pre.setString(3,us.getPass());
-                pre.setInt(4,us.getRol());
-                pre.setInt(5,us.getCodigo());  
+                pre.setInt(4,us.getCodigo());  
                  pre.executeUpdate();
                 
                 JOptionPane.showMessageDialog(null,"Datos Modificados");
@@ -251,8 +298,7 @@ public class DaoUsuario extends Conexion{
         
         }
         
-        
-       public void insertar(Usuario us)
+    public void insertar(Usuario us)
        {
            try 
            {
@@ -283,7 +329,7 @@ public class DaoUsuario extends Conexion{
        
        }   
       
-       public int Verificasiexiste(String usuario)
+    public int Verificasiexiste(String usuario)
        {
            try 
            {

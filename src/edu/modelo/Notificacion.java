@@ -6,7 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Nombre de la clase: Notificacion
+ * Version:1.0
+ * Fecha: 20/08/2018
+ * CopyRight: SSE-ITCA
  * @author Ernesto Aviles
  */
 public class Notificacion {
@@ -21,9 +24,6 @@ public class Notificacion {
     private int estadoNoti;
     private String fechaRegistro;*/
     
-    
-    
-    
     private int idNotificacion;
     private int idCoordinado;
     private String asunto;
@@ -32,8 +32,5 @@ public class Notificacion {
     private int camtidad;
     private int estado;
     private String fechaNoti;
-
- 
-
     
 }

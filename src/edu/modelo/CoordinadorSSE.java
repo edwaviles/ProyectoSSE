@@ -3,7 +3,7 @@ package edu.modelo;
 
 /**
  * Nombre de la clase: CoordinadorSSE
- * Version: 1.1
+ * Version:1.0
  * Fecha: 05/08/18
  * CopyRight: SSE-ITCA
  * @author Roxana Menjivar

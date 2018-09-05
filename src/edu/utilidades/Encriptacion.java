@@ -5,16 +5,15 @@ import edu.conexion.Conexion;
 import javax.swing.JOptionPane;
 
 /**
- * Nombre de la clase:Encryptcion
- * Verion:
+ * Nombre de la clase:Encriptacion
+ * Verion:1.0
  * Fecha:25/08/18
  * CopyRight:SSE-ITCA
  * @author Nancy Lopez
  */
 public class Encriptacion extends Conexion{
     
-    
-        public String encriptar(String md5)
+    public String encriptar(String md5)
     {
         try 
         {
@@ -33,8 +32,5 @@ public class Encriptacion extends Conexion{
             JOptionPane.showMessageDialog(null,"Error al encriptar contraseña: "+ e,"Error",JOptionPane.WARNING_MESSAGE);
         }       
         return null;
-    }
-    
-    
-    
+    }  
 }

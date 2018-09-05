@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 /**
  * Nombre de la clase:DaoEscuela
  * Fecha:12/08/18
- * Versión: 1.7
+ * Versión: 1.0
  * CopyRight:SSE-ITCA
  * @author Roxana Menjivar
  */

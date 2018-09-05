@@ -3,7 +3,7 @@ package edu.modelo;
 
 /**
  * Nombre de la clase: Carrera
- * Version: 1.4
+ * Version:1.0
  * Fecha: 12/08/18
  * CopyRight: SSE-ITCA
  * @author Roxana Menjivar

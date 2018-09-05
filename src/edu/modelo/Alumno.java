@@ -5,7 +5,7 @@ package edu.modelo;
  * Fecha: 28-8-18
  * Version: 1.0
  * CopyRigth: SSE-ITCA
- * @author Garcia
+ * @author Reniery Garcia
  */
 public class Alumno extends Usuario
 {
@@ -48,8 +48,7 @@ public class Alumno extends Usuario
         this.tipoCarrera = tipoCarrera;
         this.ciclo = ciclo;
         this.horesActuales = horesActuales;
-    }
-    
+    } 
 
     public int getIdAlumno() {
         return idAlumno;
@@ -129,7 +128,5 @@ public class Alumno extends Usuario
 
     public void setHoresActuales(int horesActuales) {
         this.horesActuales = horesActuales;
-    }
-    
-    
+    }   
 }

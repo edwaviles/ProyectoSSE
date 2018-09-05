@@ -19,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
  * Fecha: 4-8-18
  * Version: 1.0
  * CopyRigth: SSE-ITCA
- * @author reniery
+ * @author Reniery Garcia
  */
 public class FrmSSSE extends javax.swing.JInternalFrame {
 

@@ -3,9 +3,9 @@ package edu.modelo;
 /**
  * Nombre de la clase: SolicitudSSE
  * Fecha: 28-8-18
- * Version: 1.0
+ * Version:1.0
  * CopyRigth: SSE-ITCA
- * @author Garcia
+ * @author Reniery Garcia
  */
 public class SolicitudSSE extends Alumno
 {
@@ -142,10 +142,6 @@ public class SolicitudSSE extends Alumno
 
     public void setIdEstadoSSE(int idEstadoSSE) {
         this.idEstadoSSE = idEstadoSSE;
-    }
-    
-    
-   
-    
+    }  
     
 }

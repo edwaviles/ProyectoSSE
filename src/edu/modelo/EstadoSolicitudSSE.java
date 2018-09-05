@@ -2,10 +2,10 @@ package edu.modelo;
 
 /**
  * Nombre de la clase: EstadoSolicitudSSE
- * Fecha: 28-818
- * Version: 1.0
+ * Fecha: 28-08-18
+ * Version:1.0
  * CopyRigth: SSE-ITCA
- * @author Garcia
+ * @author Reniery Garcia
  */
 public class EstadoSolicitudSSE 
 {

@@ -5,11 +5,15 @@ import java.sql.*;
 import edu.conexion.Conexion;
 
 /**
- *
+ * Nombre de la clase: DaoNotificacion
+ * Version:1.0
+ * Fecha:22/08/2018
+ * CopyRight:SSE-ITCA
  * @author Ernesto Aviles
  */
 public class DaoNotificacion extends Conexion{
-       public int getNoti()
+    
+    public int getNoti()
     {
         ResultSet res;
         int ls=0;

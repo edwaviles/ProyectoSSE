@@ -2,8 +2,11 @@
 package edu.modelo;
 
 /**
- *
- * @author Lopez
+ * Nombre de la clase: Combo
+ * Version:1.0
+ * Fecha:25/08/18
+ * CopyRight:SSE-ITCA
+ * @author Nancy Lopez
  */
 public class Combo {
          private int idCombo;

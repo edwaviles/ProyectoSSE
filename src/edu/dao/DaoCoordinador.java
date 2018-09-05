@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 /**
  * Nombre de la clase:DaoCoordinador
  * Fecha:12/08/18
- * Versión: 1.6
+ * Versión: 1.0
  * CopyRight:SSE-ITCA
  * @author Roxana Menjivar
  */
@@ -303,5 +303,35 @@ public class DaoCoordinador extends Conexion{
                 this.desconectar();
             }
             return ls;            
+        }
+    
+    
+       public int idCoor(int idus)  
+    {
+        ResultSet res;
+        int id=-1;
+            try 
+            {
+                this.conectar();
+                String sql="select idcoordinador from coordinadorsse where usuario_idUsuario=?;";
+                PreparedStatement pre= getCon().prepareStatement(sql);
+                pre.setInt(1,idus);
+                res=pre.executeQuery();
+                while(res.next())
+                {
+                    id=res.getInt("idcoordinador");
+                }
+                
+                JOptionPane.showMessageDialog(null,"Datos elimnados");
+            }
+            catch (Exception e)
+            {
+                JOptionPane.showMessageDialog(null, "Error al eliminar el registro "+e.toString());
+            }
+            finally
+            {
+                this.desconectar();
+            }
+            return id;
         }
     }
