@@ -282,27 +282,27 @@
         </Component>
         <Component class="javax.swing.JLabel" name="lblSede">
           <Properties>
-            <Property name="text" type="java.lang.String" value="jLabel4"/>
+            <Property name="text" type="java.lang.String" value="----------"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblFecha">
           <Properties>
-            <Property name="text" type="java.lang.String" value="jLabel5"/>
+            <Property name="text" type="java.lang.String" value="----------"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblEncargado">
           <Properties>
-            <Property name="text" type="java.lang.String" value="jLabel6"/>
+            <Property name="text" type="java.lang.String" value="----------"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblCarnet">
           <Properties>
-            <Property name="text" type="java.lang.String" value="jLabel7"/>
+            <Property name="text" type="java.lang.String" value="----------"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblAlumno">
           <Properties>
-            <Property name="text" type="java.lang.String" value="jLabel8"/>
+            <Property name="text" type="java.lang.String" value="----------"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel9">
@@ -370,7 +370,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="lblInsti">
           <Properties>
-            <Property name="text" type="java.lang.String" value="jLabel4"/>
+            <Property name="text" type="java.lang.String" value="----------"/>
           </Properties>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanel3">
@@ -423,6 +423,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Guardar"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnGuardarMouseClicked"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnCancelar">
               <Properties>

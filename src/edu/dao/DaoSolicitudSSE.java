@@ -2,6 +2,7 @@ package edu.dao;
 
 import edu.conexion.Conexion;
 import edu.modelo.SolicitudSSE;
+import java.awt.HeadlessException;
 import java.util.*;
 import java.sql.*;
 import javax.swing.JOptionPane;
@@ -21,7 +22,7 @@ public class DaoSolicitudSSE extends Conexion
         try 
         {
             this.conectar();
-            String sql= "SELECT * FROM solicitudsse s INNER JOIN alumno a ON a.idAlumno=s.idAlumno ";
+            String sql= "SELECT * FROM solicitudsse s INNER JOIN alumno a ON a.idAlumno=s.idAlumno";
             PreparedStatement pre = getCon().prepareStatement(sql);
             res=pre.executeQuery();
             while(res.next())
@@ -49,4 +50,33 @@ public class DaoSolicitudSSE extends Conexion
         }
         return solicitudes;
     }
+    
+    public void modificarS(SolicitudSSE s)
+   {
+       try 
+       {
+          this.conectar();
+          String sql="";
+          if(s.getComentarios()!=null)
+          {
+                sql="update solicitudsse set comentarios='"+s.getComentarios()+"',estadoSSE_idEstado="+s.getIdEstadoSSE()
+                  +" where idSolicitudSSE="+s.getIdSolicitud();          
+          }else
+          {
+            sql="update solicitudsse set comentarios='"+""+"',estadoSSE_idEstado="+s.getIdEstadoSSE()
+                  +" where idSolicitudSSE="+s.getIdSolicitud();     
+          }
+         PreparedStatement pre = getCon().prepareStatement(sql);
+          pre.executeUpdate(sql);
+          JOptionPane.showMessageDialog(null,"Guardado");
+       }
+       catch (HeadlessException | SQLException e) 
+       {
+          JOptionPane.showMessageDialog(null,"Error al modificar solicitud: "+e.getMessage());
+       }
+       finally
+       {
+           this.desconectar();
+       }
+   }
 }

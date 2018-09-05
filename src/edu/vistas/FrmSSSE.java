@@ -31,6 +31,7 @@ public class FrmSSSE extends javax.swing.JInternalFrame {
     List<EstadoSolicitudSSE> lEstadosSoli;
     List<SolicitudSSE> lSolicitudes;
     List<Integer> lIdS = new ArrayList();
+    int id ;
     public FrmSSSE() {
         initComponents();
         llenarCmb();
@@ -165,15 +166,15 @@ public class FrmSSSE extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Sede ITCA:");
 
-        lblSede.setText("jLabel4");
+        lblSede.setText("----------");
 
-        lblFecha.setText("jLabel5");
+        lblFecha.setText("----------");
 
-        lblEncargado.setText("jLabel6");
+        lblEncargado.setText("----------");
 
-        lblCarnet.setText("jLabel7");
+        lblCarnet.setText("----------");
 
-        lblAlumno.setText("jLabel8");
+        lblAlumno.setText("----------");
 
         jLabel9.setText("Fecha:");
 
@@ -199,7 +200,7 @@ public class FrmSSSE extends javax.swing.JInternalFrame {
 
         jLabel15.setText("Estado SSE:");
 
-        lblInsti.setText("jLabel4");
+        lblInsti.setText("----------");
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Acciones"));
 
@@ -211,6 +212,11 @@ public class FrmSSSE extends javax.swing.JInternalFrame {
         });
 
         btnGuardar.setText("Guardar");
+        btnGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnGuardarMouseClicked(evt);
+            }
+        });
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -352,6 +358,7 @@ public class FrmSSSE extends javax.swing.JInternalFrame {
     private void tbSolicitudesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbSolicitudesMouseClicked
         limpiar();
         this.btnVer.setEnabled(true);
+        limpiarCLicTb();
         llenarS();
     }//GEN-LAST:event_tbSolicitudesMouseClicked
 
@@ -360,6 +367,10 @@ public class FrmSSSE extends javax.swing.JInternalFrame {
         this.btnCancelar.setEnabled(true);
         this.btnGuardar.setEnabled(true);
         this.btnVer.setEnabled(false);
+        if(this.cmbEstado.getSelectedItem().equals("Aprobado Observaciones"))
+        {
+            this.txtObservaciones.setEnabled(true);
+        }
     }//GEN-LAST:event_btnVerMouseClicked
 
     private void cmbEstadoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbEstadoItemStateChanged
@@ -370,6 +381,13 @@ public class FrmSSSE extends javax.swing.JInternalFrame {
     limpiar();
     }//GEN-LAST:event_btnCancelarMouseClicked
 
+    private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
+       guardar();
+       llenarTb();
+       limpiar();
+    }//GEN-LAST:event_btnGuardarMouseClicked
+
+    
     
     public void limpiar()
     {
@@ -380,7 +398,24 @@ public class FrmSSSE extends javax.swing.JInternalFrame {
         this.txtObservaciones.setEnabled(false);
         this.txtObservaciones.setText("");
         this.cmbEstado.setSelectedIndex(0);
+        this.lblSede.setText("----------");
+        this.lblFecha.setText("----------");
+        this.lblInsti.setText("----------");
+        this.lblEncargado.setText("----------");
+        this.lblCarnet.setText("----------");
+        this.lblAlumno.setText("----------");
+        this.cmbEstado.setSelectedIndex(0);
     }
+    
+    public void limpiarCLicTb()
+    {
+        this.cmbEstado.setEnabled(false);
+        this.btnCancelar.setEnabled(false);
+        this.btnGuardar.setEnabled(false);
+        this.btnVer.setEnabled(true);
+        this.txtObservaciones.setEnabled(false);
+    }
+    
     public void activarTxtO()
     {
         if(this.cmbEstado.getSelectedItem().equals("Aprobado Observaciones"))
@@ -404,21 +439,34 @@ public class FrmSSSE extends javax.swing.JInternalFrame {
     public void llenarS()
     {
         int fila = this.tbSolicitudes.getSelectedRow();
-        int id=lIdS.get(fila);
-        this.lblSede.setText(lSolicitudes.get(id).getSedeItca());
-        this.lblFecha.setText(lSolicitudes.get(id).getFechaSolicitud());
-        this.lblInsti.setText(lSolicitudes.get(id).getInstitucion());
-        this.lblEncargado.setText(lSolicitudes.get(id).getEncargado());
-        this.lblCarnet.setText(String.valueOf(lSolicitudes.get(id).getCarnet()));
-        this.lblAlumno.setText(lSolicitudes.get(id).getNombreAlumno());
-        this.cmbEstado.setSelectedItem(this.tbSolicitudes.getValueAt(id, 3));
+        if(fila>-1)
+        {
+             id=Integer.valueOf(this.tbSolicitudes.getValueAt(fila, 0).toString());
+             for(int i=0;i<lSolicitudes.size();i++)
+             {
+                 cSoli = (SolicitudSSE)lSolicitudes.get(i);
+                 if(id==cSoli.getIdSolicitud())
+                 {
+                    this.lblSede.setText(cSoli.getSedeItca());
+                    this.lblFecha.setText(cSoli.getFechaSolicitud());
+                    this.lblInsti.setText(cSoli.getInstitucion());
+                    this.lblEncargado.setText(cSoli.getEncargado());
+                    this.lblCarnet.setText(String.valueOf(cSoli.getCarnet()));
+                    this.lblAlumno.setText(cSoli.getNombreAlumno());
+                    String cmb=String.valueOf(this.tbSolicitudes.getValueAt(fila, 4));
+                    this.cmbEstado.setSelectedItem(cmb);
+                    this.txtObservaciones.setText(cSoli.getComentarios());
+                 }
+             }            
+        }
+       
     }
     
     public void llenarTb()
     {
-        String[] columnas = {"Carnet","Nombre alumno","Fecha Solicitud","Estado Solcitud SSE"};
+        String[] columnas = {"Codigo","Carnet","Nombre alumno","Fecha Solicitud","Estado Solcitud SSE"};
         DefaultTableModel tb = new DefaultTableModel(null,columnas);
-        Object[] obj = new Object[4];
+        Object[] obj = new Object[5];
         try 
         {
             lSolicitudes = daos.extraerSolicitud();
@@ -426,16 +474,16 @@ public class FrmSSSE extends javax.swing.JInternalFrame {
              for(int i=0;i<lSolicitudes.size();i++)
              {
                 cSoli = (SolicitudSSE)lSolicitudes.get(i);
-                lIdS.add(cSoli.getIdSolicitud());
-                obj[0]=cSoli.getCarnet();
-                obj[1]=cSoli.getNombreAlumno();
-                obj[2]=cSoli.getFechaSolicitud();
+                obj[0]=cSoli.getIdSolicitud();
+                obj[1]=cSoli.getCarnet();
+                obj[2]=cSoli.getNombreAlumno();
+                obj[3]=cSoli.getFechaSolicitud();
                for(int o=0;o<lEstadosSoli.size();o++)
                {
                    cEstadoS = (EstadoSolicitudSSE)lEstadosSoli.get(o);
                    if(cSoli.getIdEstadoSSE()==cEstadoS.getIdEstado())
                    {
-                       obj[3]=cEstadoS.getDescripcion();
+                       obj[4]=cEstadoS.getDescripcion();
                    }
                }            
                 tb.addRow(obj);
@@ -467,6 +515,27 @@ public class FrmSSSE extends javax.swing.JInternalFrame {
             
         }
      }
+         
+      public void guardar()
+      {   
+          cSoli=new SolicitudSSE();        
+          cSoli.setIdSolicitud(this.id);
+          for(int i =0; i<lEstadosSoli.size();i++)
+          {
+             cEstadoS = (EstadoSolicitudSSE)lEstadosSoli.get(i);
+             if(this.cmbEstado.getSelectedItem().equals(cEstadoS.getDescripcion()))
+             {
+                 cSoli.setIdEstadoSSE(cEstadoS.getIdEstado());
+                 if(this.cmbEstado.getSelectedItem().equals("Aprobado Observaciones"))
+                 {
+                     cSoli.setComentarios(this.txtObservaciones.getText());
+                 }
+                 
+             }
+          }      
+          daos.modificarS(cSoli);
+          limpiar();
+      }
          
      
     
