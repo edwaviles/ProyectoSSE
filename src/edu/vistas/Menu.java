@@ -29,6 +29,7 @@ public class Menu extends javax.swing.JFrame {
     Notificaciones frmNoti;
     FrmHorario gestionH;
     FrmUsuario gestionU;
+    FrmSSSE gestionS;
     Usuario use=new Usuario();
     public static List lsUs;
     public static boolean FormularioVal=false;
@@ -256,7 +257,20 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_GestionarUsuarioMouseClicked
 
     private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
-       
+        if(FormularioVal==false)
+        {
+            this.gestionS = new FrmSSSE();
+            this.desktopPane.add(gestionS);
+            gestionS.setVisible(true);
+            gestionS.setLocation(
+            desktopPane.getWidth()/2 - gestionS.getWidth()/2,
+            desktopPane.getHeight()/2 - gestionS.getHeight()/2);
+            FormularioVal=true;
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null,"Ya tiene una ventana abierta!");
+        }
     }//GEN-LAST:event_jMenu2MouseClicked
    
     /**

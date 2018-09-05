@@ -36,7 +36,6 @@ public class DaoSolicitudSSE extends Conexion
                s.setInstitucion(res.getString("institucion"));
                s.setEncargado(res.getString("encargado"));
                s.setComentarios(res.getString("comentarios"));
-               s.setEstado(Integer.parseInt(res.getString("estadoSSE_idEstado")));
                solicitudes.add(s);
             }
         }
