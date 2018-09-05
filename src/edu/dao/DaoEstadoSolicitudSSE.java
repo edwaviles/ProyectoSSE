@@ -2,6 +2,7 @@ package edu.dao;
 
 import edu.conexion.Conexion;
 import edu.modelo.EstadoSolicitudSSE;
+import edu.modelo.SolicitudSSE;
 import java.util.*;
 import java.sql.*;
 import javax.swing.JOptionPane;
@@ -42,5 +43,5 @@ public class DaoEstadoSolicitudSSE extends Conexion
            this.desconectar();
        }
        return estados;
-   }
+   }   
 }

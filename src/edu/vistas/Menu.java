@@ -186,11 +186,6 @@ public class Menu extends javax.swing.JFrame {
                 GestionarUsuarioMouseClicked(evt);
             }
         });
-        GestionarUsuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                GestionarUsuarioActionPerformed(evt);
-            }
-        });
         menuBar.add(GestionarUsuario);
 
         solicitudes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/sss.png"))); // NOI18N
@@ -302,6 +297,7 @@ public class Menu extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Ya tiene una ventana abierta!");
         }
     }//GEN-LAST:event_GestionHorariosMouseClicked
+                                             
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -345,23 +341,6 @@ public class Menu extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Ya tiene una ventana abierta!");
         }
     }//GEN-LAST:event_solicitudesMouseClicked
-
-    private void GestionarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GestionarUsuarioActionPerformed
-        if(FormularioVal==false)
-        {
-            this.gestionU = new FrmUsuario();
-            this.desktopPane.add(gestionU);
-            gestionU.setVisible(true);
-            gestionU.setLocation(
-            desktopPane.getWidth()/2 - gestionU.getWidth()/2,
-            desktopPane.getHeight()/2 - gestionU.getHeight()/2);
-            FormularioVal=true;
-        }
-        else
-        {
-            JOptionPane.showMessageDialog(null,"Ya tiene una ventana abierta!");
-        }
-    }//GEN-LAST:event_GestionarUsuarioActionPerformed
 
     private void GestionarUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GestionarUsuarioMouseClicked
         if(FormularioVal==false)
