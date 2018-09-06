@@ -17,9 +17,10 @@ import edu.modelo.Rol;
  */
 public class DaoRol extends Conexion{
      
-    public ArrayList<Rol>getRol(){
-    ArrayList<Rol> ls=new  ArrayList<>();
-    ResultSet res;
+    public ArrayList<Rol>getRol()
+    {
+        ArrayList<Rol> ls=new  ArrayList<>();
+        ResultSet res;
         try 
         {
             this.conectar();
