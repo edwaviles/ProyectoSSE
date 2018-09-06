@@ -26,7 +26,7 @@ public class DaoNotificacion extends Conexion{
                     + "on s.idAlumno= a.idAlumno INNER JOIN carrera c "
                     + "on c.idCarrera=a.carrera INNER JOIN coordinadorsse cor "
                     + "on cor.carrera_idCarrera=c.idCarrera WHERE cor.idCoordinador=? and s.estado=0;";
-            PreparedStatement pre=getCon().prepareStatement(sql);
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
             pre.setInt(1, id);
             res=pre.executeQuery();
             while (res.next()) 

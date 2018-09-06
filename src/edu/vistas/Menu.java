@@ -12,12 +12,21 @@ import edu.dao.DaoRol;
 import edu.modelo.Notificacion;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  * Nombre de la clase: Menu
@@ -136,7 +145,7 @@ public class Menu extends javax.swing.JFrame {
     }    
     
 
-    public List getLsUs() 
+    public  List getLsUs() 
     {
         return lsUs;
     }
@@ -152,6 +161,7 @@ public class Menu extends javax.swing.JFrame {
         GestionCoordinador = new javax.swing.JMenu();
         GestionHorarios = new javax.swing.JMenu();
         editMenu1 = new javax.swing.JMenu();
+        jreport = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -214,6 +224,15 @@ public class Menu extends javax.swing.JFrame {
         editMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/reporte.png"))); // NOI18N
         editMenu1.setMnemonic('e');
         editMenu1.setText("Reportes");
+
+        jreport.setText("Reporte de usuarios");
+        jreport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jreportActionPerformed(evt);
+            }
+        });
+        editMenu1.add(jreport);
+
         menuBar.add(editMenu1);
 
         jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/ajustes.png"))); // NOI18N
@@ -265,6 +284,8 @@ public class Menu extends javax.swing.JFrame {
                 desktopPane.getWidth()/2 - gestionC.getWidth()/2,
                 desktopPane.getHeight()/2 - gestionC.getHeight()/2);
                 FormularioVal=true;
+                idUs=0;
+                
             }
             else
             {
@@ -312,6 +333,7 @@ public class Menu extends javax.swing.JFrame {
         this.dispose();
         Login log=new Login();
         log.setVisible(true);
+        FormularioVal=false;
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -335,7 +357,7 @@ public class Menu extends javax.swing.JFrame {
     private void solicitudesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_solicitudesMouseClicked
         if(FormularioVal==false)
         {    
-             if(idUs!=1||idUs!=3)
+             if(idUs==2)
             {
                 this.gestionS = new FrmSSSE();
                 this.desktopPane.add(gestionS);
@@ -381,6 +403,28 @@ public class Menu extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Ya tiene una ventana abierta!");
         }
     }//GEN-LAST:event_GestionarUsuarioMouseClicked
+
+    private void jreportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jreportActionPerformed
+         Connection Conexion=null;
+         JasperReport reporte;
+    
+        try 
+        {
+            Class.forName("com.mysql.jdbc.Driver");
+            Conexion=DriverManager.getConnection("jdbc:mysql://localhost:3306/proyectosse","root","");
+        } 
+        catch (ClassNotFoundException | SQLException e) 
+        {
+            System.out.println(e.getMessage());
+        }
+        try {
+            reporte=JasperCompileManager.compileReport("src/edu/reportes/ReporteUser.jrxml");
+            JasperPrint jp= JasperFillManager.fillReport(reporte,null,Conexion);
+            JasperViewer.viewReport(jp,false);
+        } catch (JRException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE,null,ex);
+        }
+    }//GEN-LAST:event_jreportActionPerformed
    
     /**
      * @param args the command line arguments
@@ -428,6 +472,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jreport;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu solicitudes;
     // End of variables declaration//GEN-END:variables
