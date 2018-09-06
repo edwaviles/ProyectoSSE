@@ -37,7 +37,7 @@ public class DaoUsuario extends Conexion{
             String sql="call login(?,?);";
             PreparedStatement pre=this.getCon().prepareCall(sql);
             pre.setString(1, user);
-            pre.setString(2, pass);
+            pre.setString(2, en.encriptar(pass));
             res=pre.executeQuery();
             if (res.next()) 
             {

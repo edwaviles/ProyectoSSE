@@ -330,7 +330,7 @@ public class Login extends javax.swing.JFrame {
         resul=daoUs.logear(us.getNombre(), us.getPass()); 
         idUsuario=daoC.getidUs(this.TxtUsuario.getText(), this.txtContrasenia.getText());
         conetenedor.pasarUsuario(DRol.getidUser(idUsuario));
-        JOptionPane.showMessageDialog(null, idUsuario);
+        JOptionPane.showMessageDialog(null, DRol.getidUser(resul));
         if (DRol.getidUser(idUsuario)==2) {
             conetenedor.pasarDatos(daoC.getNombreIdCoR(idUsuario));                
         }                

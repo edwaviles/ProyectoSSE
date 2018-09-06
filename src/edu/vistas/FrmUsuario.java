@@ -161,42 +161,50 @@ public class FrmUsuario extends javax.swing.JInternalFrame {
    
    public void insertar()
     {
-     try 
-     {
-        java.util.Date date = new java.util.Date();
-        java.text.SimpleDateFormat sdf=new java.text.SimpleDateFormat("yyyy-MM-dd");
-        String fecha = sdf.format(date);
+        try 
+        {
+           java.util.Date date = new java.util.Date();
+           java.text.SimpleDateFormat sdf=new java.text.SimpleDateFormat("yyyy-MM-dd");
+           String fecha = sdf.format(date);
 
-         String pass=new String(jtxtContra.getPassword());
-         String repitepass = new String(jtxtcontra2.getPassword());
-         
-         if(pass.equals(repitepass))
-         { 
-             if(daou.Verificasiexiste(jtxtUsuario3.getText())==0)
-             {
-                us.setNombre(jtxtUsuario3.getText());  
-                us.setFechaRegistro(fecha);
-                us.setPass(encrip.encriptar(pass));
-                us.setEstado(1);
-                us.setFechaModificacion(null);
-                us.setFechaEliminacion(null);
-                us.setRol(1);
-                daou.insertar(us); 
-                mostrarUsuario();
-                limpiar();
-                JOptionPane.showMessageDialog(null,"Datos insertados");
-             }else
-             {
+            String pass=new String(jtxtContra.getPassword());
+            String repitepass = new String(jtxtcontra2.getPassword());
+            
+            us.setNombre(jtxtUsuario3.getText());  
+            us.setFechaRegistro(fecha);
+            us.setPass(encrip.encriptar(pass));
+            us.setEstado(1);
+            us.setFechaModificacion(null);
+            us.setFechaEliminacion(null);
+            us.setRol(1);
+                       
+            if(!validar.IsNullOrEmpty(String.valueOf(us.getNombre())) && !validar.IsNullOrEmpty(String.valueOf(pass)))
+            {
+                if(pass.equals(repitepass))
+                { 
+                    if(daou.Verificasiexiste(jtxtUsuario3.getText())==0)
+                    {                       
+                       daou.insertar(us); 
+                       mostrarUsuario();
+                       limpiar();
+                       JOptionPane.showMessageDialog(null,"Datos insertados");
+                    }else
+                    {
 
-              JOptionPane.showMessageDialog(null,"El usuario Ya existe");
-             }
-         }
-         else
-         {
-           JOptionPane.showMessageDialog(null,"las contraseñas no coinciden");
-         }
+                     JOptionPane.showMessageDialog(null,"El usuario Ya existe");
+                    }
+                }
+                else
+                {
+                  JOptionPane.showMessageDialog(null,"las contraseñas no coinciden");
+                }
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "No enviar campos vacios");
+            }
 
-           } 
+         } 
         catch (Exception e)
         {
             JOptionPane.showMessageDialog(null,"Error al insertar" +e.toString());
@@ -205,30 +213,35 @@ public class FrmUsuario extends javax.swing.JInternalFrame {
    
    public void modificar()
    {
-           java.util.Date date = new java.util.Date();
-           java.text.SimpleDateFormat sdf=new java.text.SimpleDateFormat("yyyy-MM-dd");
-           String fecha = sdf.format(date); 
-           String pass=new String(jtxtContra.getPassword());
-           String repitepass = new String(jtxtcontra2.getPassword());
-             
-         if(pass.equals(repitepass))
-         { 
-                        us.setNombre(jtxtUsuario3.getText());
-                        us.setCodigo(Integer.parseInt(jtxtId.getText()));
-                        us.setFechaModificacion(fecha);
-                        us.setPass(encrip.encriptar(pass));
-                      
-                        int pregunta= JOptionPane.showConfirmDialog(null,"Desea modificar el registro","modificar",JOptionPane.YES_NO_OPTION);
-                        if(pregunta==0)
-                         {
-                            daou.Modificar(us);
-                            mostrarUsuario();
-                            limpiar();
-                        }     
-                      }
-                  else{
-                        JOptionPane.showMessageDialog(null,"las contraseñas no coinciden");
-                      }
+        java.util.Date date = new java.util.Date();
+        java.text.SimpleDateFormat sdf=new java.text.SimpleDateFormat("yyyy-MM-dd");
+        String fecha = sdf.format(date); 
+        String pass=new String(jtxtContra.getPassword());
+        String repitepass = new String(jtxtcontra2.getPassword());
+        us.setNombre(jtxtUsuario3.getText());
+        us.setCodigo(Integer.parseInt(jtxtId.getText()));
+        us.setFechaModificacion(fecha);
+        us.setPass(encrip.encriptar(pass));
+        if(!validar.IsNullOrEmpty(String.valueOf(us.getNombre())))
+            {
+                    if(pass.equals(repitepass))
+                    { 
+                    
+
+                     int pregunta= JOptionPane.showConfirmDialog(null,"Desea modificar el registro","modificar",JOptionPane.YES_NO_OPTION);
+                     if(pregunta==0)
+                     {
+                         daou.Modificar(us);
+                         mostrarUsuario();
+                         limpiar();
+                     }     
+                }
+                else{
+                      JOptionPane.showMessageDialog(null,"las contraseñas no coinciden");
+                    }
+            }else{
+            JOptionPane.showMessageDialog(null, "El campo nombre de usuario no puede estar vacio");
+        }
     }
 
     public void eliminar()
@@ -579,8 +592,7 @@ public class FrmUsuario extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBtnEliminarActionPerformed
 
     private void jBtnNuevoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBtnNuevoMouseClicked
-      OnOFF(1);
-       
+        OnOFF(1);       
         controlGuardar=1;
     }//GEN-LAST:event_jBtnNuevoMouseClicked
 
@@ -591,7 +603,7 @@ public class FrmUsuario extends javax.swing.JInternalFrame {
     private void jBtnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBtnGuardarMouseClicked
         
         if(controlGuardar==1)
-        {
+        {           
             this.insertar();
         }
         else
