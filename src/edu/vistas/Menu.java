@@ -30,6 +30,7 @@ public class Menu extends javax.swing.JFrame {
 
     FrmCoordinador gestionC;
     Notificaciones frmNoti;
+    FrmSSSE frmsse;
     FrmHorario gestionH;
     FrmUsuario gestionU;
     FrmSSSE gestionS;
@@ -46,7 +47,6 @@ public class Menu extends javax.swing.JFrame {
         initComponents();        
         setIconImage(new ImageIcon(getClass().getResource("addd.png")).getImage());
         this.setExtendedState(MAXIMIZED_BOTH); 
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         } 
     
  
@@ -59,14 +59,15 @@ public class Menu extends javax.swing.JFrame {
             public void run()
             {
                 ActionListener action = new ActionListener()
-                {   
+                {   int numero2=0;
                     @Override
                     public void actionPerformed(ActionEvent ae) 
                     {
                         timer.stop();                     
-                        int numero=noti.getNoti();
-                        if (numero>0) 
+                        int numero=noti.getNoti(Integer.parseInt(lsUs.get(1).toString()));                        
+                        if (numero>numero2) 
                         {
+                            numero2=numero;
                             DesktopNotify.showDesktopMessage("", "Tienes "+numero+" de Solicitudes de SSE\n ¿desea atenderlas ahora?",DesktopNotify.INPUT_REQUEST, new ActionListener() 
                             {
                                 @Override
@@ -85,7 +86,8 @@ public class Menu extends javax.swing.JFrame {
                                     }
                                 }                            
                             });
-
+                        }else{
+                            timer.start();
                         }
                             
                     }
@@ -101,13 +103,14 @@ public class Menu extends javax.swing.JFrame {
     {
          if(FormularioVal==false)
         {
-            this.frmNoti = new Notificaciones();
-            this.desktopPane.add(frmNoti);
-            frmNoti.setVisible(true);
-            frmNoti.setLocation(
-            desktopPane.getWidth()/2 - frmNoti.getWidth()/2,
-            desktopPane.getHeight()/2 - frmNoti.getHeight()/2);
+            this.frmsse = new FrmSSSE();
+            this.desktopPane.add(frmsse);
+            frmsse.setVisible(true);
+            frmsse.setLocation(
+            desktopPane.getWidth()/2 - frmsse.getWidth()/2,
+            desktopPane.getHeight()/2 - frmsse.getHeight()/2);
             FormularioVal=true;
+            
         }
     }
     
@@ -127,7 +130,7 @@ public class Menu extends javax.swing.JFrame {
     public static int retornarUsuario(int id)
     {
         return idUs;
-    }
+    }    
     
 
     public List getLsUs() 
@@ -248,7 +251,7 @@ public class Menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void GestionCoordinadorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GestionCoordinadorMouseClicked
-        if(FormularioVal==false)
+        if(FormularioVal==false && idUs==2)
         {
             this.gestionC = new FrmCoordinador();
             this.desktopPane.add(gestionC);
@@ -314,8 +317,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void solicitudesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_solicitudesMouseClicked
         if(FormularioVal==false)
-        {
-            
+        {            
             this.gestionS = new FrmSSSE();
             this.desktopPane.add(gestionS);
             gestionS.setVisible(true);

@@ -86,4 +86,25 @@ public class DaoSolicitudSSE extends Conexion
            this.desconectar();
        }
    }
+    
+    
+    public void modificarVistos()
+   {
+       try 
+       {
+          this.conectar();
+          String sql="";
+         PreparedStatement pre = getCon().prepareStatement(sql);
+          pre.executeUpdate(sql);
+          JOptionPane.showMessageDialog(null,"Guardado");
+       }
+       catch (HeadlessException | SQLException e) 
+       {
+          JOptionPane.showMessageDialog(null,"Error al modificar solicitud: "+e.getMessage());
+       }
+       finally
+       {
+           this.desconectar();
+       }
+   }
 }
