@@ -110,7 +110,12 @@ public class Menu extends javax.swing.JFrame {
             desktopPane.getWidth()/2 - frmsse.getWidth()/2,
             desktopPane.getHeight()/2 - frmsse.getHeight()/2);
             FormularioVal=true;
-            
+            int numero=noti.getNoti(Integer.parseInt(lsUs.get(1).toString()));
+            List lsidSSE=noti.getSSE(Integer.parseInt(lsUs.get(1).toString()));
+            for (int i = 0; i < lsidSSE.size(); i++) 
+            {
+                noti.elimiarVistos(Integer.parseInt(lsidSSE.get(i).toString()));
+            }
         }
     }
     
