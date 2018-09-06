@@ -45,7 +45,7 @@ public class Menu extends javax.swing.JFrame {
     
     public Menu() {
         initComponents();        
-        setIconImage(new ImageIcon(getClass().getResource("addd.png")).getImage());
+        setIconImage(new ImageIcon(getClass().getResource("../iconos/logo.png")).getImage());
         this.setExtendedState(MAXIMIZED_BOTH); 
         } 
     
@@ -63,7 +63,7 @@ public class Menu extends javax.swing.JFrame {
                     @Override
                     public void actionPerformed(ActionEvent ae) 
                     {
-                        timer.stop();                     
+                        timer.stop();                         
                         int numero=noti.getNoti(Integer.parseInt(lsUs.get(1).toString()));                        
                         if (numero>numero2) 
                         {
@@ -255,7 +255,7 @@ public class Menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void GestionCoordinadorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GestionCoordinadorMouseClicked
-        if(FormularioVal==false && idUs==2)
+        if(FormularioVal==false)
         {
             this.gestionC = new FrmCoordinador();
             this.desktopPane.add(gestionC);
