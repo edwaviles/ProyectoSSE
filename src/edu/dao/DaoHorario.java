@@ -77,7 +77,6 @@ public class DaoHorario extends Conexion{
             String sql="";  
             PreparedStatement pre;
             sql ="select * from horarioatencion where estado=1 and idCoordinador="+men.getLsUs().get(1)+" and dia=? and `idHorarioA` not IN (?);";
-            JOptionPane.showMessageDialog(null, dia+" dia:"+idH);
             pre = this.getCon().prepareStatement(sql);
             pre.setString(1, dia);
             pre.setInt(2, idH);  

@@ -382,7 +382,6 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
             {
                 daoC.eliminarCLogico(cor);
                 int idUsuario=daoU.idUs(idCoordinador);
-                JOptionPane.showMessageDialog(null, idUsuario);
                 if (idUsuario>=0) 
                 {
                     daoU.Eliminar(idUsuario);

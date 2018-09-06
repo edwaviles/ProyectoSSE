@@ -45,10 +45,6 @@
 	</background>
 	<title>
 		<band height="94" splitType="Stretch">
-			<image>
-				<reportElement x="0" y="0" width="486" height="51" uuid="d5462543-6083-419d-8109-e8a7a2c940c2"/>
-				<imageExpression><![CDATA["C:\\Users\\Lopez\\Desktop\\logo.png"]]></imageExpression>
-			</image>
 			<rectangle>
 				<reportElement x="2" y="71" width="553" height="20" uuid="2453f2be-becf-4fa8-a2ee-1ccf73272293"/>
 			</rectangle>
@@ -59,6 +55,10 @@
 				</textElement>
 				<text><![CDATA[Registro de fechas ]]></text>
 			</staticText>
+			<image>
+				<reportElement x="14" y="0" width="520" height="42" uuid="ade9691f-3d20-4470-8205-7ff8a6e9d2e2"/>
+				<imageExpression><![CDATA["E:\\Escritorio\\logo (2).png"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>

@@ -265,6 +265,10 @@ public class Login extends javax.swing.JFrame {
                 this.txtContrasenia.requestFocus();
             }            
         }
+        if (c==KeyEvent.VK_SPACE) 
+        {
+            evt.consume();
+        }
     }//GEN-LAST:event_TxtUsuarioKeyTyped
 
     private void txtContraseniaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContraseniaActionPerformed
@@ -280,11 +284,14 @@ public class Login extends javax.swing.JFrame {
                 
             }
         }
+        if (c==KeyEvent.VK_SPACE) 
+        {
+            evt.consume();
+        }
     }//GEN-LAST:event_txtContraseniaKeyTyped
 
     public void iterador()
-    {
-        JOptionPane.showMessageDialog(null, idUsuario);
+    {        
             if (resul==1) 
             {  
                 if (daoC.getIdCoordinador(idUsuario)!=null) 
@@ -323,6 +330,7 @@ public class Login extends javax.swing.JFrame {
         resul=daoUs.logear(us.getNombre(), us.getPass()); 
         idUsuario=daoC.getidUs(this.TxtUsuario.getText(), this.txtContrasenia.getText());
         conetenedor.pasarUsuario(DRol.getidUser(idUsuario));
+        JOptionPane.showMessageDialog(null, idUsuario);
         if (DRol.getidUser(idUsuario)==2) {
             conetenedor.pasarDatos(daoC.getNombreIdCoR(idUsuario));                
         }                

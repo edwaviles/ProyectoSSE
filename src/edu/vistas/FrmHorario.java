@@ -41,7 +41,6 @@ public class FrmHorario extends javax.swing.JInternalFrame {
     public FrmHorario() {
         initComponents();
         mostrar();
-        JOptionPane.showMessageDialog(null, menu.getLsUs().get(1).toString());
         this.jTxtCodigo.setText(menu.getLsUs().get(1).toString());
         this.lblNombreCor.setText(""+menu.getLsUs().get(0).toString());        
         this.jCmbDia.setEnabled(false);

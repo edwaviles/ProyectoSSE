@@ -31,6 +31,13 @@ public class Validaciones {
             evt.consume();
         }
     }
+       public void wordsOnly2(KeyEvent evt) 
+    {
+        if (!Character.isLetter(evt.getKeyChar()))
+        {
+            evt.consume();
+        }
+    }
 
     public boolean IsNullOrEmpty(String val) 
     {

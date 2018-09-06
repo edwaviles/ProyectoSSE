@@ -20,24 +20,24 @@ FROM
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="90" splitType="Stretch">
-			<image>
-				<reportElement x="0" y="0" width="524" height="47" uuid="2462ee5f-0225-411e-93b4-ebe914d5c41f"/>
-				<imageExpression><![CDATA["C:\\Users\\Lopez\\Desktop\\logo.png"]]></imageExpression>
-			</image>
+		<band height="106" splitType="Stretch">
 			<line>
-				<reportElement x="0" y="89" width="552" height="1" uuid="c6620ded-b17e-48f9-a53e-e8d0fa478341"/>
+				<reportElement x="12" y="98" width="540" height="1" uuid="c6620ded-b17e-48f9-a53e-e8d0fa478341"/>
 			</line>
 			<rectangle>
-				<reportElement x="0" y="53" width="552" height="20" backcolor="#CC0000" uuid="249d4263-3e61-4c19-ae34-d21f5ca18011"/>
+				<reportElement x="12" y="73" width="540" height="20" backcolor="#CC0000" uuid="249d4263-3e61-4c19-ae34-d21f5ca18011"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="164" y="53" width="222" height="20" uuid="f2e01b54-0f5e-4231-bbbd-7caa4f384c8d"/>
+				<reportElement x="171" y="73" width="222" height="20" uuid="f2e01b54-0f5e-4231-bbbd-7caa4f384c8d"/>
 				<textElement textAlignment="Center">
 					<font size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Reporte de Coordinadores]]></text>
 			</staticText>
+			<image>
+				<reportElement x="12" y="25" width="528" height="34" uuid="cf7f01ea-6471-4465-b192-19b9114cefe9"/>
+				<imageExpression><![CDATA["E:\\Escritorio\\logo (2).png"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>
@@ -70,7 +70,7 @@ FROM
 				</graphicElement>
 			</line>
 			<textField>
-				<reportElement style="Detail" x="0" y="0" width="277" height="15" uuid="92fdbfe4-25d2-466c-ad2a-ecda51ae52b9"/>
+				<reportElement style="Detail" x="0" y="1" width="277" height="15" uuid="92fdbfe4-25d2-466c-ad2a-ecda51ae52b9"/>
 				<textFieldExpression><![CDATA[$F{codigoCoor}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -90,7 +90,7 @@ FROM
 		</band>
 	</columnFooter>
 	<pageFooter>
-		<band height="20" splitType="Stretch">
+		<band height="22" splitType="Stretch">
 			<textField>
 				<reportElement style="Column header" x="433" y="0" width="80" height="20" uuid="82160a8b-ae15-4a8b-9392-5186b5823fd9"/>
 				<textElement textAlignment="Right">

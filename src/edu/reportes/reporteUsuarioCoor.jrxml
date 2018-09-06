@@ -27,10 +27,6 @@ FROM
 	</background>
 	<title>
 		<band height="88" splitType="Stretch">
-			<image>
-				<reportElement x="0" y="0" width="414" height="55" uuid="3a0d1541-9066-49d9-a95d-ecfa9109452d"/>
-				<imageExpression><![CDATA["C:\\Users\\Lopez\\Desktop\\logo.png"]]></imageExpression>
-			</image>
 			<line>
 				<reportElement x="0" y="74" width="553" height="1" uuid="028c27aa-ec7b-4917-b249-cc9368e0b5ee"/>
 			</line>
@@ -44,6 +40,10 @@ FROM
 				</textElement>
 				<text><![CDATA[Reporte de coordinadores y usuarios]]></text>
 			</staticText>
+			<image>
+				<reportElement x="13" y="11" width="510" height="33" uuid="b01cef6c-7d89-41fe-b22a-5f0cce60f5e9"/>
+				<imageExpression><![CDATA["E:\\Escritorio\\logo (2).png"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>

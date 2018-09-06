@@ -5,6 +5,7 @@ import java.sql.*;
 import edu.conexion.Conexion;
 import edu.modelo.CoordinadorSSE;
 import edu.modelo.Usuario;
+import edu.utilidades.Encriptacion;
 import edu.vistas.Menu;
 import java.util.ArrayList;
 import java.util.List;
@@ -250,11 +251,13 @@ public class DaoCoordinador extends Conexion{
             int a=0;
             try 
             {
+                Encriptacion n= new Encriptacion();
+                
                 this.conectar();
                 String sql="select  idUsuario from  usuario where usuario=? and contrasenia=?;";
                 PreparedStatement pre=this.getCon().prepareCall(sql);                
                 pre.setString(1, nombre);
-                pre.setString(2, pass);
+                pre.setString(2, n.encriptar(pass));
                 res=pre.executeQuery();
                 if (res.next()) 
                 {

@@ -3,6 +3,7 @@ package edu.dao;
 
 import edu.conexion.Conexion;
 import edu.modelo.Usuario;
+import edu.utilidades.Encriptacion;
 import edu.utilidades.Validaciones;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,6 +32,7 @@ public class DaoUsuario extends Conexion{
         int a=0;
         try 
         {
+            Encriptacion en = new Encriptacion();
             this.conectar();
             String sql="call login(?,?);";
             PreparedStatement pre=this.getCon().prepareCall(sql);
