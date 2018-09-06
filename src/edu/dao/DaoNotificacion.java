@@ -13,15 +13,19 @@ import edu.conexion.Conexion;
  */
 public class DaoNotificacion extends Conexion{
     
-    public int getNoti()
+    public int getNoti(int id)
     {
         ResultSet res;
         int ls=0;
         try 
         {
             this.conectar();
-            String sql="select count(*) as numero from notificacion where estado=1";
+            String sql="select count(*) as numero from solicitudsse s inner join alumno a "
+                    + "on s.idAlumno= a.idAlumno INNER JOIN carrera c "
+                    + "on c.idCarrera=a.carrera INNER JOIN coordinadorsse cor "
+                    + "on cor.carrera_idCarrera=c.idCarrera WHERE cor.idCoordinador=? and s.estado=0;";
             PreparedStatement pre=getCon().prepareStatement(sql);
+            pre.setInt(1, id);
             res=pre.executeQuery();
             while (res.next()) 
             {                
@@ -32,6 +36,10 @@ public class DaoNotificacion extends Conexion{
         catch (SQLException e) 
         {
             
+        }
+        finally
+        {
+            this.desconectar();
         }
         return ls;    
     }
