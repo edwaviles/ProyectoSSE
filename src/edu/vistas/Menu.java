@@ -48,9 +48,7 @@ public class Menu extends javax.swing.JFrame {
         setIconImage(new ImageIcon(getClass().getResource("../iconos/logo.png")).getImage());
         this.setExtendedState(MAXIMIZED_BOTH); 
         } 
-    
- 
-    
+  
     public void correr()
     {        
         SwingUtilities.invokeLater(new Runnable()
@@ -137,7 +135,8 @@ public class Menu extends javax.swing.JFrame {
         return idUs;
     }    
     
-    public static List getLsUs() 
+
+    public List getLsUs() 
     {
         return lsUs;
     }
@@ -257,13 +256,20 @@ public class Menu extends javax.swing.JFrame {
     private void GestionCoordinadorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GestionCoordinadorMouseClicked
         if(FormularioVal==false)
         {
-            this.gestionC = new FrmCoordinador();
-            this.desktopPane.add(gestionC);
-            gestionC.setVisible(true);
-            gestionC.setLocation(
-            desktopPane.getWidth()/2 - gestionC.getWidth()/2,
-            desktopPane.getHeight()/2 - gestionC.getHeight()/2);
-            FormularioVal=true;
+            if(idUs==1||idUs==3)
+            {
+                this.gestionC = new FrmCoordinador();
+                this.desktopPane.add(gestionC);
+                gestionC.setVisible(true);
+                gestionC.setLocation(
+                desktopPane.getWidth()/2 - gestionC.getWidth()/2,
+                desktopPane.getHeight()/2 - gestionC.getHeight()/2);
+                FormularioVal=true;
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null,"No autorizado");
+            }           
         }
         else
         {
@@ -279,13 +285,20 @@ public class Menu extends javax.swing.JFrame {
     private void GestionHorariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GestionHorariosMouseClicked
         if(FormularioVal==false)
         {
-            this.gestionH = new FrmHorario();
-            this.desktopPane.add(gestionH);
-            gestionH.setVisible(true);
-            gestionH.setLocation(
-                    desktopPane.getWidth()/2 - gestionH.getWidth()/2,
-                    desktopPane.getHeight()/2 - gestionH.getHeight()/2);
-                    FormularioVal=true;
+             if(idUs==2)
+            {
+                this.gestionH = new FrmHorario();
+                this.desktopPane.add(gestionH);
+                gestionH.setVisible(true);
+                gestionH.setLocation(
+                desktopPane.getWidth()/2 - gestionH.getWidth()/2,
+                desktopPane.getHeight()/2 - gestionH.getHeight()/2);
+                FormularioVal=true;
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null,"No autorizado");
+            }
         }
         else
         {
@@ -321,14 +334,22 @@ public class Menu extends javax.swing.JFrame {
 
     private void solicitudesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_solicitudesMouseClicked
         if(FormularioVal==false)
-        {            
-            this.gestionS = new FrmSSSE();
-            this.desktopPane.add(gestionS);
-            gestionS.setVisible(true);
-            gestionS.setLocation(
-            desktopPane.getWidth()/2 - gestionS.getWidth()/2,
-            desktopPane.getHeight()/2 - gestionS.getHeight()/2);
-            FormularioVal=true;
+        {    
+             if(idUs!=1||idUs!=3)
+            {
+                this.gestionS = new FrmSSSE();
+                this.desktopPane.add(gestionS);
+                gestionS.setVisible(true);
+                gestionS.setLocation(
+                desktopPane.getWidth()/2 - gestionS.getWidth()/2,
+                desktopPane.getHeight()/2 - gestionS.getHeight()/2);
+                FormularioVal=true;
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null,"No autorizado");
+            }
+           
         }
         else
         {
@@ -339,13 +360,21 @@ public class Menu extends javax.swing.JFrame {
     private void GestionarUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GestionarUsuarioMouseClicked
         if(FormularioVal==false)
         {
-            this.gestionU = new FrmUsuario();
-            this.desktopPane.add(gestionU);
-            gestionU.setVisible(true);
-            gestionU.setLocation(
-            desktopPane.getWidth()/2 - gestionU.getWidth()/2,
-            desktopPane.getHeight()/2 - gestionU.getHeight()/2);
-            FormularioVal=true;
+             if(idUs==1||idUs==3)
+            {
+                this.gestionU = new FrmUsuario();
+                this.desktopPane.add(gestionU);
+                gestionU.setVisible(true);
+                gestionU.setLocation(
+                desktopPane.getWidth()/2 - gestionU.getWidth()/2,
+                desktopPane.getHeight()/2 - gestionU.getHeight()/2);
+                FormularioVal=true;
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null,"No autorizado");
+            }
+            
         }
         else
         {
