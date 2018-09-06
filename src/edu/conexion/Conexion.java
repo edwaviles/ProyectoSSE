@@ -46,7 +46,7 @@ public class Conexion {
                 }
             }
         }
-        catch (Exception e) 
+        catch (SQLException e) 
         {
             
         }

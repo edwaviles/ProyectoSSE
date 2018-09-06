@@ -33,7 +33,8 @@ public class Login extends javax.swing.JFrame {
     
     public Login() {
         initComponents();
-        setIconImage(new ImageIcon(getClass().getResource("addd.png")).getImage());
+        setIconImage(new ImageIcon(getClass().getResource("../iconos/logo.png")).getImage());
+        //setIconImage(new ImageIcon(getClass().getResource("addd.png")).getImage());
         this.setLocationRelativeTo(null);
         this.jProgressBar1.setVisible(false);
     }
@@ -283,17 +284,24 @@ public class Login extends javax.swing.JFrame {
 
     public void iterador()
     {
+        JOptionPane.showMessageDialog(null, idUsuario);
             if (resul==1) 
-            {     
-                DesktopNotify.showDesktopMessage("Bienvenido", ""+daoC.getNombreIdCoR(idUsuario).get(0),DesktopNotify.SUCCESS, 5000L);            
+            {  
+                if (daoC.getIdCoordinador(idUsuario)!=null) 
+                {
+                    DesktopNotify.showDesktopMessage("Bienvenido", "Adminsitrdador",DesktopNotify.SUCCESS, 5000L);            
+                }
+                
                 //new rojerusan.RSNotifyFade("Bienvenido"," "+daoC.getNombreIdCoR(idUsuario).get(0), 7, RSNotifyFade.PositionNotify.BottomRight,RSNotifyFade.TypeNotify.SUCCESS).setVisible(true);                          
                 conetenedor.setVisible(true);
-                conetenedor.correr();
                 this.dispose();         
             }
              if (resul==2) 
             {     
-                DesktopNotify.showDesktopMessage("Bienvenido", ""+daoC.getNombreIdCoR(idUsuario).get(0),DesktopNotify.SUCCESS, 5000L);
+                if (daoC.getNombreIdCoR(idUsuario)!=null) 
+                {
+                    DesktopNotify.showDesktopMessage("Bienvenido", ""+daoC.getNombreIdCoR(idUsuario).get(0),DesktopNotify.SUCCESS, 5000L);
+                }                
                 //new rojerusan.RSNotifyFade("Bienvenido", " "+daoC.getNombreIdCoR(idUsuario).get(0), 3, RSNotifyFade.PositionNotify.BottomRight, RSNotifyFade.TypeNotify.SUCCESS).setVisible(true);
                 conetenedor.setVisible(true);  
                 conetenedor.correr();
@@ -314,10 +322,11 @@ public class Login extends javax.swing.JFrame {
         us.setPass(this.txtContrasenia.getText());
         resul=daoUs.logear(us.getNombre(), us.getPass()); 
         idUsuario=daoC.getidUs(this.TxtUsuario.getText(), this.txtContrasenia.getText());
-        conetenedor.pasarDatos(daoC.getNombreIdCoR(idUsuario));                
         conetenedor.pasarUsuario(DRol.getidUser(idUsuario));
-        us.setUser(us);
-                                  
+        if (DRol.getidUser(idUsuario)==2) {
+            conetenedor.pasarDatos(daoC.getNombreIdCoR(idUsuario));                
+        }                
+        us.setUser(us);                                  
     }
     
     public void limpiar()
