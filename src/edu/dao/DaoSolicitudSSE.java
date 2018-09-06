@@ -15,15 +15,22 @@ import javax.swing.JOptionPane;
  */
 public class DaoSolicitudSSE extends Conexion
 {
-    public List<SolicitudSSE> extraerSolicitud()
+    public List<SolicitudSSE> extraerSolicitud(int id)
     {
         List<SolicitudSSE> solicitudes = new ArrayList();
         ResultSet res;
         try 
         {
             this.conectar();
-            String sql= "SELECT * FROM solicitudsse s INNER JOIN alumno a ON a.idAlumno=s.idAlumno";
+            String sql= "select a.carnet,a.nombre, cor.idCoordinador, cor.nombre, s.idSolicitudSSE, s.sedeITCA, s.fechaSolicitud,s.institucion,s.encargado,s.comentarios,s.estado,s.fechaModificacion,\n" +
+                        "s.fechaRegistro,s.estadoSSE_idEstado from solicitudsse s inner join alumno a\n" +
+                        "on s.idAlumno=a.idAlumno\n" +
+                        "inner join carrera c \n" +
+                        "on a.carrera=c.idCarrera\n" +
+                        "inner join coordinadorsse cor\n" +
+                        "on c.idCarrera=cor.carrera_idCarrera WHERE cor.estado=1 AND cor.idCoordinador=?;";
             PreparedStatement pre = getCon().prepareStatement(sql);
+            pre.setInt(1, id);
             res=pre.executeQuery();
             while(res.next())
             {

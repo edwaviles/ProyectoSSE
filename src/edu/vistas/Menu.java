@@ -47,7 +47,6 @@ public class Menu extends javax.swing.JFrame {
         setIconImage(new ImageIcon(getClass().getResource("addd.png")).getImage());
         this.setExtendedState(MAXIMIZED_BOTH); 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JOptionPane.showMessageDialog(null, idUs);
         } 
     
  
@@ -131,7 +130,7 @@ public class Menu extends javax.swing.JFrame {
     }
     
 
-    public static List getLsUs() 
+    public List getLsUs() 
     {
         return lsUs;
     }

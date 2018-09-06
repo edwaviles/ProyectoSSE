@@ -34,6 +34,7 @@ public class FrmSSSE extends javax.swing.JInternalFrame {
     int id ;
     public FrmSSSE() {
         initComponents();
+        extraerDatos();        
         llenarCmb();
         llenarTb();
         this.cmbEstado.setEnabled(false);
@@ -351,45 +352,9 @@ public class FrmSSSE extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalirMouseClicked
-        cerrar();
-    }//GEN-LAST:event_btnSalirMouseClicked
-
-    private void tbSolicitudesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbSolicitudesMouseClicked
-        limpiar();
-        this.btnVer.setEnabled(true);
-        limpiarCLicTb();
-        llenarS();
-    }//GEN-LAST:event_tbSolicitudesMouseClicked
-
-    private void btnVerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVerMouseClicked
-        this.cmbEstado.setEnabled(true);
-        this.btnCancelar.setEnabled(true);
-        this.btnGuardar.setEnabled(true);
-        this.btnVer.setEnabled(false);
-        if(this.cmbEstado.getSelectedItem().equals("Aprobado Observaciones"))
-        {
-            this.txtObservaciones.setEnabled(true);
-        }
-    }//GEN-LAST:event_btnVerMouseClicked
-
-    private void cmbEstadoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbEstadoItemStateChanged
-        activarTxtO();
-    }//GEN-LAST:event_cmbEstadoItemStateChanged
-
-    private void btnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseClicked
-    limpiar();
-    }//GEN-LAST:event_btnCancelarMouseClicked
-
-    private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
-       guardar();
-       llenarTb();
-       limpiar();
-    }//GEN-LAST:event_btnGuardarMouseClicked
-
     
     
-    public void limpiar()
+     public void limpiar()
     {
         this.cmbEstado.setEnabled(false);
         this.btnCancelar.setEnabled(false);
@@ -469,7 +434,7 @@ public class FrmSSSE extends javax.swing.JInternalFrame {
         Object[] obj = new Object[5];
         try 
         {
-            lSolicitudes = daos.extraerSolicitud();
+            lSolicitudes = daos.extraerSolicitud(id);
             lEstadosSoli = daoe.extraerEstado();
              for(int i=0;i<lSolicitudes.size();i++)
              {
@@ -497,7 +462,7 @@ public class FrmSSSE extends javax.swing.JInternalFrame {
     }
     
     
-         public void cerrar()
+    public void cerrar()
      {
         try 
         {
@@ -536,10 +501,49 @@ public class FrmSSSE extends javax.swing.JInternalFrame {
           daos.modificarS(cSoli);
           limpiar();
       }
-         
-     
-    
+      
+      public void extraerDatos()
+      {
+          List datos = menu.getLsUs();
+          this.id = Integer.parseInt(datos.get(1).toString());
+      }
+      
+    private void btnSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalirMouseClicked
+        cerrar();
+    }//GEN-LAST:event_btnSalirMouseClicked
 
+    private void tbSolicitudesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbSolicitudesMouseClicked
+        limpiar();
+        this.btnVer.setEnabled(true);
+        limpiarCLicTb();
+        llenarS();
+    }//GEN-LAST:event_tbSolicitudesMouseClicked
+
+    private void btnVerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVerMouseClicked
+        this.cmbEstado.setEnabled(true);
+        this.btnCancelar.setEnabled(true);
+        this.btnGuardar.setEnabled(true);
+        this.btnVer.setEnabled(false);
+        if(this.cmbEstado.getSelectedItem().equals("Aprobado Observaciones"))
+        {
+            this.txtObservaciones.setEnabled(true);
+        }
+    }//GEN-LAST:event_btnVerMouseClicked
+
+    private void cmbEstadoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbEstadoItemStateChanged
+        activarTxtO();
+    }//GEN-LAST:event_cmbEstadoItemStateChanged
+
+    private void btnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseClicked
+    limpiar();
+    }//GEN-LAST:event_btnCancelarMouseClicked
+
+    private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
+       guardar();
+       llenarTb();
+       limpiar();
+    }//GEN-LAST:event_btnGuardarMouseClicked
+  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
