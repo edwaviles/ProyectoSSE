@@ -5,6 +5,7 @@ import java.sql.*;
 import edu.conexion.Conexion;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  * Nombre de la clase: DaoNotificacion
@@ -15,12 +16,15 @@ import java.util.List;
  */
 public class DaoNotificacion extends Conexion{
     
+    
+    Conexion con;
     public int getNoti(int id)
     {
         ResultSet res;
         int ls=0;
         try 
         {
+            this.desconectar();
             this.conectar();
             String sql="select count(*) as numero from solicitudsse s inner join alumno a "
                     + "on s.idAlumno= a.idAlumno INNER JOIN carrera c "
@@ -32,18 +36,23 @@ public class DaoNotificacion extends Conexion{
             while (res.next()) 
             {                
                 ls=res.getInt("numero");        
-            }
-            
+            }                                  
         } 
         catch (SQLException e) 
         {
-            
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
         finally
         {
             this.desconectar();
         }
-        return ls;    
+        if (ls>0) 
+        {
+            return ls;    
+        }else{
+            return -1;
+        }
+        
     }
     
     public List getSSE(int id)

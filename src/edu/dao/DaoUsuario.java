@@ -5,6 +5,7 @@ import edu.conexion.Conexion;
 import edu.modelo.Usuario;
 import edu.utilidades.Encriptacion;
 import edu.utilidades.Validaciones;
+import java.awt.HeadlessException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -293,12 +294,13 @@ public class DaoUsuario extends Conexion{
                 
                 JOptionPane.showMessageDialog(null,"Datos Modificados");
             }
-            catch (Exception e)
+            catch (HeadlessException | SQLException e)
             {
                 JOptionPane.showMessageDialog(null, "Error al Modiificar"+e.toString());
             }
         
         }
+    
         
     public void insertar(Usuario us)
        {

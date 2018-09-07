@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import ds.desktop.notify.DesktopNotify;
 import ds.desktop.notify.NotifyTheme;
 import edu.dao.DaoRol;
+import edu.utilidades.Encriptacion;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -28,6 +29,7 @@ public class Login extends javax.swing.JFrame {
     DaoCoordinador daoC=new DaoCoordinador();
     Menu conetenedor= new Menu();  
     public static int resul;
+    public static int opcionesmenu;
     public static int idUsuario;
     DaoRol DRol=new DaoRol();
     
@@ -295,23 +297,27 @@ public class Login extends javax.swing.JFrame {
             if (resul==1) 
             {  
                 if (daoC.getIdCoordinador(idUsuario)!=null) 
-                {
+                {                    
                     DesktopNotify.showDesktopMessage("Bienvenido", "Adminsitrdador",DesktopNotify.SUCCESS, 5000L);            
+                    opcionesmenu=1;
                 }
                 
                 //new rojerusan.RSNotifyFade("Bienvenido"," "+daoC.getNombreIdCoR(idUsuario).get(0), 7, RSNotifyFade.PositionNotify.BottomRight,RSNotifyFade.TypeNotify.SUCCESS).setVisible(true);                          
                 conetenedor.setVisible(true);
+                conetenedor.barraMenu(1);
                 this.dispose();         
             }
              if (resul==2) 
             {     
                 if (daoC.getNombreIdCoR(idUsuario)!=null) 
                 {
+                    
                     DesktopNotify.showDesktopMessage("Bienvenido", ""+daoC.getNombreIdCoR(idUsuario).get(0),DesktopNotify.SUCCESS, 5000L);
+                    opcionesmenu=1;
                 }                
                 //new rojerusan.RSNotifyFade("Bienvenido", " "+daoC.getNombreIdCoR(idUsuario).get(0), 3, RSNotifyFade.PositionNotify.BottomRight, RSNotifyFade.TypeNotify.SUCCESS).setVisible(true);
-                conetenedor.setVisible(true);  
-                conetenedor.correr();
+                conetenedor.setVisible(true);                  
+                conetenedor.barraMenu(2);
                 this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 this.dispose();
             }
@@ -330,7 +336,6 @@ public class Login extends javax.swing.JFrame {
         resul=daoUs.logear(us.getNombre(), us.getPass()); 
         idUsuario=daoC.getidUs(this.TxtUsuario.getText(), this.txtContrasenia.getText());
         conetenedor.pasarUsuario(DRol.getidUser(idUsuario));
-        JOptionPane.showMessageDialog(null, DRol.getidUser(resul));
         if (DRol.getidUser(idUsuario)==2) {
             conetenedor.pasarDatos(daoC.getNombreIdCoR(idUsuario));                
         }                

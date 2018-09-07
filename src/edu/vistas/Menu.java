@@ -42,6 +42,7 @@ public class Menu extends javax.swing.JFrame {
     FrmHorario gestionH;
     FrmUsuario gestionU;
     FrmSSSE gestionS;
+    FrmMyUser frmMYUS;
     FrmReporteRegistroUsuario reportes;
     Usuario use=new Usuario();
     public static List lsUs;
@@ -51,13 +52,40 @@ public class Menu extends javax.swing.JFrame {
     DaoRol DRol=new DaoRol();
     private Timer timer;
     private int delay = 30000;
+    int numero2=0;
     
-    public Menu() {
+    public Menu() 
+    {
         initComponents();        
         setIconImage(new ImageIcon(getClass().getResource("../iconos/logo.png")).getImage());
         this.setExtendedState(MAXIMIZED_BOTH); 
-        } 
+        this.GestionarUsuario.setVisible(false);
+        this.editMenu1.setVisible(false);
+        this.GestionCoordinador.setVisible(false);
+        this.solicitudes.setVisible(false);
+        this.GestionHorarios.setVisible(false);
+    } 
   
+    public void barraMenu(int rol)
+    {
+        //1 adminsitrador, 2 coordinador
+        if (rol==1) 
+        {
+            this.GestionarUsuario.setVisible(true);
+            this.editMenu1.setVisible(true);
+            this.GestionCoordinador.setVisible(true);
+        }
+        if (rol==2) 
+        {
+            this.GestionHorarios.setVisible(true);
+            this.solicitudes.setVisible(true);
+            correr();
+        }
+        if (rol==3) 
+        {
+            
+        }
+    }
     public void correr()
     {        
         SwingUtilities.invokeLater(new Runnable()
@@ -66,7 +94,7 @@ public class Menu extends javax.swing.JFrame {
             public void run()
             {
                 ActionListener action = new ActionListener()
-                {   int numero2=0;
+                {   
                     @Override
                     public void actionPerformed(ActionEvent ae) 
                     {
@@ -75,12 +103,11 @@ public class Menu extends javax.swing.JFrame {
                         if (numero>numero2) 
                         {
                             numero2=numero;
-                            DesktopNotify.showDesktopMessage("", "Tienes "+numero+" de Solicitudes de SSE\n ¿desea atenderlas ahora?",DesktopNotify.INPUT_REQUEST, new ActionListener() 
+                            DesktopNotify.showDesktopMessage("", "Tienes "+numero+" de Solicitudes de SSE\n ¿desea atenderlas ahora?",DesktopNotify.INPUT_REQUEST,15000L, new ActionListener() 
                             {
                                 @Override
                                 public void actionPerformed(ActionEvent ae) 
                                 {
-
                                     int SioNo = JOptionPane.showConfirmDialog(null, "¿Desea revisar solicuudes?", "Advertencia", JOptionPane.YES_NO_OPTION);                            
                                     if (SioNo == 0) 
                                     {
@@ -91,6 +118,7 @@ public class Menu extends javax.swing.JFrame {
                                     {
                                         timer.start();
                                     }
+                                    timer.start();
                                 }                            
                             });
                         }else{
@@ -108,7 +136,7 @@ public class Menu extends javax.swing.JFrame {
     
     public void abrirNotificaciones()
     {
-         if(FormularioVal==false)
+        if(FormularioVal==false)
         {
             this.frmsse = new FrmSSSE();
             this.desktopPane.add(frmsse);
@@ -166,6 +194,7 @@ public class Menu extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
 
@@ -268,6 +297,19 @@ public class Menu extends javax.swing.JFrame {
         menuBar.add(editMenu1);
 
         jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/ajustes.png"))); // NOI18N
+        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu1MouseClicked(evt);
+            }
+        });
+
+        jMenuItem6.setText("Configurar mi usuario");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem6);
 
         jMenuItem1.setText("Cerrar seession");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -361,13 +403,17 @@ public class Menu extends javax.swing.JFrame {
                                              
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        cerrarSession();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    public void cerrarSession()
+    {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.dispose();
         Login log=new Login();
         log.setVisible(true);
         FormularioVal=false;
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-
+    }
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         int r=JOptionPane.showConfirmDialog(null, "Desea salir", "Salir", JOptionPane.YES_NO_OPTION, JOptionPane.YES_NO_OPTION);
         if (r==0) 
@@ -437,8 +483,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_GestionarUsuarioMouseClicked
 
     private void jreportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jreportActionPerformed
-        if (idUs==1) 
-            {                
+               
                 Connection Conexion=null;
                 JasperReport reporte;
 
@@ -458,14 +503,11 @@ public class Menu extends javax.swing.JFrame {
                } catch (JRException ex) {
                    Logger.getLogger(Menu.class.getName()).log(Level.SEVERE,null,ex);
                }
-            }else{
-            JOptionPane.showMessageDialog(null, "No autorizado");
-        }
+            
     }//GEN-LAST:event_jreportActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        if (idUs==1) 
-            {                    
+             
                 Connection Conexion=null; 
                JasperReport reporte;
 
@@ -485,14 +527,11 @@ public class Menu extends javax.swing.JFrame {
               } catch (JRException ex) {
                   Logger.getLogger(Menu.class.getName()).log(Level.SEVERE,null,ex);
               }
-            }else{
-            JOptionPane.showMessageDialog(null, "No aurotizado");
-        }
+        
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        if (idUs==1) 
-        {                
+              
             Connection Conexion=null;
              JasperReport reporte;
 
@@ -512,16 +551,13 @@ public class Menu extends javax.swing.JFrame {
             } catch (JRException ex) {
                 Logger.getLogger(Menu.class.getName()).log(Level.SEVERE,null,ex);
             } 
-        }else{
-            JOptionPane.showMessageDialog(null, "No autorizado");
-        }
+       
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
          if(FormularioVal==false)
         {
-            if (idUs==1) 
-            {
+
                 this.reportes = new FrmReporteRegistroUsuario();
                 this.desktopPane.add(reportes);
                 reportes.setVisible(true);
@@ -529,9 +565,7 @@ public class Menu extends javax.swing.JFrame {
                 desktopPane.getWidth()/2 - reportes.getWidth()/2,
                 desktopPane.getHeight()/2 - reportes.getHeight()/2);
                 FormularioVal=true;
-            }else{
-                JOptionPane.showMessageDialog(null, "No autorizado");
-            }
+          
         }
         else
         {
@@ -542,6 +576,26 @@ public class Menu extends javax.swing.JFrame {
     private void editMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editMenu1MouseClicked
       
     }//GEN-LAST:event_editMenu1MouseClicked
+
+    private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
+    
+    }//GEN-LAST:event_jMenu1MouseClicked
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        
+        if(FormularioVal==false)
+        {
+            frmMYUS = new FrmMyUser();
+            this.desktopPane.add(frmMYUS);
+            frmMYUS.setVisible(true);
+            frmMYUS.setLocation(
+            desktopPane.getWidth()/2 - frmMYUS.getWidth()/2,
+            desktopPane.getHeight()/2 - frmMYUS.getHeight()/2);
+            FormularioVal=true;
+        }else{
+            JOptionPane.showMessageDialog(null, "No autorizado");
+        }              
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
    
     /**
      * @param args the command line arguments
@@ -592,6 +646,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jreport;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu solicitudes;

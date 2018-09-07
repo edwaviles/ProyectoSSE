@@ -139,11 +139,16 @@ public class FrmUsuario extends javax.swing.JInternalFrame {
     }
      
     public void llenarTabla()
-    {
-      int fila=this.jTableuser.getSelectedRow();
-      this.jtxtUsuario3.setText(String.valueOf(this.jTableuser.getValueAt(fila,1)));  
-      String rol=String.valueOf(this.jTableuser.getValueAt(fila, 3));
-      this.jtxtId.setText(String.valueOf(this.jTableuser.getValueAt(fila,0)));
+    {   
+        
+        int fila=this.jTableuser.getSelectedRow();
+        if (fila>-1) 
+        {            
+            this.jtxtUsuario3.setText(String.valueOf(this.jTableuser.getValueAt(fila,1)));  
+            String rol=String.valueOf(this.jTableuser.getValueAt(fila, 3));
+            this.jtxtId.setText(String.valueOf(this.jTableuser.getValueAt(fila,0)));
+        }
+
        
 
     }
@@ -153,7 +158,6 @@ public class FrmUsuario extends javax.swing.JInternalFrame {
 
       this.jtxtId.setText("");
       this.jtxtUsuario3.setText("");
-
       this.jtxtContra.setText("");
       this.jtxtcontra2.setText("");
         OnOFF(0);
@@ -225,16 +229,14 @@ public class FrmUsuario extends javax.swing.JInternalFrame {
         if(!validar.IsNullOrEmpty(String.valueOf(us.getNombre())))
             {
                     if(pass.equals(repitepass))
-                    { 
-                    
-
-                     int pregunta= JOptionPane.showConfirmDialog(null,"Desea modificar el registro","modificar",JOptionPane.YES_NO_OPTION);
-                     if(pregunta==0)
-                     {
-                         daou.Modificar(us);
-                         mostrarUsuario();
-                         limpiar();
-                     }     
+                    {                     
+                        int pregunta= JOptionPane.showConfirmDialog(null,"Desea modificar el registro","modificar",JOptionPane.YES_NO_OPTION);
+                        if(pregunta==0)
+                        {
+                            daou.Modificar(us);
+                            mostrarUsuario();
+                            limpiar();
+                        }     
                 }
                 else{
                       JOptionPane.showMessageDialog(null,"las contraseñas no coinciden");

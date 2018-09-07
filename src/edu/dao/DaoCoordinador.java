@@ -292,8 +292,8 @@ public class DaoCoordinador extends Conexion{
                 {
                     nombre=res.getString("nombre");
                     idCor=res.getInt("id");
-                    ls.add(nombre);
-                    ls.add(idCor);
+                    ls.add(0,nombre);
+                    ls.add(1, idCor);
                 }
             } 
             catch (SQLException e) 
