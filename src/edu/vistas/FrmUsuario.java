@@ -256,18 +256,30 @@ public class FrmUsuario extends javax.swing.JInternalFrame {
      us.setCodigo(Integer.parseInt(jtxtId.getText()));
      us.setEstado(2);
      us.setFechaEliminacion(fecha);
+     
      int pregunta= JOptionPane.showConfirmDialog(null,"Desea eliminar el registro","eliminar",JOptionPane.YES_NO_OPTION);
      if(pregunta==0)
      {
+         int fila = this.jTableuser.getSelectedRow();
+         String rol = String.valueOf(this.jTableuser.getValueAt(fila, 3));
+         if(!rol.equals("Administrador"))
+         {
+             int idcor=daoc.idCoor(iduser);
+            if (idcor>=0)
+                {
+                daoc.eliminarCoordinador(idcor);
+                daou.eliminarUsu(us);
+                mostrarUsuario();
+                limpiar();
+                }
+         }
+         else
+         {
+             daou.eliminarUsu(us);
+             mostrarUsuario();
+             limpiar();
+         }
          
-         int idcor=daoc.idCoor(iduser);
-         if (idcor>=0)
-       {
-       daoc.eliminarCoordinador(idcor);
-       daou.Eliminar(us);
-       mostrarUsuario();
-       limpiar();
-       }
      }
    
    }
@@ -644,7 +656,7 @@ public class FrmUsuario extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jtxtContraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtContraKeyTyped
-        validar.wordsOnly2(evt);
+            validar.wordsOnly2(evt);
     }//GEN-LAST:event_jtxtContraKeyTyped
 
     private void jtxtcontra2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtcontra2KeyTyped

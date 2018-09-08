@@ -180,8 +180,7 @@ public class DaoUsuario extends Conexion{
         List<Usuario>listaUsuario= new ArrayList();
         ResultSet res;
         try 
-        {
-          
+        {    
           this.conectar();
             String sql="select*from usuario where estado=1";
             PreparedStatement pre= getCon().prepareStatement(sql);
@@ -195,9 +194,7 @@ public class DaoUsuario extends Conexion{
                 us.setEstado(Integer.parseInt(res.getString("estado")));
                 us.setRol(Integer.parseInt(res.getString("idRol")));
                 listaUsuario.add(us);                                      
-            }
-            
-            
+            } 
         }
         catch (Exception e) 
         {
@@ -210,19 +207,18 @@ public class DaoUsuario extends Conexion{
       return listaUsuario;
     }
         
-    public void Eliminar(Usuario us)
+    public void eliminarUsu(Usuario us)
         {
             try 
             {
                 this.conectar();
                 String sql="update usuario set estado=?,fechaEliminacion=? where idUsuario =?;";
-                PreparedStatement pre= getCon().prepareStatement(sql);
+                PreparedStatement pre= getCon().prepareStatement(sql);                
                 pre.setInt(1,us.getEstado());
                 pre.setString(2,us.getFechaEliminacion());
                 pre.setInt(3,us.getCodigo());
                 pre.executeUpdate();
-                
-                JOptionPane.showMessageDialog(null,"Datos elimnados");
+                JOptionPane.showMessageDialog(null,"Datos eliminados");
             }
             catch (Exception e)
             {
@@ -230,6 +226,7 @@ public class DaoUsuario extends Conexion{
             }
         
         }
+    
     public void Eliminar(int id)
         {
             try 
@@ -241,7 +238,7 @@ public class DaoUsuario extends Conexion{
                 pre.setInt(2,id);
                 pre.executeUpdate();
                 
-                JOptionPane.showMessageDialog(null,"Datos elimnados");
+                JOptionPane.showMessageDialog(null,"Datos eliminados");
             }
             catch (Exception e)
             {
@@ -264,13 +261,12 @@ public class DaoUsuario extends Conexion{
                 while(res.next())
                 {
                     id=res.getInt("usuario_idUsuario");
-                }
-                
-                JOptionPane.showMessageDialog(null,"Datos elimnados");
+                }                
+                //JOptionPane.showMessageDialog(null,"Datos eliminados");
             }
             catch (Exception e)
             {
-                JOptionPane.showMessageDialog(null, "Error al eliminar el registro "+e.toString());
+                JOptionPane.showMessageDialog(null, "Error al extraer el id usuario: "+e.toString());
             }
             finally
             {

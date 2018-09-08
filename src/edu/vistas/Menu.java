@@ -358,8 +358,7 @@ public class Menu extends javax.swing.JFrame {
                 desktopPane.getWidth()/2 - gestionC.getWidth()/2,
                 desktopPane.getHeight()/2 - gestionC.getHeight()/2);
                 FormularioVal=true;
-                idUs=0;
-                
+                //idUs=0;                
             }
             else
             {

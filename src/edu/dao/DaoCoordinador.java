@@ -85,7 +85,7 @@ public class DaoCoordinador extends Conexion{
             //Agregar usuario
             daoUs.addUsuario(nombreUser,fecha);
             //Capturar usuario
-            idUser=daoUs.getIdUsuario(nombreUser);
+            idUser = daoUs.getIdUsuario(nombreUser);
             //Inserar Coordinador
             addCoordinador(cor, idUser);
         }
@@ -322,13 +322,11 @@ public class DaoCoordinador extends Conexion{
                 while(res.next())
                 {
                     id=res.getInt("idcoordinador");
-                }
-                
-                JOptionPane.showMessageDialog(null,"Datos elimnados");
+                }              
             }
             catch (Exception e)
             {
-                JOptionPane.showMessageDialog(null, "Error al eliminar el registro "+e.toString());
+                JOptionPane.showMessageDialog(null, "Error al extraer id coordinador: "+e.toString());
             }
             finally
             {
