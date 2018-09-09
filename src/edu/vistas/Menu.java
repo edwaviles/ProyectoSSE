@@ -366,7 +366,7 @@ public class Menu extends javax.swing.JFrame {
             }           
         }
         else
-        {
+        {           
             JOptionPane.showMessageDialog(null,"Ya tiene una ventana abierta!");
         }
     }//GEN-LAST:event_GestionCoordinadorMouseClicked
@@ -407,12 +407,28 @@ public class Menu extends javax.swing.JFrame {
 
     public void cerrarSession()
     {
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.dispose();
-        Login log=new Login();
-        log.setVisible(true);
-        FormularioVal=false;
+        if (FormularioVal=true) 
+        {
+            int a=JOptionPane.showConfirmDialog(null,"Desea Cerrar cerrar sesión", 
+                    "Tiene una ventana abierta", JOptionPane.YES_NO_OPTION, JOptionPane.YES_NO_OPTION);
+            if (a==0) 
+            {
+                this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                this.dispose();
+                Login log=new Login();
+                log.setVisible(true);
+                FormularioVal=false;
+            }
+            
+        }
+         else
+        {
+            JOptionPane.showMessageDialog(null,"Ya tiene una ventana abierta!");
+        }
+        
     }
+    
+
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         int r=JOptionPane.showConfirmDialog(null, "Desea salir", "Salir", JOptionPane.YES_NO_OPTION, JOptionPane.YES_NO_OPTION);
         if (r==0) 
@@ -596,9 +612,7 @@ public class Menu extends javax.swing.JFrame {
         }              
     }//GEN-LAST:event_jMenuItem6ActionPerformed
    
-    /**
-     * @param args the command line arguments
-     */
+ 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

@@ -1,5 +1,6 @@
 package edu.dao;
 
+import ds.desktop.notify.DesktopNotify;
 import edu.conexion.Conexion;
 import edu.modelo.SolicitudSSE;
 import java.awt.HeadlessException;
@@ -47,9 +48,9 @@ public class DaoSolicitudSSE extends Conexion
                solicitudes.add(s);
             }
         }
-        catch (Exception e) 
+        catch (NumberFormatException | SQLException e) 
         {
-            JOptionPane.showMessageDialog(null,"Error al extraer solicitudes: "+ e.getMessage());
+            DesktopNotify.showDesktopMessage("Error al mostrar solicitudes", "",DesktopNotify.SUCCESS, 3000L);
         }
         finally
         {
@@ -79,28 +80,7 @@ public class DaoSolicitudSSE extends Conexion
        }
        catch (HeadlessException | SQLException e) 
        {
-          JOptionPane.showMessageDialog(null,"Error al modificar solicitud: "+e.getMessage());
-       }
-       finally
-       {
-           this.desconectar();
-       }
-   }
-    
-    
-    public void modificarVistos()
-   {
-       try 
-       {
-          this.conectar();
-          String sql="";
-         PreparedStatement pre = getCon().prepareStatement(sql);
-          pre.executeUpdate(sql);
-          JOptionPane.showMessageDialog(null,"Guardado");
-       }
-       catch (HeadlessException | SQLException e) 
-       {
-          JOptionPane.showMessageDialog(null,"Error al modificar solicitud: "+e.getMessage());
+          DesktopNotify.showDesktopMessage("Error al modificar solicitud", "",DesktopNotify.FAIL, 3000L);
        }
        finally
        {

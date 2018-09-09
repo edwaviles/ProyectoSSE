@@ -1,5 +1,6 @@
 
 package edu.dao;
+import ds.desktop.notify.DesktopNotify;
 import java.sql.*;
 
 import edu.conexion.Conexion;
@@ -40,7 +41,7 @@ public class DaoNotificacion extends Conexion{
         } 
         catch (SQLException e) 
         {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            DesktopNotify.showDesktopMessage(e.getMessage(), "",DesktopNotify.INFORMATION, 3000L);
         }
         finally
         {
@@ -78,7 +79,7 @@ public class DaoNotificacion extends Conexion{
         } 
         catch (SQLException e) 
         {
-            
+            DesktopNotify.showDesktopMessage(e.getMessage(), "",DesktopNotify.INFORMATION, 3000L);
         }
         finally
         {

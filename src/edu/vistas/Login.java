@@ -298,7 +298,7 @@ public class Login extends javax.swing.JFrame {
             {  
                 if (daoC.getIdCoordinador(idUsuario)!=null) 
                 {                    
-                    DesktopNotify.showDesktopMessage("Bienvenido", "Adminsitrdador",DesktopNotify.SUCCESS, 5000L);            
+                    
                     opcionesmenu=1;
                 }
                 

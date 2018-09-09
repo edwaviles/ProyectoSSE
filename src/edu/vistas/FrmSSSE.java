@@ -1,14 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package edu.vistas;
 
+import ds.desktop.notify.DesktopNotify;
 import edu.dao.DaoEstadoSolicitudSSE;
 import edu.dao.DaoSolicitudSSE;
 import edu.modelo.EstadoSolicitudSSE;
 import edu.modelo.SolicitudSSE;
+import java.awt.HeadlessException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -484,7 +482,7 @@ public class FrmSSSE extends javax.swing.JInternalFrame {
         }
         catch (Exception e) 
         {
-            JOptionPane.showMessageDialog(null,"Error al llenar la tabla: "+e);
+            DesktopNotify.showDesktopMessage("Error!", "Al mostrar solicitudes de servicio social",DesktopNotify.FAIL, 5000L);
         }       
         this.tbSolicitudes.setModel(tb);
     }
@@ -503,7 +501,7 @@ public class FrmSSSE extends javax.swing.JInternalFrame {
                 menu.cerrar(); 
             }
         } 
-        catch (Exception e) 
+        catch (HeadlessException e) 
         {
             
         }

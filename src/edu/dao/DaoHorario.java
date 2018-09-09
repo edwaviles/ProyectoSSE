@@ -1,6 +1,7 @@
 
 package edu.dao;
 
+import ds.desktop.notify.DesktopNotify;
 import edu.conexion.Conexion;
 import edu.modelo.CoordinadorSSE;
 import java.sql.*;
@@ -57,7 +58,8 @@ public class DaoHorario extends Conexion{
         }
         catch (SQLException e) 
         {
-            JOptionPane.showMessageDialog(null,"Ocurrio un problema al mostrar los datos " +e.getMessage());
+            DesktopNotify.showDesktopMessage("Ocurrió un problema al mostrar sus Horarios", "",DesktopNotify.FAIL, 3000L);                                    
+            //JOptionPane.showMessageDialog(null,"Ocurrio un problema al mostrar los datos " +e.getMessage());
         }
         finally
         {
@@ -93,7 +95,7 @@ public class DaoHorario extends Conexion{
         }
         catch (SQLException e) 
         {
-            JOptionPane.showMessageDialog(null,"Ocurrio un problema al mostrar los datos " +e.getMessage());
+            DesktopNotify.showDesktopMessage("Error!", "",DesktopNotify.FAIL, 3000L);
         }
         finally
         {
@@ -147,12 +149,12 @@ public class DaoHorario extends Conexion{
             pre.setString(7, hor.getLugar());
             pre.setString(8, hor.getFechaRegistro());
             pre.executeUpdate();
-            JOptionPane.showMessageDialog(null, "El registro se ha guardado con exito", "Horario coordinador",
-                                    JOptionPane.INFORMATION_MESSAGE);
+            DesktopNotify.showDesktopMessage("Horario coordinador", "El registro se ha guardado con exito",DesktopNotify.SUCCESS, 3000L);                                    
         }
         catch (SQLException e) 
         {
-            JOptionPane.showMessageDialog(null,"Ingrese los datos que se piden "+e.getMessage());
+            DesktopNotify.showDesktopMessage("Ingrese los datos que se piden", "",DesktopNotify.WARNING, 3000L);
+//            JOptionPane.showMessageDialog(null,"Ingrese los datos que se piden "+e.getMessage());
         }
         finally
         {
@@ -179,10 +181,7 @@ public class DaoHorario extends Conexion{
         }
         catch (SQLException e) 
         {
-            JOptionPane.showMessageDialog(null,
-                    "Imposible modificar, seleccione un registro " + e.getMessage(),
-                    "Fallo al modificar " ,
-                    JOptionPane.ERROR_MESSAGE);
+            DesktopNotify.showDesktopMessage("Error al modificar Horario", "",DesktopNotify.FAIL, 3000L);
         }
         finally
         {
@@ -201,12 +200,9 @@ public class DaoHorario extends Conexion{
             pre.setInt(2, hor.getIdHorarioA());
             pre.executeUpdate();
         }
-        catch (Exception e) 
+        catch (SQLException e) 
         {
-            JOptionPane.showMessageDialog(null,
-                    "Imposible Eliminar no seleccinado " + e.getMessage(),
-                    "Eliminacion Fallida " ,
-                    JOptionPane.ERROR_MESSAGE);
+            DesktopNotify.showDesktopMessage("Error al eliminar horario", "",DesktopNotify.FAIL, 3000L);
         }
         finally
         {
@@ -235,9 +231,9 @@ public class DaoHorario extends Conexion{
                hor.setLugar(res.getString("lugar"));
            }
         }
-        catch (Exception e) 
+        catch (SQLException e) 
         {
-            JOptionPane.showMessageDialog(null,"Error " +e.getMessage());
+            DesktopNotify.showDesktopMessage(e.getMessage(), "",DesktopNotify.WARNING, 3000L);
         }
         finally
         {

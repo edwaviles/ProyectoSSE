@@ -1,6 +1,7 @@
 
 package edu.vistas;
 
+import ds.desktop.notify.DesktopNotify;
 import edu.dao.DaoCarrera;
 import edu.dao.DaoCoordinador;
 import edu.dao.DaoEscuela;
@@ -14,6 +15,7 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import edu.utilidades.Validaciones;
+import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ItemEvent;
@@ -189,9 +191,7 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
         }
         catch (Exception e) 
         {
-            JOptionPane.showMessageDialog(null, "Error al mostrar datos en tabla "+e.getMessage(), "Carga Fallida "
-                    + e.getMessage(),
-                    JOptionPane.ERROR_MESSAGE);
+            DesktopNotify.showDesktopMessage("Error al mostrar Usuarios", "",DesktopNotify.FAIL, 3000L);
         }
     }
     
@@ -204,9 +204,7 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
         } 
         catch (Exception e) 
         {
-            JOptionPane.showMessageDialog(null,"Ocurrio un error guardando " + e.getMessage(),
-                    "Coordinador",
-                    JOptionPane.ERROR_MESSAGE);
+            DesktopNotify.showDesktopMessage("Error al insertar Usuario", "",DesktopNotify.FAIL, 3000L);
         }
     }
     
@@ -242,14 +240,11 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
             {
                 insertar(cor);
                 mostrar();
-                limpiar();
-                JOptionPane.showMessageDialog(null, "El registro se ha guardado con exito", "Coordinador",
-                                JOptionPane.INFORMATION_MESSAGE);
+                limpiar();               
             }
             else
             {
-                JOptionPane.showMessageDialog(null,"Correo electronico invalido ","Validacion de Email",
-                        JOptionPane.ERROR_MESSAGE);
+                DesktopNotify.showDesktopMessage("Validación email", "Correo electronico invalido",DesktopNotify.WARNING, 3000L);                
                 this.jTxtCorreo.requestFocus();
             }
         }
@@ -295,8 +290,7 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
                    modificarCoordinador(cor);
                         limpiar();
                         mostrar();
-                        JOptionPane.showMessageDialog(null, "Coordinador Modificado Exitosamente", "Guardado", 
-                            JOptionPane.INFORMATION_MESSAGE);
+                        DesktopNotify.showDesktopMessage("Exito!", "Coordinador modificado exitosamente",DesktopNotify.SUCCESS, 3000L);
                         OnOFF(3);
                 }
                 else
@@ -308,8 +302,7 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
             }
             else if(NomCar==1 && NomCarM!=idCoordinador)
             {
-                JOptionPane.showMessageDialog(null, "Ya existe un coordinador asignado a este carrera ","Carrera asignada",
-                            JOptionPane.WARNING_MESSAGE);
+                DesktopNotify.showDesktopMessage("Carrera no asignada", "Ya existe coordinador asignado a esta carrera",DesktopNotify.WARNING, 3000L);
             }
             else
             {
@@ -318,8 +311,7 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
                    modificarCoordinador(cor);
                         limpiar();
                         mostrar();
-                        JOptionPane.showMessageDialog(null, "Coordinador Modificado Exitosamente", "Guardado", 
-                            JOptionPane.INFORMATION_MESSAGE);
+                        DesktopNotify.showDesktopMessage("Exito!", "Coordinador modificado exitosamente",DesktopNotify.FAIL, 3000L);
                         OnOFF(3);
                 }
                 else
@@ -375,7 +367,7 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
             cor.setIdCoordinador(idCoordinador);
             cor.setFechaEliminacion(validar.CapturarFecha());
 
-            int SioNo = JOptionPane.showConfirmDialog(this, "¿Desea Eliminar el registro seleccionado?", 
+            int SioNo = JOptionPane.showConfirmDialog(this, "¿Desea Eliminar el registro seleccionado, se eliminara el coordinador y el usuario?", 
                     "Eliminar Coordinador", JOptionPane.YES_NO_OPTION);
 
             if (SioNo == 0) 
@@ -391,10 +383,9 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
                 OnOFF(4);
             }
         } 
-        catch (Exception e) 
+        catch (HeadlessException | NumberFormatException e) 
         {
-            JOptionPane.showMessageDialog(null,"Ocurrio un problema al eliminar el registro",
-                    "Error",JOptionPane.ERROR_MESSAGE);
+            DesktopNotify.showDesktopMessage("Error al eliminar registro", "Coordinador y usuario Eliminados exitosamente",DesktopNotify.FAIL, 3000L);            
         }
      }
     

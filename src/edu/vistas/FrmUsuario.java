@@ -1,6 +1,7 @@
 
 package edu.vistas;
 
+import ds.desktop.notify.DesktopNotify;
 import edu.dao.DaoCoordinador;
 import edu.dao.DaoRol;
 import edu.dao.DaoUsuario;
@@ -9,6 +10,7 @@ import edu.modelo.Rol;
 import edu.modelo.Usuario;
 import edu.utilidades.Encriptacion;
 import edu.utilidades.Validaciones;
+import java.awt.HeadlessException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComboBox;
@@ -133,7 +135,7 @@ public class FrmUsuario extends javax.swing.JInternalFrame {
         }
         catch (Exception e)
         {
-            JOptionPane.showMessageDialog(null,"Error al mostrar"+e.toString());
+            DesktopNotify.showDesktopMessage("Error al mostrar Usuarios", "",DesktopNotify.FAIL, 3000L);
         }
 
     }
@@ -191,11 +193,11 @@ public class FrmUsuario extends javax.swing.JInternalFrame {
                        daou.insertar(us); 
                        mostrarUsuario();
                        limpiar();
-                       JOptionPane.showMessageDialog(null,"Datos insertados");
+                       DesktopNotify.showDesktopMessage("USuario Agregado", "",DesktopNotify.SUCCESS, 5000L);
                     }else
                     {
 
-                     JOptionPane.showMessageDialog(null,"El usuario Ya existe");
+                     DesktopNotify.showDesktopMessage("Error!", "Nombre de usuario no disponible",DesktopNotify.WARNING, 3000L);
                     }
                 }
                 else
@@ -209,9 +211,9 @@ public class FrmUsuario extends javax.swing.JInternalFrame {
             }
 
          } 
-        catch (Exception e)
+        catch (HeadlessException e)
         {
-            JOptionPane.showMessageDialog(null,"Error al insertar" +e.toString());
+            DesktopNotify.showDesktopMessage("Error al insertar Usuarios", "",DesktopNotify.FAIL, 3000L);
         }
     }
    
@@ -227,22 +229,28 @@ public class FrmUsuario extends javax.swing.JInternalFrame {
         us.setFechaModificacion(fecha);
         us.setPass(encrip.encriptar(pass));
         if(!validar.IsNullOrEmpty(String.valueOf(us.getNombre())))
+        { 
+            if (this.jtxtContra.getPassword().length>6) 
             {
-                    if(pass.equals(repitepass))
-                    {                     
-                        int pregunta= JOptionPane.showConfirmDialog(null,"Desea modificar el registro","modificar",JOptionPane.YES_NO_OPTION);
-                        if(pregunta==0)
-                        {
-                            daou.Modificar(us);
-                            mostrarUsuario();
-                            limpiar();
-                        }     
+                if(pass.equals(repitepass))
+                {                     
+                    int pregunta= JOptionPane.showConfirmDialog(null,"Desea modificar el registro","modificar",JOptionPane.YES_NO_OPTION);
+                    if(pregunta==0)
+                    {
+                        daou.Modificar(us);
+                        mostrarUsuario();
+                        limpiar();
+                    }     
                 }
-                else{
-                      JOptionPane.showMessageDialog(null,"las contraseñas no coinciden");
-                    }
+                else
+                {
+                  JOptionPane.showMessageDialog(null,"las contraseñas no coinciden");
+                }
             }else{
-            JOptionPane.showMessageDialog(null, "El campo nombre de usuario no puede estar vacio");
+                JOptionPane.showMessageDialog(null, "Contraseña muy corta, minimo 6 caracteres");
+            }
+        }else{
+        JOptionPane.showMessageDialog(null, "El campo nombre de usuario no puede estar vacio");
         }
     }
 
@@ -296,7 +304,7 @@ public class FrmUsuario extends javax.swing.JInternalFrame {
                 menu.cerrar(); 
             }
         } 
-        catch (Exception e) 
+        catch (HeadlessException e) 
         {
             
         }
@@ -615,7 +623,7 @@ public class FrmUsuario extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBtnNuevoActionPerformed
 
     private void jBtnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBtnGuardarMouseClicked
-        
+       
         if(controlGuardar==1)
         {           
             this.insertar();
@@ -656,11 +664,11 @@ public class FrmUsuario extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jtxtContraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtContraKeyTyped
-            validar.wordsOnly2(evt);
+            
     }//GEN-LAST:event_jtxtContraKeyTyped
 
     private void jtxtcontra2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtcontra2KeyTyped
-        validar.wordsOnly2(evt);
+        
     }//GEN-LAST:event_jtxtcontra2KeyTyped
 
 

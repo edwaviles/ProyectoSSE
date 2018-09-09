@@ -1,6 +1,7 @@
 
 package edu.dao;
 
+import ds.desktop.notify.DesktopNotify;
 import java.sql.*;
 import edu.conexion.Conexion;
 import edu.modelo.CoordinadorSSE;
@@ -47,7 +48,8 @@ public class DaoCoordinador extends Conexion{
         }
         catch (SQLException e) 
         {
-            JOptionPane.showMessageDialog(null,"Error al mostrar " +e.getMessage());
+            DesktopNotify.showDesktopMessage("Error al mostrar coordinadores", "",DesktopNotify.FAIL, 3000L);                                    
+            //JOptionPane.showMessageDialog(null,"Error al mostrar " +e.getMessage());
         }
         finally
         {
@@ -103,12 +105,14 @@ public class DaoCoordinador extends Conexion{
             pre.setInt(3, iduser);
             pre.setString(4,cor.getFechaRegistro());
             pre.setInt(5, cor.getIdCarrera());
-            //pre.setInt(4,cor.getIdCarrera());
+            //pre.setInt(4,cor.getIdCarrera());            
             pre.executeUpdate();
+            DesktopNotify.showDesktopMessage("Exito!", "Coordinador creado Creado exitosamente",DesktopNotify.SUCCESS, 3000L);
         }
         catch (SQLException e) 
         {
-            JOptionPane.showMessageDialog(null,"Error al insertar coordinador "+e.getMessage());
+            DesktopNotify.showDesktopMessage("Error al insertar coordinador"+e.getMessage(), "",DesktopNotify.FAIL, 3000L);                                    
+            ///JOptionPane.showMessageDialog(null,"Error al insertar coordinador "+e.getMessage());
         }
         finally
         {
@@ -130,9 +134,10 @@ public class DaoCoordinador extends Conexion{
             pre.setInt(5, cor.getIdCoordinador());
             pre.executeUpdate();
         } 
-        catch (Exception e) 
+        catch (SQLException e) 
         {
-          JOptionPane.showMessageDialog(null,"Error al modificar datos "+e.getMessage());
+            DesktopNotify.showDesktopMessage("Error al modificar Coordinador", "",DesktopNotify.FAIL, 3000L);                                    
+          //JOptionPane.showMessageDialog(null,"Error al modificar datos "+e.getMessage());
         }
         finally 
         {
@@ -150,12 +155,10 @@ public class DaoCoordinador extends Conexion{
             pre.setInt(1, idCoor);
             pre.executeUpdate();
         } 
-        catch (Exception e) 
+        catch (SQLException e) 
         {
-            JOptionPane.showMessageDialog(null,
-                    "Imposible Eliminar no seleccinado " + e.getMessage(),
-                    "Eliminacion Fallida " ,
-                    JOptionPane.ERROR_MESSAGE);
+            DesktopNotify.showDesktopMessage("Error al eliminar coordinador", "",DesktopNotify.FAIL, 3000L);                                    
+            //JOptionPane.showMessageDialog(null, "Imposible Eliminar no seleccinado " + e.getMessage(),"Eliminacion Fallida " , JOptionPane.ERROR_MESSAGE);
         } 
         finally 
         {
@@ -174,8 +177,9 @@ public class DaoCoordinador extends Conexion{
             pre.setInt(2, cor.getIdCoordinador());
             pre.executeUpdate();
         } 
-        catch (Exception e) 
+        catch (SQLException e) 
         {
+            DesktopNotify.showDesktopMessage("Error al eliminar coordinador", "",DesktopNotify.FAIL, 3000L);                                    
             JOptionPane.showMessageDialog(null,
                     "Imposible Eliminar no seleccinado " + e.getMessage(),
                     "Eliminacion Fallida " ,
@@ -207,8 +211,8 @@ public class DaoCoordinador extends Conexion{
                 cor.setIdCarrera(res.getInt("carrera_idCarrera"));
             }
         } 
-        catch (Exception e) 
-        {
+        catch (SQLException e) 
+        {            
             JOptionPane.showMessageDialog(null,"Hubo un problema en la consulta  " +e.getMessage());
         } 
         finally 
@@ -234,11 +238,11 @@ public class DaoCoordinador extends Conexion{
                 r=1;
             }
         } 
-        catch (Exception e) 
+        catch (SQLException e) 
         {
             JOptionPane.showMessageDialog(null,"Hubo un problema en la consulta  " +e.getMessage());
         } 
-        finally 
+        finally  
         {
             this.desconectar();
         }
@@ -261,7 +265,6 @@ public class DaoCoordinador extends Conexion{
                 if (res.next()) 
                 {
                     a=res.getInt("idUsuario");                    
-                    JOptionPane.showMessageDialog(null, a);
                 }
             } 
             catch (SQLException e) 

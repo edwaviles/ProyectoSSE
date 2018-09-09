@@ -1,6 +1,7 @@
 
 package edu.dao;
 
+import ds.desktop.notify.DesktopNotify;
 import edu.conexion.Conexion;
 import edu.modelo.Carrera;
 import java.sql.*;
@@ -39,7 +40,8 @@ public class DaoCarrera extends Conexion{
         }
         catch (SQLException e) 
         {
-            JOptionPane.showMessageDialog(null,"No se pudo mostrar la lista de carreras " +e.getMessage());
+            DesktopNotify.showDesktopMessage("Error al mostrar la lista de carreras", "",DesktopNotify.FAIL, 3000L);                        
+            //JOptionPane.showMessageDialog(null,"No se pudo mostrar la lista de carreras " +e.getMessage());
         }
         finally
         {
@@ -68,9 +70,10 @@ public class DaoCarrera extends Conexion{
                 c.setIdEscuela(res.getInt("escuela_idEscuela"));
             }
         }
-        catch (Exception e) 
+        catch (SQLException e) 
         {
-            JOptionPane.showMessageDialog(null,"No se pudo mostrar datos " +e.getMessage());
+            DesktopNotify.showDesktopMessage("No se mostrar datos", "",DesktopNotify.FAIL, 3000L);                        
+            //JOptionPane.showMessageDialog(null,"No se pudo mostrar datos " +e.getMessage());
         }
         finally
         {
@@ -95,7 +98,7 @@ public class DaoCarrera extends Conexion{
                 r=1;
             }
         } 
-        catch (Exception e) 
+        catch (SQLException e) 
         {
             JOptionPane.showMessageDialog(null,"Hubo un problema en la consulta  " +e.getMessage());
         } 
@@ -122,7 +125,7 @@ public class DaoCarrera extends Conexion{
                 r=res.getInt("idCoordinador");
             }
         } 
-        catch (Exception e) 
+        catch (SQLException e) 
         {
             JOptionPane.showMessageDialog(null,"Hubo un problema en la consulta  " +e.getMessage());
         } 

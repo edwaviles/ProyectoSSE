@@ -1,11 +1,14 @@
 
 package edu.dao;
 
+import ds.desktop.notify.DesktopNotify;
 import edu.conexion.Conexion;
 import edu.modelo.Usuario;
 import edu.utilidades.Encriptacion;
 import edu.utilidades.Validaciones;
 import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -60,7 +63,8 @@ public class DaoUsuario extends Conexion{
         } 
         catch (SQLException e) 
         {
-            JOptionPane.showMessageDialog(null, "Error al iniciar "+e.getMessage());
+            DesktopNotify.showDesktopMessage("Error al inciar", "",DesktopNotify.FAIL, 3000L);
+            //JOptionPane.showMessageDialog(null, "Error al iniciar "+e.getMessage());
         }
         finally
         {
@@ -74,17 +78,25 @@ public class DaoUsuario extends Conexion{
         try 
         {
             this.conectar();
-            String sql="insert into usuario(idROl, usuario, contrasenia, fechaRegistro, estado) values(2, ?,'Itca123!',?, 1);";
+            Encriptacion en= new  Encriptacion();
+            String sql="insert into usuario(idROl, usuario, contrasenia, fechaRegistro, estado) values(2, ?,?,?, 1);";
             PreparedStatement pre = this.getCon().prepareStatement(sql);
             pre.setString(1,nombre);
-            pre.setString(2,fecha);
+            pre.setString(2, en.encriptar("Itca123!"));
+            pre.setString(3,fecha);
             pre.executeUpdate();
-            JOptionPane.showMessageDialog(null,"Usuario creado exitosamente",
-                                "Usuarios", JOptionPane.INFORMATION_MESSAGE);
+            DesktopNotify.showDesktopMessage("Usuario Creado exitosamente", "Ver usuario Creado",DesktopNotify.INPUT_REQUEST,new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent ae) {
+                    DesktopNotify.showDesktopMessage("Informacion", "Credenciales del usuario:"
+                            + "\n \n\n Nombre de usuario:"+nombre+"\n\n"
+                            + "contrasña: Itca123!",DesktopNotify.INPUT_REQUEST);
+                }
+            });
         }
         catch (SQLException e) 
         {
-            JOptionPane.showMessageDialog(null,"Error al insertar "+e.getMessage());
+            DesktopNotify.showDesktopMessage("Error al insertar Usuario", "",DesktopNotify.FAIL, 3000L);
         }
         finally
         {
@@ -98,10 +110,12 @@ public class DaoUsuario extends Conexion{
         int id=0;
         try 
         {
+            Encriptacion en= new Encriptacion();
             this.conectar();
-            String sql="select idUsuario as id from usuario where usuario=? and contrasenia='Itca123!'";
+            String sql="select idUsuario as id from usuario where usuario=? and contrasenia=?";
             PreparedStatement pre = this.getCon().prepareStatement(sql);
             pre.setString(1,nombre);
+            pre.setString(2, en.encriptar("Itca123!"));
             res=pre.executeQuery();
             while (res.next()) 
             {                
@@ -164,9 +178,9 @@ public class DaoUsuario extends Conexion{
             }
 
          }
-         catch (Exception e) 
+         catch (SQLException e) 
          {
-             
+             DesktopNotify.showDesktopMessage("Error", "",DesktopNotify.FAIL, 1000L);
          }
          finally
          {
@@ -196,9 +210,9 @@ public class DaoUsuario extends Conexion{
                 listaUsuario.add(us);                                      
             } 
         }
-        catch (Exception e) 
+        catch (NumberFormatException | SQLException e) 
         {
-            JOptionPane.showMessageDialog(null,"Error al mostrar"+ e.getMessage());
+            DesktopNotify.showDesktopMessage("Error al mostrar Usuarios", "",DesktopNotify.FAIL, 3000L);
         }
         finally
         {
@@ -208,24 +222,23 @@ public class DaoUsuario extends Conexion{
     }
         
     public void eliminarUsu(Usuario us)
+    {
+        try 
         {
-            try 
-            {
-                this.conectar();
-                String sql="update usuario set estado=?,fechaEliminacion=? where idUsuario =?;";
-                PreparedStatement pre= getCon().prepareStatement(sql);                
-                pre.setInt(1,us.getEstado());
-                pre.setString(2,us.getFechaEliminacion());
-                pre.setInt(3,us.getCodigo());
-                pre.executeUpdate();
-                JOptionPane.showMessageDialog(null,"Datos eliminados");
-            }
-            catch (Exception e)
-            {
-                JOptionPane.showMessageDialog(null, "Error al eliminar el registro "+e.toString());
-            }
-        
+            this.conectar();
+            String sql="update usuario set estado=?,fechaEliminacion=? where idUsuario =?;";
+            PreparedStatement pre= getCon().prepareStatement(sql);                
+            pre.setInt(1,us.getEstado());
+            pre.setString(2,us.getFechaEliminacion());
+            pre.setInt(3,us.getCodigo());
+            pre.executeUpdate();
+            DesktopNotify.showDesktopMessage("Usuario Eliminado", "",DesktopNotify.SUCCESS, 3000L);
         }
+        catch (HeadlessException | SQLException e)
+        {
+            DesktopNotify.showDesktopMessage("Error al eliminar Usuario", "",DesktopNotify.FAIL, 3000L);                
+        }
+    }
     
     public void Eliminar(int id)
         {
@@ -236,13 +249,12 @@ public class DaoUsuario extends Conexion{
                 PreparedStatement pre= getCon().prepareStatement(sql);
                 pre.setString(1,this.val.CapturarFecha());
                 pre.setInt(2,id);
-                pre.executeUpdate();
-                
-                JOptionPane.showMessageDialog(null,"Datos eliminados");
+                pre.executeUpdate();                
+                DesktopNotify.showDesktopMessage("Usuario eliminado", "",DesktopNotify.SUCCESS, 3000L);
             }
-            catch (Exception e)
+            catch (SQLException e)
             {
-                JOptionPane.showMessageDialog(null, "Error al eliminar el registro "+e.toString());
+                DesktopNotify.showDesktopMessage("Error al eliminar Usuarios", "",DesktopNotify.FAIL, 3000L);
             }
         
         }
@@ -288,11 +300,36 @@ public class DaoUsuario extends Conexion{
                 pre.setInt(4,us.getCodigo());  
                  pre.executeUpdate();
                 
-                JOptionPane.showMessageDialog(null,"Datos Modificados");
+                DesktopNotify.showDesktopMessage("EXITO!", us.getNombre()+" Modificado con exito",DesktopNotify.SUCCESS, 3000L);                        
+
             }
             catch (HeadlessException | SQLException e)
             {
-                JOptionPane.showMessageDialog(null, "Error al Modiificar"+e.toString());
+                DesktopNotify.showDesktopMessage("ERROR!", "Ocurrio un error al tratar de modificar Usuario",DesktopNotify.ERROR, 3000L);                        
+            }
+            finally{
+                this.desconectar();                
+            }        
+        }
+    public void Modificar2(Usuario us)
+        {
+            try 
+            {
+                this.conectar();
+                String sql="update usuario set usuario=?,fechaModifica=? where idUsuario=?";
+                PreparedStatement pre= getCon().prepareStatement(sql);
+                pre.setString(1,us.getNombre());
+                pre.setString(2,us.getFechaModificacion());
+                pre.setInt(3,us.getCodigo());  
+                pre.executeUpdate();                
+               DesktopNotify.showDesktopMessage("EXITO!", "se modificó sus credenciales exitosamente",DesktopNotify.SUCCESS, 3000L);                        
+            }
+            catch (HeadlessException | SQLException e)
+            {
+                DesktopNotify.showDesktopMessage("ERROR!", "Ocurrio un error al tratar de modificar su usuario",DesktopNotify.ERROR, 3000L);                        
+            }
+            finally{
+                this.desconectar();                
             }
         
         }
@@ -317,9 +354,9 @@ public class DaoUsuario extends Conexion{
                     pre.setString(8,us.getFechaEliminacion());
                     pre.executeUpdate();
            }
-           catch (Exception e) 
+           catch (SQLException e) 
            {
-               JOptionPane.showMessageDialog(null,"Error al insertar"+e.toString());
+               DesktopNotify.showDesktopMessage("Error al Insertar Usuarios", "",DesktopNotify.FAIL, 3000L);
            }
            
            finally

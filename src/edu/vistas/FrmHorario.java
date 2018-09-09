@@ -208,9 +208,7 @@ public class FrmHorario extends javax.swing.JInternalFrame {
         }
         catch (Exception e) 
         {
-            JOptionPane.showMessageDialog(null, "Error al mostrar datos en la tabla ", "Carga Fallida "
-                    + e.getMessage(),
-                    JOptionPane.ERROR_MESSAGE);
+            DesktopNotify.showDesktopMessage("Error al mostrar su Horario de atencion", "",DesktopNotify.FAIL, 3000L);
         }
     }
         
@@ -240,7 +238,7 @@ public class FrmHorario extends javax.swing.JInternalFrame {
                        } 
                        catch (Exception e) 
                        {                           
-                           JOptionPane.showMessageDialog(null,"Ocurrio un problema al insertar: " + e.getMessage());
+                           DesktopNotify.showDesktopMessage("Error al insertar Horario", "",DesktopNotify.FAIL, 3000L);
                            limpiar();
                        }
                    } 
@@ -285,8 +283,7 @@ public class FrmHorario extends javax.swing.JInternalFrame {
                         if(SioNo==0)
                         {
                             daoH.modificar(hor);
-                            JOptionPane.showMessageDialog(null,"Registro modificado correctamente",
-                                    "Horario Coordinador", JOptionPane.INFORMATION_MESSAGE);
+                            DesktopNotify.showDesktopMessage("EXITO!", "Registro modificado exitosamente",DesktopNotify.SUCCESS, 3000L);
                             mostrar();
                             limpiar();
                             OnOFF(3);
@@ -294,8 +291,7 @@ public class FrmHorario extends javax.swing.JInternalFrame {
                     }
                     catch (HeadlessException e) 
                     {
-                        JOptionPane.showMessageDialog(null,"Ocurrio un problema al modificar " + e.getMessage(),
-                                    "Error", JOptionPane.ERROR_MESSAGE);
+                       DesktopNotify.showDesktopMessage("Error al modificar horario", "",DesktopNotify.FAIL, 3000L);
                         limpiar();
                     }
                 }
@@ -308,8 +304,7 @@ public class FrmHorario extends javax.swing.JInternalFrame {
         }
         catch (HeadlessException | NumberFormatException e) 
         {
-           JOptionPane.showMessageDialog(null,"Por favor, seleccione un registro para modificar","Seleccionar",
-                   JOptionPane.INFORMATION_MESSAGE);
+           DesktopNotify.showDesktopMessage("Por favor seleccione un registro para modificar", "",DesktopNotify.WARNING, 3000L);
         }
     }
   
@@ -327,16 +322,13 @@ public class FrmHorario extends javax.swing.JInternalFrame {
             if (SioNo == 0) 
             {
                 daoH.eliminar(hor);
-                JOptionPane.showMessageDialog(null, "Se ha eliminado Exitosamente");
+                DesktopNotify.showDesktopMessage("EXITO!", "Horario eliminado exitosamente",DesktopNotify.SUCCESS, 3000L);
                 mostrar();
                 limpiar();
                 OnOFF(4);
             }
         } catch (HeadlessException | NumberFormatException e) {
-            JOptionPane.showMessageDialog(null,
-                    "Seleccione un registro para poder eliminarlo",
-                    "Error",
-                    JOptionPane.INFORMATION_MESSAGE);
+            DesktopNotify.showDesktopMessage("Error!", "Debe seleccionar un horario para eliminarlo",DesktopNotify.WARNING, 3000L);
         }
     }
     
@@ -353,7 +345,7 @@ public class FrmHorario extends javax.swing.JInternalFrame {
                 menu.cerrar(); 
             }
         } 
-        catch (Exception e) 
+        catch (HeadlessException e) 
         {
             
         }
@@ -807,39 +799,36 @@ public class FrmHorario extends javax.swing.JInternalFrame {
   
     private void guardar()
     {
-        if(estado==1)
-        {
-            insertar();
-        }
-        else if(estado==2)
-        {            
-            if (!validarHoras(1)) 
-            {                
-                modificar();             
-            }else       
-            if (!verificarJHoras(Integer.parseInt(this.spnHD.getValue().toString()), 
-                    Integer.parseInt(this.spnMD.getValue().toString()), 
-                    Integer.parseInt(this.spnHH.getValue().toString()), 
-                    Integer.parseInt(this.spnMH.getValue().toString()))) 
-            {
-                int fila = this.jTableDatos.getSelectedRow();
-                int cod=Integer.parseInt(String.valueOf(this.jTableDatos.getValueAt(fila,0)));
-                if (fila > -1) 
-                {
-                cod=Integer.parseInt(String.valueOf(this.jTableDatos.getValueAt(fila, 0)));
-                }
-                if (verificarHMBD2(Integer.parseInt(this.spnHH.getValue().toString()), Integer.parseInt(this.spnMH.getValue().toString()),cod))
+        switch (estado) {
+            case 1:
+                insertar();
+                break;
+            case 2:
+                if (!validarHoras(1)) 
                 {
                     modificar();
                 }else
-                {
-                    JOptionPane.showMessageDialog(null, "ya ocupado HASTA");
-                }
-            }
-        }
-        else
-        {
-            
+                    if (!verificarJHoras(Integer.parseInt(this.spnHD.getValue().toString()),
+                            Integer.parseInt(this.spnMD.getValue().toString()),
+                            Integer.parseInt(this.spnHH.getValue().toString()),
+                            Integer.parseInt(this.spnMH.getValue().toString())))
+                    {
+                        int fila = this.jTableDatos.getSelectedRow();
+                        int cod=Integer.parseInt(String.valueOf(this.jTableDatos.getValueAt(fila,0)));
+                        if (fila > -1)
+                        {
+                            cod=Integer.parseInt(String.valueOf(this.jTableDatos.getValueAt(fila, 0)));
+                        }
+                        if (verificarHMBD2(Integer.parseInt(this.spnHH.getValue().toString()), Integer.parseInt(this.spnMH.getValue().toString()),cod))
+                        {
+                            modificar();
+                        }else
+                        {
+                            DesktopNotify.showDesktopMessage("Ya ocupado!", "El horario no debe estar en el dia ni en el rango de otro horario",DesktopNotify.FAIL, 3000L);
+                        }
+                    }   break;
+            default:
+                break;
         }
     }
     
@@ -973,19 +962,19 @@ public class FrmHorario extends javax.swing.JInternalFrame {
     {        
         if (res2==true && res==true && res3==true ) 
           {
-              JOptionPane.showMessageDialog(null, "Las horas no son logicas");      
+              DesktopNotify.showDesktopMessage("Horario en conflicto!", "asegurese de que esta ingresando un horario valido",DesktopNotify.DEFAULT, 3000L);      
           }else
           {
               if (res==true && a!=1) 
               {
-                  JOptionPane.showMessageDialog(null, "Las hora de incio debe ser meno a la hora final"); 
+                  DesktopNotify.showDesktopMessage("Error!", "Hora de inicio es mayor a la hora de finalización",DesktopNotify.WARNING, 3000L);
               }else
               {
                 if (res2==true || res3==true ) 
                 {
                     if (a!=1) 
                     {
-                        JOptionPane.showMessageDialog(null, "Ya tiene un horario dentro del rango selecionado");
+                        DesktopNotify.showDesktopMessage("Ocupado!", "Horario no debe entrar al rango de otro horario",DesktopNotify.FAIL, 3000L);
                     }
                     
                 }  

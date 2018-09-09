@@ -5,9 +5,13 @@
  */
 package edu.vistas;
 
+import ds.desktop.notify.DesktopNotify;
 import edu.dao.DaoUsuario;
 import edu.modelo.Usuario;
 import edu.utilidades.Encriptacion;
+import static edu.vistas.Menu.FormularioVal;
+import java.awt.HeadlessException;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -28,6 +32,7 @@ public class FrmMyUser extends javax.swing.JInternalFrame {
     public FrmMyUser() {
         initComponents();
         this.txtUsuario.setText(daoUs.getNombreUsuario(id));
+        JOptionPane.showMessageDialog(null, id);
     }
 
     
@@ -63,10 +68,11 @@ public class FrmMyUser extends javax.swing.JInternalFrame {
 
         Usuario.setText("Usuario");
 
-        jLabel2.setText("Contraseña: ");
+        jLabel2.setText("Modificar Contraseña: ");
 
         jLabel3.setText("Confirmar Contraseña:");
 
+        btnCambia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/mod.png"))); // NOI18N
         btnCambia.setText("Cambiar");
         btnCambia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -74,6 +80,7 @@ public class FrmMyUser extends javax.swing.JInternalFrame {
             }
         });
 
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/iconos/exit.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
         btnCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -85,7 +92,6 @@ public class FrmMyUser extends javax.swing.JInternalFrame {
 
         txtPass2.setEnabled(false);
 
-        chmod.setText("Modificar");
         chmod.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 chmodItemStateChanged(evt);
@@ -123,11 +129,11 @@ public class FrmMyUser extends javax.swing.JInternalFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtPass1)
                                     .addComponent(txtPass2))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnCambia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(22, 22, 22))))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -140,21 +146,27 @@ public class FrmMyUser extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel4)))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(Usuario)
-                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCambia))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtPass1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(chmod))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(Usuario)
+                            .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnCambia)
+                        .addGap(3, 3, 3)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnCancelar)
-                    .addComponent(txtPass2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(12, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtPass1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(chmod))
+                        .addGap(25, 25, 25)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(jLabel3)
+                            .addComponent(txtPass2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -165,7 +177,7 @@ public class FrmMyUser extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCancelarMouseClicked
 
     private void btnCambiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCambiaMouseClicked
-        if (this.txtPass1.getText()== this.txtPass2.getText()) 
+        if (this.txtPass1.getText().equals(this.txtPass2.getText())) 
         {
             modificarMiUser();
         }
@@ -190,7 +202,7 @@ public class FrmMyUser extends javax.swing.JInternalFrame {
                 men.cerrar(); 
             }
         } 
-        catch (Exception e) 
+        catch (HeadlessException e) 
         {
             
         }
@@ -209,20 +221,30 @@ public class FrmMyUser extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_chmodItemStateChanged
     public void modificarMiUser()
     {
-        if(this.chmod.isSelected())
-        {
-            
+        if (!this.txtUsuario.getText().equals(daoUs.getNombreUsuario(id))) {
+            int a=JOptionPane.showConfirmDialog(null, "¿Desea modificar sus credenciales?", "Modificar Usuario", JOptionPane.YES_NO_OPTION, JOptionPane.YES_NO_OPTION,null);
+            if (a==0) 
+            {            
+                Usuario usu=new Usuario();
+                usu.setPass(en.encriptar(this.txtPass1.getText()));
+                usu.setCodigo(id);
+                usu.setNombre(this.txtUsuario.getText());            
+                java.util.Date date = new java.util.Date();
+                java.text.SimpleDateFormat sdf=new java.text.SimpleDateFormat("yyyy-MM-dd");
+                String fecha = sdf.format(date); 
+                usu.setFechaModificacion(fecha);        
+                if(this.chmod.isSelected())
+                {
+                    daoUs.Modificar(usu);
+                }else{
+                    daoUs.Modificar2(usu);
+                }
+                this.dispose();
+            }    
+        }else{
+            DesktopNotify.showDesktopMessage("No se detectan cambios", "",DesktopNotify.FAIL, 3000L);                        
         }
-            us.setCodigo(id);
-            us.setNombre(this.txtUsuario.getText());
-            us.setPass(en.encriptar(this.txtPass1.getText()));
-            java.util.Date date = new java.util.Date();
-            java.text.SimpleDateFormat sdf=new java.text.SimpleDateFormat("yyyy-MM-dd");
-            String fecha = sdf.format(date); 
-            us.setFechaModificacion(fecha);        
-            daoUs.Modificar(us);
-            this.dispose();
-            men.cerrarSession();
+                
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
