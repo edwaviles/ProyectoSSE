@@ -311,7 +311,7 @@ public class FrmCoordinador extends javax.swing.JInternalFrame {
                    modificarCoordinador(cor);
                         limpiar();
                         mostrar();
-                        DesktopNotify.showDesktopMessage("Exito!", "Coordinador modificado exitosamente",DesktopNotify.FAIL, 3000L);
+                        DesktopNotify.showDesktopMessage("Exito!", "Coordinador modificado exitosamente",DesktopNotify.SUCCESS, 3000L);
                         OnOFF(3);
                 }
                 else

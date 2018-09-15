@@ -301,7 +301,7 @@ public class Login extends javax.swing.JFrame {
                     
                     opcionesmenu=1;
                 }
-                
+                DesktopNotify.showDesktopMessage("Bienvenido", "Adminsitrador",DesktopNotify.SUCCESS, 5000L);
                 //new rojerusan.RSNotifyFade("Bienvenido"," "+daoC.getNombreIdCoR(idUsuario).get(0), 7, RSNotifyFade.PositionNotify.BottomRight,RSNotifyFade.TypeNotify.SUCCESS).setVisible(true);                          
                 conetenedor.setVisible(true);
                 conetenedor.barraMenu(1);

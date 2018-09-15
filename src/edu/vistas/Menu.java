@@ -51,7 +51,7 @@ public class Menu extends javax.swing.JFrame {
     DaoNotificacion noti=new DaoNotificacion();
     DaoRol DRol=new DaoRol();
     private Timer timer;
-    private int delay = 30000;
+    private int delay = 5000;
     int numero2=0;
     
     public Menu() 
@@ -103,7 +103,7 @@ public class Menu extends javax.swing.JFrame {
                         if (numero>numero2) 
                         {
                             numero2=numero;
-                            DesktopNotify.showDesktopMessage("", "Tienes "+numero+" de Solicitudes de SSE\n ¿desea atenderlas ahora?",DesktopNotify.INPUT_REQUEST,15000L, new ActionListener() 
+                            DesktopNotify.showDesktopMessage("", "Tienes "+numero+" Solicitudes de Servicio Social Estudiantil\n ¿desea atenderlas ahora?",DesktopNotify.INPUT_REQUEST, new ActionListener() 
                             {
                                 @Override
                                 public void actionPerformed(ActionEvent ae) 
@@ -311,7 +311,7 @@ public class Menu extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem6);
 
-        jMenuItem1.setText("Cerrar seession");
+        jMenuItem1.setText("Cerrar Sesion");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);

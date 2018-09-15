@@ -116,7 +116,7 @@ public class DaoCarrera extends Conexion{
         try 
         {
             this.conectar();
-            String sql = "select idCoordinador from coordinadorsse where carrera_idCarrera = ?;";
+            String sql = "select idCoordinador from coordinadorsse where carrera_idCarrera = ? and estado=1;";
             PreparedStatement pre = this.getCon().prepareStatement(sql);
             pre.setInt(1, idCar);
             res = pre.executeQuery();
